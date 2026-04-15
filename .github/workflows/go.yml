@@ -1,0 +1,31 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Deploy Logistics IoT
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: [ self-hosted, golang ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        run: |
+          echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Show version
+        run: |
+          echo "version: ${{ env.VERSION }}"
+
+      - name: Deploy
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login $REGISTRY_URL_PROD -u $REGISTRY_USER_PROD --password-stdin
+          make deploy-logistics-main
+        env:
+          REGISTRY_URL_PROD: "133803816210.dkr.ecr.us-east-1.amazonaws.com"
+          REGISTRY_USER_PROD: "AWS"

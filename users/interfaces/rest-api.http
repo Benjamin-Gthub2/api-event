@@ -1,0 +1,106 @@
+### Login
+POST {{api_auth}}/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.global.set("auth_token", response.body.data);
+    const xTenantId = response.headers.valueOf("X-Tenant-Id");
+    client.global.set("x_tenant_id", xTenantId);
+%}
+
+### Get Me
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+GET {{api_core_users}}/me
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+### Get Users
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+GET {{api_core_users}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+
+### Get merchants roles by user
+GET {{api_core_users}}/9339c11d-a064-4c93-bea6-3bff04c4199e/merchants/roles
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+### Get user permissions by role
+GET {{api_core_users}}/91fb86bd-da46-414b-97a1-fcdaa8cd35d1/roles/eec5a2b2-cb2a-4cef-a56c-0ab42712394b/permissions
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+### Get menu by user
+GET {{api_core_users}}/13c9a1e0-69a9-4252-af4a-45030efe37f7/menu
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+### Post user
+POST {{api_core_users}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "username": "anabel.salazar",
+  "type_id": "efe81da4-54cf-4e12-956e-5ac9511a8c3a",
+  "person_id": null,
+  "password": "44835548",
+  "person": {
+    "document": "44835548",
+    "type_document_id": "00a58296-93b4-11ee-a040-0242ac11000e",
+    "names": "ANABEL",
+    "surname": "SALAZAR",
+    "last_name": "PAREDES",
+    "email": "anabel.salazar@odingenieros.com",
+    "gender": "FEMENINO",
+    "phone": "980419939",
+    "enable": true
+  }
+}
+
+### Update Password
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+PUT {{api_core_users}}/update_password
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "current_password": "smart2025",
+  "new_password": "smart2024"
+}
+
+### Update Theme
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+PUT {{api_core_users}}/348ef013-afe8-46f4-9792-3f0b5cc68613/theme
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "theme": "dark"
+}

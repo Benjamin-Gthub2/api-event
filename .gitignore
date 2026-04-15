@@ -1,0 +1,11 @@
+.idea
+.scannerwork
+.api/tmp-reports
+.tmp
+.env
+#api/docs
+#api/openapi.json
+#api/openapi.yaml
+doc
+openapi.json
+openapi.yamlgfdg

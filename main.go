@@ -1,0 +1,63 @@
+/*
+ * File: main.go
+ * Author: Benjamin
+ * Copyright: 2026, Benjamin Alexander.
+ * License: MIT
+ *
+ * Purpose:
+ * This is file content the main of the microservice event.
+ *
+ * Last Modified: 2023-12-28
+ */
+
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/smart0n3/api-shared/config"
+	"github.com/smart0n3/api-shared/db"
+	"github.com/smart0n3/api-shared/mqtt"
+
+	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
+)
+
+func main() {
+	cfg := config.Configuration{
+		ServerPort:  os.Getenv("SERVER_PORT"),
+		StoragePath: os.Getenv("STORAGE_PATH"),
+		DB: config.DB{
+			DbDatabase: os.Getenv("DB_DATABASE"),
+			DbHost:     os.Getenv("DB_HOST"),
+			DbPort:     os.Getenv("DB_PORT"),
+			DbUsername: os.Getenv("DB_USERNAME"),
+			DbPassword: os.Getenv("DB_PASSWORD"),
+		},
+		LoggingUrl: os.Getenv("LOGGING_URL"),
+	}
+	err := db.InitClients(cfg)
+	if err != nil {
+		return
+	}
+	defer db.Disconnect()
+
+	_, err = mqtt.ConnectToMQTT()
+	if err != nil {
+		return
+	}
+
+	router := gin.Default()
+
+	usersSetup.LoadUsers(router)
+
+	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
+	err = router.Run(serverPort)
+	if err != nil {
+		return
+	}
+
+}

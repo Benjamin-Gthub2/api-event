@@ -1,0 +1,26 @@
+name: Deploy Logistics on Arm
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [ self-hosted, golang ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        run: |
+          echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Show version
+        run: |
+          echo "version: ${{ env.VERSION }}"
+
+      - name: Deploy
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login $REGISTRY_URL_PROD -u $REGISTRY_USER_PROD --password-stdin
+          make deploy-logistics-main-arm
+        env:
+          REGISTRY_URL_PROD: "133803816210.dkr.ecr.us-east-1.amazonaws.com"
+          REGISTRY_USER_PROD: "AWS"
