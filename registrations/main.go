@@ -1,13 +1,13 @@
 /*
  * File: main.go
  * Author: Benjamin
- * Copyright: 2026, Benjamin Alexander.
+ * Copyright: 2026, Smart Cities Peru.
  * License: MIT
  *
  * Purpose:
- * This is file content the main of the microservice event.
+ * This file contains the main of the registrations.
  *
- * Last Modified: 2023-12-28
+ * Last Modified: 2026-04-21
  */
 
 package main
@@ -21,12 +21,13 @@ import (
 
 	"github.com/smart0n3/api-shared/config"
 	"github.com/smart0n3/api-shared/db"
-	"github.com/smart0n3/api-shared/mqtt"
 
-	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
-	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
+	"github.com/Benjamin-Gthub2/api-event/registrations/setup"
 )
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	cfg := config.Configuration{
 		ServerPort:  os.Getenv("SERVER_PORT"),
@@ -38,28 +39,20 @@ func main() {
 			DbUsername: os.Getenv("DB_USERNAME"),
 			DbPassword: os.Getenv("DB_PASSWORD"),
 		},
-		LoggingUrl: os.Getenv("LOGGING_URL"),
 	}
+
 	err := db.InitClients(cfg)
 	if err != nil {
 		return
 	}
 	defer db.Disconnect()
-
-	_, err = mqtt.ConnectToMQTT()
-	if err != nil {
-		return
-	}
-
 	router := gin.Default()
 
-	usersSetup.LoadUsers(router)
-	registrationsSetup.LoadRegistrations(router)
+	setup.LoadRegistrations(router)
 
 	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 	err = router.Run(serverPort)
 	if err != nil {
 		return
 	}
-
 }
