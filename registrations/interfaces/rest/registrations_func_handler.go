@@ -44,14 +44,14 @@ func (h registrationsHandler) GetQrRegistrationById(c *gin.Context) {
 	c.Data(http.StatusOK, "image/png", qrRegistration)
 }
 
-// GetRegistrationById is a method to get qr registrations
-// @Summary Get qr registration by id
-// @Description Get qr registration by id
+// GetRegistrationById is a method to get registration by id
+// @Summary Get registration by id
+// @Description Get registration by id
 // @Tags Registrations
 // @Accept json
 // @Produce json
 // @Param registrationId query string false "the id of the registration"
-// @Success 200 {string} string "Success Request"
+// @Success 200 {object} registrationByIdResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
 // @Router /api/v1/event/registrations/{registrationId} [get]
 // @Security BearerAuth
@@ -59,11 +59,15 @@ func (h registrationsHandler) GetRegistrationById(c *gin.Context) {
 	ctx := c.Request.Context()
 	registrationId := c.Param("registrationId")
 
-	qrRegistration, err := h.registrationsUseCase.GetQrRegistrationById(ctx, registrationId)
+	registrationById, err := h.registrationsUseCase.GetRegistrationById(ctx, registrationId)
 	if err != nil {
 		restCore.ErrJson(c, err)
 		return
 	}
 
-	c.Data(http.StatusOK, "image/png", qrRegistration)
+	res := registrationByIdResult{
+		Data:   registrationById,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
 }

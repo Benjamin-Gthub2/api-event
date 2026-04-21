@@ -56,3 +56,39 @@ func (u registrationsUseCase) GetQrRegistrationById(
 	}
 	return qrCode, nil
 }
+
+func (u registrationsUseCase) GetRegistrationById(
+	ctx context.Context,
+	registrationId string,
+) (
+	requirement *registrationsDomain.Registration,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var deleted = "deleted_at"
+	recordExistsParams := validationsDomain.RecordExistsParams{
+		Table:            "registrations",
+		IdColumnName:     "id",
+		IdValue:          registrationId,
+		StatusColumnName: &deleted,
+		StatusValue:      nil,
+	}
+	var exist bool
+	exist, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+	if err != nil {
+		return requirement, err
+	}
+	if !exist {
+		return requirement, registrationsDomain.ErrUseCaseRegistrationsNotFound
+	}
+
+	requirement, err = u.registrationsRepository.GetRegistrationById(ctx, registrationId)
+	if err != nil {
+		return requirement, err
+	}
+	return requirement, nil
+}

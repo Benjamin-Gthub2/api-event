@@ -24,10 +24,18 @@ const (
 
 var (
 	ErrRegistrationsNotFound = errDomain.NewErr().
-		SetCode(ErrRegistrationsNotFoundCode).
-		SetDescription("REGISTRATION NOT FOUND").
-		SetLevel(errDomain.LevelError).
-		SetHttpStatus(http.StatusNotFound).
-		SetLayer(errDomain.UseCase).
-		SetFunction("GetQrRegistrationById")
+					SetCode(ErrRegistrationsNotFoundCode).
+					SetDescription("REGISTRATION NOT FOUND").
+					SetLevel(errDomain.LevelError).
+					SetHttpStatus(http.StatusNotFound).
+					SetLayer(errDomain.UseCase).
+					SetFunction("GetQrRegistrationById")
+
+	ErrUseCaseRegistrationsNotFound = errDomain.NewErr().
+					SetCode(ErrRegistrationsNotFoundCode).
+					SetDescription("TRANSFER RECEIPT NOT FOUND").
+					SetLevel(errDomain.LevelError).
+					SetHttpStatus(http.StatusNotFound).
+					SetLayer(errDomain.UseCase).
+					SetFunction("GetRegistrationById")
 )
