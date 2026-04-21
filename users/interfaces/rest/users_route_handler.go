@@ -54,6 +54,7 @@ func NewUsersHandler(
 	api.GET("/users/menu", handler.GetMenuByUserToken)
 	api.GET("/users/me", handler.GetMeByUser)
 	api.POST("/users", handler.CreateUser)
+	api.GET("/users/qr", handler.GenerateQRCode)
 	api.PUT("/users/:userId", handler.UpdateUser)
 	api.DELETE("/users/:userId", handler.DeleteUser)
 	api.PUT("/users/:userId/password", handler.ResetPasswordUser)

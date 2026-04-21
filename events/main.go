@@ -1,13 +1,13 @@
 /*
- * File: user_types_main.go
- * Author: Jesus
- * Copyright: 2023, Smart Cities Peru.
+ * File: main.go
+ * Author: Benjamin
+ * Copyright: 2026, Smart Cities Peru.
  * License: MIT
  *
  * Purpose:
- * Microservice to management user types.
+ * microservice to manage events.
  *
- * Last Modified: 2023-11-23
+ * Last Modified: 2026-04-15
  */
 
 package main
@@ -18,14 +18,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
-
 	"github.com/smart0n3/api-shared/config"
 	"github.com/smart0n3/api-shared/db"
 
-	"github.com/Benjamin-Gthub2/api-event/user-types/docs"
-	"github.com/Benjamin-Gthub2/api-event/user-types/setup"
+	"github.com/Benjamin-Gthub2/api-event/events/setup"
 )
 
 // @securityDefinitions.apikey BearerAuth
@@ -51,25 +47,11 @@ func main() {
 	defer db.Disconnect()
 	router := gin.Default()
 
-	loadSwagger(router)
-	setup.LoadUserTypes(router)
+	setup.LoadMerchants(router)
 
 	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 	err = router.Run(serverPort)
 	if err != nil {
 		return
 	}
-}
-
-func loadSwagger(router *gin.Engine) {
-	docs.SwaggerInfo.Title = "Swagger User Types API"
-	docs.SwaggerInfo.Description = "This is a user types microservice."
-	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:9012"
-	docs.SwaggerInfo.BasePath = "/"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	router.StaticFile("/docs/swagger3.json", "./docs/swagger3.json")
 }

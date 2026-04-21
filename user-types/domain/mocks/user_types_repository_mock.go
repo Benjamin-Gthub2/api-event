@@ -4,7 +4,8 @@ package userTypes
 
 import (
 	context "context"
-	domain "github.com/smart0n3/api-core/user-types/domain"
+
+	domain "github.com/Benjamin-Gthub2/api-event/user-types/domain"
 
 	mock "github.com/stretchr/testify/mock"
 

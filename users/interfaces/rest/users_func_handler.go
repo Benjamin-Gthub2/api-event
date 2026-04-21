@@ -658,3 +658,26 @@ func (h usersHandler) UpdateUserTheme(c *gin.Context) {
 	}
 	restCore.Json(c, http.StatusOK, res)
 }
+
+// GenerateQRCode is a method to generate a QR code
+// @Summary Generate a QR code
+// @Description Generate a QR code in PNG format
+// @Tags Users
+// @Accept json
+// @Produce image/png
+// @Success 200 {string} string "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/users/qr [get]
+// @Security BearerAuth
+func (h usersHandler) GenerateQRCode(c *gin.Context) {
+	ctx := c.Request.Context()
+	userId := c.GetString("userId")
+
+	png, err := h.usersUseCase.GenerateQRCode(ctx, userId)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	c.Data(http.StatusOK, "image/png", png)
+}

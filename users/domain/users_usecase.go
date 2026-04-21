@@ -36,4 +36,5 @@ type UserUseCase interface {
 	GetUserPermissionsByRole(ctx context.Context, userId string, roleId string) ([]GetUserPermissionsByRole, error)
 	UpdatePasswordUser(ctx context.Context, body UpdatePasswordBody, userId string) error
 	UpdateUserTheme(ctx context.Context, body UpdateUserThemeBody, userId string) error
+	GenerateQRCode(ctx context.Context, content string) ([]byte, error)
 }
