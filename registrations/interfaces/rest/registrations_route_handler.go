@@ -44,7 +44,7 @@ func NewRegistrationsHandler(
 	api := router.Group("/api/v1/event")
 	api.Use(handler.authMiddleware.Auth)
 	//api.GET("/registrations", handler.GetRegistrations)
-	//api.GET("/registrations/:registrationId", handler.GetRegistrationById)
+	api.GET("/registrations/:registrationId", handler.GetRegistrationById)
 	api.GET("/registrations/:registrationId/qr", handler.GetQrRegistrationById) //mas adelante convertir en dos enpoints para get y post
 	//api.POST("/registrations", handler.CreateRegistrations)
 	//api.PUT("/registrations/:registrationId", handler.UpdateRegistrations)

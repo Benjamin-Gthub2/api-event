@@ -18,4 +18,5 @@ import (
 
 type RegistrationsUseCase interface {
 	GetQrRegistrationById(ctx context.Context, registrationId string) ([]byte, error)
+	GetRegistrationById(ctx context.Context, registrationId string) ([]byte, error)
 }
