@@ -32,5 +32,5 @@ type WorkShop struct {
 
 type Beneficiary struct {
 	//Description: the id of beneficiary
-	Id
+	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 }
