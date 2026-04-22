@@ -9,7 +9,8 @@ Content-Type: application/json
 
 > {%
     client.global.set("auth_token", response.body.data);
-    const xTenantId = response.headers.valueOf("x_tenant_id");
+    // const xTenantId = response.headers.valueOf("x_tenant_id"); OJO aquiii
+    const xTenantId = response.headers.valueOf("X-Tenant-Id");
     client.global.set("x_tenant_id", xTenantId);
 %}
 
@@ -51,7 +52,9 @@ X-Tenant-Id: {{x_tenant_id}}
 ### Get menu by user
 < {%
     request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
 %}
 GET {{api_event_users}}/menu
 Content-Type: application/json
