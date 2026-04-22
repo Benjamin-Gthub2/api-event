@@ -15,7 +15,9 @@ package rest
 import (
 	"net/http"
 
+	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 	"github.com/gin-gonic/gin"
+	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 
 	restCore "github.com/smart0n3/api-shared/api-core/interfaces/rest"
 )
@@ -68,6 +70,40 @@ func (h registrationsHandler) GetRegistrationById(c *gin.Context) {
 	res := registrationByIdResult{
 		Data:   registrationById,
 		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}
+
+// GetRegistrations is a method to get registrations
+// @Summary Get registrations
+// @Description Get registrations
+// @Tags Registrations
+// @Accept json
+// @Produce json
+// @Param page query int false "Page"
+// @Param size_page query int false "Size page"
+// @Param start_date query string false "the start date"
+// @Param end_date query string false "the end date"
+// @Param created_by query string false "the creator of the registration"
+// @Success 200 {object} registrationsResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/treasury/registrations [get]
+// @Security BearerAuth
+func (h registrationsHandler) GetRegistrations(c *gin.Context) {
+	ctx := c.Request.Context()
+	pagination := paramsDomain.NewPaginationParams(c.Request)
+	searchParams := registrationsDomain.GetRegistrationsParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
+	registrations, paginationRes, err := h.registrationsUseCase.GetRegistrations(ctx, pagination, searchParams)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := registrationsResult{
+		Data:       registrations,
+		Pagination: *paginationRes,
+		Status:     http.StatusOK,
 	}
 	restCore.Json(c, http.StatusOK, res)
 }

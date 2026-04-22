@@ -1,6 +1,10 @@
 package domain
 
-import "time"
+import (
+	"time"
+
+	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+)
 
 type Registration struct {
 	//Description: The id of registration.
@@ -119,4 +123,14 @@ type TypeUserCreatedBy struct {
 	Code string `json:"code" binding:"required" example:"1234"`
 	//Description: the date of creation
 	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
+}
+
+type GetRegistrationsParams struct {
+	paramsDomain.Params
+	//Description: the initial date
+	StartDate *string `json:"start_date" example:"2023-11-10 08:10:00"`
+	//Description: the final date
+	EndDate *string `json:"end_date" example:"2023-11-10 08:10:00"`
+	//Description: the id of the user who created the expense
+	CreatedBy *string `json:"created_by" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }

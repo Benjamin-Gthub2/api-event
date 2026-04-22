@@ -14,9 +14,16 @@ package domain
 
 import (
 	"context"
+
+	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 )
 
 type RegistrationsRepository interface {
 	GetQrRegistrationById(ctx context.Context, registrationId string) ([]byte, error)
 	GetRegistrationById(ctx context.Context, registrationId string) (*Registration, error)
+	GetRegistrations(
+		ctx context.Context, pagination paramsDomain.PaginationParams, searchParams GetRegistrationsParams,
+	) ([]Registration, error)
+	GetTotalRegistrations(
+		ctx context.Context, searchParams GetRegistrationsParams) (*int, error)
 }
