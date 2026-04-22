@@ -1,0 +1,94 @@
+### Login
+POST {{api_auth}}/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.global.set("auth_token", response.body.data);
+    const xTenantId = response.headers.valueOf("X-Tenant-Id");
+    client.global.set("x_tenant_id", xTenantId);
+%}
+
+### Get People
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_people}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
+
+
+### Create Person
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+POST {{api_event_people}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "type_document_id": "cbf7cf77-9530-4705-9c1c-c1056f404381",
+  "document": "00002",
+  "names": "Person 1",
+  "surname": "Surname 1",
+  "last_name": "LastName 1",
+  "phone": "909349029",
+  "email": "nuevo@gmail.com",
+  "gender": "MASCULINO",
+  "enable": true
+}
+
+
+### Update Person
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+PUT {{api_event_people}}/person_id
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 2e9847a2-0b39-4e21-a545-fb730a0667c8
+#Store-Api-Key: 9fa66a3b-d25b-4304-800d-1200735bcc4f
+
+{
+  "type_document_id": "cbf7cf77-9530-4705-9c1c-c1056f404381",
+  "document": "00002",
+  "names": "Person 1 update",
+  "surname": "Surname 1 update",
+  "last_name": "LastName 1 update",
+  "phone": "909349029",
+  "email": "nuevo@gmail.com",
+  "gender": "MASCULINO",
+  "enable": true
+}
+
+### Delete Person
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+DELETE {{api_event_people}}/person_id
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}

@@ -46,6 +46,19 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
+
+
+### Get menu by user
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+GET {{api_event_users}}/menu
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+
 ### Get menu by user
 GET {{api_event_users}}/13c9a1e0-69a9-4252-af4a-45030efe37f7/menu
 Content-Type: application/json
