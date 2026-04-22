@@ -21,6 +21,6 @@ import (
 type RegistrationsUseCase interface {
 	GetQrRegistrationById(ctx context.Context, registrationId string) ([]byte, error)
 	GetRegistrationById(ctx context.Context, registrationId string) (*Registration, error)
-	GetRegistrations(ctx context.Context,, pagination paramsDomain.PaginationParams, searchParams GetRegistrationsParams,
+	GetRegistrations(ctx context.Context, pagination paramsDomain.PaginationParams, searchParams GetRegistrationsParams,
 	) ([]Registration, *paramsDomain.PaginationResults, error)
 }

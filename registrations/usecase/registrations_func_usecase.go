@@ -16,7 +16,6 @@ import (
 	"context"
 	"sync"
 
-	authDomain "github.com/smart0n3/api-shared/auth/domain"
 	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
