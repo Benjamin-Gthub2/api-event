@@ -47,7 +47,7 @@ func main() {
 	defer db.Disconnect()
 	router := gin.Default()
 
-	setup.LoadMerchants(router)
+	setup.LoadEvents(router)
 
 	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 	err = router.Run(serverPort)

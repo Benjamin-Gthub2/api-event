@@ -1,0 +1,428 @@
+definitions:
+  domain.CreatePersonBody:
+    properties:
+      document:
+        description: 'Description: the document number of the people'
+        example: "77895428"
+        type: string
+      email:
+        description: 'Description: the email of the people'
+        example: lucyhancco@gmail.com
+        type: string
+      enable:
+        description: 'Description: the status of the people'
+        example: true
+        type: boolean
+      gender:
+        description: 'Description: the gender of the people'
+        example: MASCULINO
+        type: string
+      last_name:
+        description: 'Description: the last name of the people'
+        example: HUILLCA
+        type: string
+      names:
+        description: 'Description: the name of the people'
+        example: LUCY ANDREA
+        type: string
+      phone:
+        description: 'Description: the phone of the people'
+        example: "918547496"
+        type: string
+      surname:
+        description: 'Description: the surname of the people'
+        example: HANCCO
+        type: string
+      type_document_id:
+        description: 'Description: the type of the document'
+        example: 00a58522-93b4-11ee-a040-0242ac11000e
+        type: string
+      user_id:
+        description: 'Description: the id of the user'
+        type: string
+    required:
+    - document
+    - enable
+    - names
+    - surname
+    - type_document_id
+    type: object
+  domain.DocumentType:
+    properties:
+      abbreviated_description:
+        description: 'Description: the abbreviated description of the document type'
+        example: DNI
+        type: string
+      description:
+        description: 'Description: the status of the document type'
+        example: DOCUMENTO NACIONAL DE IDENTIDAD
+        type: string
+      id:
+        description: 'Description: the id of the document type'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110016
+        type: string
+    required:
+    - abbreviated_description
+    - description
+    - id
+    type: object
+  domain.PaginationResults:
+    properties:
+      current_page:
+        type: integer
+      from:
+        type: integer
+      last_page:
+        type: integer
+      size_page:
+        type: integer
+      to:
+        type: integer
+      total:
+        type: integer
+    required:
+    - current_page
+    - last_page
+    - size_page
+    - total
+    type: object
+  domain.People:
+    properties:
+      created_at:
+        description: 'Description: the date of created of the people'
+        example: "2023-11-10 08:10:00"
+        type: string
+      document:
+        description: 'Description: the document number of the people'
+        example: "77895428"
+        type: string
+      document_type:
+        $ref: '#/definitions/domain.DocumentType'
+      email:
+        description: 'Description: the email of the people'
+        example: lucyhancco@gmail.com
+        type: string
+      enable:
+        description: 'Description: the status of the people'
+        example: true
+        type: boolean
+      gender:
+        description: 'Description: the gender of the people'
+        example: MASCULINO
+        type: string
+      id:
+        description: 'Description: the id of the people'
+        example: 0abbb86f-9836-11ee-a040-0242ac11000e
+        type: string
+      last_name:
+        description: 'Description: the last name of the people'
+        example: HUILLCA
+        type: string
+      names:
+        description: 'Description: the name of the people'
+        example: LUCY ANDREA
+        type: string
+      phone:
+        description: 'Description: the phone of the people'
+        example: "918547496"
+        type: string
+      surname:
+        description: 'Description: the surname of the people'
+        example: HANCCO
+        type: string
+      user:
+        $ref: '#/definitions/domain.User'
+    required:
+    - document
+    - document_type
+    - email
+    - enable
+    - gender
+    - id
+    - last_name
+    - names
+    - surname
+    type: object
+  domain.UpdatePersonBody:
+    properties:
+      document:
+        description: 'Description: the document number of the people'
+        example: "77895428"
+        type: string
+      email:
+        description: 'Description: the email of the people'
+        example: lucyhancco@gmail.com
+        type: string
+      enable:
+        description: 'Description: the status of the people'
+        example: true
+        type: boolean
+      gender:
+        description: 'Description: the gender of the people'
+        example: MASCULINO
+        type: string
+      last_name:
+        description: 'Description: the last name of the people'
+        example: HUILLCA
+        type: string
+      names:
+        description: 'Description: the name of the people'
+        example: LUCY ANDREA
+        type: string
+      phone:
+        description: 'Description: the phone of the people'
+        example: "918547496"
+        type: string
+      surname:
+        description: 'Description: the surname of the people'
+        example: HANCCO
+        type: string
+      type_document_id:
+        description: 'Description: the type of the document'
+        example: 00a58522-93b4-11ee-a040-0242ac11000e
+        type: string
+      user_id:
+        description: 'Description: the id of the user'
+        type: string
+    required:
+    - document
+    - enable
+    - names
+    - surname
+    - type_document_id
+    type: object
+  domain.User:
+    properties:
+      created_at:
+        description: 'Description: the date of created of the user'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of the user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110016
+        type: string
+      username:
+        description: 'Description: the username of the user'
+        example: pepito.quispe@smartc.pe
+        type: string
+    type: object
+  errorDomain.LayerErr:
+    enum:
+    - domain
+    - infrastructure
+    - interface
+    - use_case
+    type: string
+    x-enum-varnames:
+    - Domain
+    - Infra
+    - Interface
+    - UseCase
+  errorDomain.LevelErr:
+    enum:
+    - info
+    - warning
+    - error
+    - fatal
+    type: string
+    x-enum-varnames:
+    - LevelInfo
+    - LevelWarning
+    - LevelError
+    - LevelFatal
+  errorDomain.SmartError:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      error: {}
+      function:
+        type: string
+      httpStatus:
+        type: integer
+      layer:
+        $ref: '#/definitions/errorDomain.LayerErr'
+      level:
+        $ref: '#/definitions/errorDomain.LevelErr'
+      messages:
+        items:
+          type: string
+        type: array
+      raw:
+        type: string
+    type: object
+  httpResponse.IdResult:
+    properties:
+      data:
+        example: "201"
+        type: string
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  httpResponse.StatusResult:
+    properties:
+      status:
+        example: 200
+        type: integer
+    required:
+    - status
+    type: object
+  rest.deletePersonResult:
+    properties:
+      data:
+        type: boolean
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  rest.peopleResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.People'
+        type: array
+      pagination:
+        $ref: '#/definitions/domain.PaginationResults'
+      status:
+        type: integer
+    required:
+    - data
+    - pagination
+    - status
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/event/people:
+    post:
+      consumes:
+      - application/json
+      description: Create a person
+      parameters:
+      - description: Create body of person
+        in: body
+        name: createPersonBody
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreatePersonBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Create a person
+      tags:
+      - People
+  /api/v1/event/people/:
+    get:
+      consumes:
+      - application/json
+      description: get people
+      parameters:
+      - description: the document number of the people
+        in: query
+        name: search_name
+        type: string
+      - description: the document number of the people
+        in: query
+        name: document
+        type: string
+      - description: the document type id of the people
+        in: query
+        name: document_type_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.peopleResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: get people
+      tags:
+      - People
+  /api/v1/event/people/{personId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a person
+      parameters:
+      - description: person id
+        in: path
+        name: personId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.deletePersonResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Delete a person
+      tags:
+      - People
+    put:
+      consumes:
+      - application/json
+      description: Update a person
+      parameters:
+      - description: person id
+        in: path
+        name: personId
+        required: true
+        type: string
+      - description: Update person body
+        in: body
+        name: updatePersonBody
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UpdatePersonBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.StatusResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Update a person
+      tags:
+      - People
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

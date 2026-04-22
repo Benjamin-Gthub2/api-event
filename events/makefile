@@ -4,7 +4,7 @@ documentation:
 
 documentation-win:
 	swag init --pd --instanceName events
-	powershell -Command "Invoke-WebRequest -Method Post -Uri 'http://192.168.71.200:8080/api/convert' -InFile 'docs\events_swagger.json' -ContentType 'application/json' -OutFile 'docs\swagger3.json'"
+	powershell -Command "Invoke-WebRequest -Method Post -Uri 'http://127.0.0.1:8080/api/convert' -InFile 'docs\events_swagger.json' -ContentType 'application/json' -OutFile 'docs\swagger3.json'"
 
 events_mocks:
 	mockery --dir=domain --name=EventRepository --filename=events_repository_mock.go --output=domain/mocks --outpkg=events

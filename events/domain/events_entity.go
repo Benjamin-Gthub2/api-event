@@ -195,3 +195,6 @@ type GetEventsParams struct {
 	//The name and document number of the event
 	NameOrDocument *string `json:"name_or_document" example:"Odin Corp"`
 }
+
+type RoleDefault struct {
+}

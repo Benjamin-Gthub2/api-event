@@ -19,38 +19,22 @@ import (
 	errDomain "github.com/smart0n3/api-shared/error-core/domain"
 
 	eventDomain "github.com/Benjamin-Gthub2/api-event/events/domain"
-	policiesDomain "github.com/Benjamin-Gthub2/api-event/policies/domain"
-	policyPermissionsDomain "github.com/Benjamin-Gthub2/api-event/policy-permissions/domain"
-	rolePoliciesDomain "github.com/Benjamin-Gthub2/api-event/role-policies/domain"
-	rolesDomain "github.com/Benjamin-Gthub2/api-event/roles/domain"
 )
 
 type eventsMySQLRepo struct {
-	clock                       smartClock.Clock
-	timeout                     time.Duration
-	err                         *errDomain.SmartError
-	roleRepository              rolesDomain.RoleRepository
-	policyRepository            policiesDomain.PolicyRepository
-	rolePoliciesRepository      rolePoliciesDomain.RolePolicyRepository
-	policyPermissionsRepository policyPermissionsDomain.PolicyPermissionRepository
+	clock   smartClock.Clock
+	timeout time.Duration
+	err     *errDomain.SmartError
 }
 
 func NewEventsRepository(
 	clock smartClock.Clock,
 	mongoTimeout int,
-	roleRepository rolesDomain.RoleRepository,
-	policyRepository policiesDomain.PolicyRepository,
-	rolePoliciesRepository rolePoliciesDomain.RolePolicyRepository,
-	policyPermissionsRepository policyPermissionsDomain.PolicyPermissionRepository,
 ) eventDomain.EventRepository {
 	rep := &eventsMySQLRepo{
-		clock:                       clock,
-		timeout:                     time.Duration(mongoTimeout) * time.Second,
-		err:                         errDomain.NewErr().SetLayer(errDomain.Infra),
-		roleRepository:              roleRepository,
-		policyRepository:            policyRepository,
-		rolePoliciesRepository:      rolePoliciesRepository,
-		policyPermissionsRepository: policyPermissionsRepository,
+		clock:   clock,
+		timeout: time.Duration(mongoTimeout) * time.Second,
+		err:     errDomain.NewErr().SetLayer(errDomain.Infra),
 	}
 	return rep
 }

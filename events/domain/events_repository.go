@@ -16,8 +16,6 @@ import (
 	"context"
 
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
-
-	rolesDefaultsDomain "github.com/Benjamin-Gthub2/api-event/roles-defaults/domain"
 )
 
 type EventRepository interface {
@@ -25,8 +23,8 @@ type EventRepository interface {
 		params GetEventsParams) ([]Event, error)
 	GetTotalEvents(ctx context.Context, pagination paramsDomain.PaginationParams,
 		params GetEventsParams) (*int, error)
-	CreateEvent(ctx context.Context, eventId string, body CreateEventBody, defaultToEvent rolesDefaultsDomain.DefaultToEvent) (*string, error)
-	UpdateEvent(ctx context.Context, eventId string, body UpdateEventBody, defaultToEvent rolesDefaultsDomain.DefaultToEvent) error
+	CreateEvent(ctx context.Context, eventId string, body CreateEventBody) (*string, error)
+	UpdateEvent(ctx context.Context, eventId string, body UpdateEventBody) error
 	DeleteEvent(ctx context.Context, eventId string) (bool, error)
 	GetRolesByEvent(ctx context.Context, eventId string) ([]Role, error)
 	EnableDisableEvent(ctx context.Context, eventId string, enable EnableDisableEventRequest) (err error)

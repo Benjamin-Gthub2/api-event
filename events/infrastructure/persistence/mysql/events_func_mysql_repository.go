@@ -17,14 +17,14 @@ import (
 	"database/sql"
 	_ "embed"
 
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 	"github.com/smart0n3/carta"
 	"github.com/stroiman/go-automapper"
 
-	eventDomain "github.com/Benjamin-Gthub2/api-event/domain"
-	roleDefaultsDomain "github.com/Benjamin-Gthub2/api-event/roles-defaults/domain"
+	"github.com/smart0n3/api-shared/db"
+	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
+	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+
+	eventDomain "github.com/Benjamin-Gthub2/api-event/events/domain"
 )
 
 //go:embed sql/get_total_events.sql
@@ -134,7 +134,6 @@ func (r eventsMySQLRepo) CreateEvent(
 	ctx context.Context,
 	eventId string,
 	body eventDomain.CreateEventBody,
-	defaultToEvent roleDefaultsDomain.DefaultToEvent,
 ) (
 	lastId *string,
 	err error,
@@ -174,22 +173,22 @@ func (r eventsMySQLRepo) CreateEvent(
 		return nil, r.err.Clone().SetFunction("CreateEvent").SetRaw(err)
 	}
 
-	err = r.roleRepository.CreateRoleBatch(ctx, tx, defaultToEvent.NewRoles)
-	if err != nil {
-		return nil, err
-	}
-	err = r.policyRepository.CreatePoliciesBatch(ctx, tx, defaultToEvent.NewPolicies)
-	if err != nil {
-		return nil, err
-	}
-	err = r.rolePoliciesRepository.CreateRolePoliciesBatch(ctx, tx, defaultToEvent.NewRolePolicies)
-	if err != nil {
-		return nil, err
-	}
-	err = r.policyPermissionsRepository.CreatePolicyPermissionsBatch(ctx, tx, defaultToEvent.NewPolicyPermissions)
-	if err != nil {
-		return nil, err
-	}
+	//err = r.roleRepository.CreateRoleBatch(ctx, tx, defaultToEvent.NewRoles)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//err = r.policyRepository.CreatePoliciesBatch(ctx, tx, defaultToEvent.NewPolicies)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//err = r.rolePoliciesRepository.CreateRolePoliciesBatch(ctx, tx, defaultToEvent.NewRolePolicies)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//err = r.policyPermissionsRepository.CreatePolicyPermissionsBatch(ctx, tx, defaultToEvent.NewPolicyPermissions)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	if err = tx.Commit(); err != nil {
 		return nil, err
@@ -202,7 +201,6 @@ func (r eventsMySQLRepo) UpdateEvent(
 	ctx context.Context,
 	eventId string,
 	body eventDomain.UpdateEventBody,
-	defaultToEvent roleDefaultsDomain.DefaultToEvent,
 ) (
 	err error,
 ) {
@@ -239,22 +237,22 @@ func (r eventsMySQLRepo) UpdateEvent(
 		return r.err.Clone().SetFunction("UpdateEvent").SetRaw(err)
 	}
 
-	err = r.roleRepository.CreateRoleBatch(ctx, tx, defaultToEvent.NewRoles)
-	if err != nil {
-		return err
-	}
-	err = r.policyRepository.CreatePoliciesBatch(ctx, tx, defaultToEvent.NewPolicies)
-	if err != nil {
-		return err
-	}
-	err = r.rolePoliciesRepository.CreateRolePoliciesBatch(ctx, tx, defaultToEvent.NewRolePolicies)
-	if err != nil {
-		return err
-	}
-	err = r.policyPermissionsRepository.CreatePolicyPermissionsBatch(ctx, tx, defaultToEvent.NewPolicyPermissions)
-	if err != nil {
-		return err
-	}
+	//err = r.roleRepository.CreateRoleBatch(ctx, tx, defaultToEvent.NewRoles)
+	//if err != nil {
+	//	return err
+	//}
+	//err = r.policyRepository.CreatePoliciesBatch(ctx, tx, defaultToEvent.NewPolicies)
+	//if err != nil {
+	//	return err
+	//}
+	//err = r.rolePoliciesRepository.CreateRolePoliciesBatch(ctx, tx, defaultToEvent.NewRolePolicies)
+	//if err != nil {
+	//	return err
+	//}
+	//err = r.policyPermissionsRepository.CreatePolicyPermissionsBatch(ctx, tx, defaultToEvent.NewPolicyPermissions)
+	//if err != nil {
+	//	return err
+	//}
 
 	if err = tx.Commit(); err != nil {
 		return err

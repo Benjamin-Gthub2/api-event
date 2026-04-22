@@ -115,11 +115,11 @@ func (u eventsUseCase) CreateEvent(
 	eventId := uuid.New().String()
 
 	// get roles by default
-	defaultToEvent, err := u.roleDefaultsRepository.GetRolesDefaults(ctx, &eventId, nil)
-	if err != nil {
-		return nil, err
-	}
-	id, err = u.eventsRepository.CreateEvent(ctx, eventId, body, *defaultToEvent)
+	//defaultToEvent, err := u.roleDefaultsRepository.GetRolesDefaults(ctx, &eventId, nil)
+	//if err != nil {
+	//	return nil, err
+	//}
+	id, err = u.eventsRepository.CreateEvent(ctx, eventId, body)
 	return
 }
 
@@ -188,11 +188,11 @@ func (u eventsUseCase) UpdateEvent(
 	}
 
 	// review roles by default
-	defaultToEvent, err := u.roleDefaultsRepository.GetRolesDefaults(ctx, &eventId, nil)
-	if err != nil {
-		return err
-	}
-	err = u.eventsRepository.UpdateEvent(ctx, eventId, body, *defaultToEvent)
+	//defaultToEvent, err := u.roleDefaultsRepository.GetRolesDefaults(ctx, &eventId, nil)
+	//if err != nil {
+	//	return err
+	//}
+	err = u.eventsRepository.UpdateEvent(ctx, eventId, body)
 	return
 }
 

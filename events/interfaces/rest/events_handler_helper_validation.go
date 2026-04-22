@@ -12,7 +12,7 @@
 
 package rest
 
-type createMerchantsValidate struct {
+type createEventsValidate struct {
 	Name        string  `json:"name" binding:"required" example:"Odin Corp"`
 	Description string  `json:"description" binding:"required" example:"Proveedor de servicios de mantenimiento"`
 	Code        string  `json:"code" binding:"required" example:"CODE1"`
@@ -23,6 +23,6 @@ type createMerchantsValidate struct {
 	Enable      bool    `json:"enable" example:"true"`
 }
 
-type enableDisableMerchantValidate struct {
+type enableDisableEventValidate struct {
 	Enable *bool `json:"enable" example:"true"`
 }

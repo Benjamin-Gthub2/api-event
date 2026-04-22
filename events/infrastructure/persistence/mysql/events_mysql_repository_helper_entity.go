@@ -14,21 +14,21 @@ package mysql
 
 import "time"
 
-type MerchantHelper struct {
-	Id            string     `db:"events_id" `
-	Name          string     `db:"events_name"`
-	Description   string     `db:"events_description"`
-	Code          *string    `db:"events_code"`
-	Phone         string     `db:"events_phone"`
-	Document      string     `db:"events_document"`
-	Address       string     `db:"events_address"`
-	Industry      string     `db:"events_industry"`
-	Enable        bool       `db:"events_enable"`
-	CreatedAt     *time.Time `db:"events_created_at"`
-	MerchantFiles []MerchantFileHelper
+type EventHelper struct {
+	Id          string     `db:"events_id" `
+	Name        string     `db:"events_name"`
+	Description string     `db:"events_description"`
+	Code        *string    `db:"events_code"`
+	Phone       string     `db:"events_phone"`
+	Document    string     `db:"events_document"`
+	Address     string     `db:"events_address"`
+	Industry    string     `db:"events_industry"`
+	Enable      bool       `db:"events_enable"`
+	CreatedAt   *time.Time `db:"events_created_at"`
+	EventFiles  []EventFileHelper
 }
 
-type MerchantFileHelper struct {
+type EventFileHelper struct {
 	Id        *string    `db:"events_files_id"`
 	Name      *string    `db:"events_files_name"`
 	Weight    *string    `db:"events_files_weight"`
@@ -36,7 +36,7 @@ type MerchantFileHelper struct {
 	CreatedAt *time.Time `db:"events_files_created_at"`
 }
 
-type RoleByMerchant struct {
+type RoleByEvent struct {
 	Id          string     `db:"role_id"`
 	Name        *string    `db:"role_name"`
 	Description *string    `db:"role_description"`

@@ -80,7 +80,7 @@ func (u peopleUseCase) CreatePerson(
 	defer cancel()
 
 	recordExistsParams := validationsDomain.RecordExistsParams{
-		Table:            "hr_people",
+		Table:            "people",
 		IdColumnName:     "user_id",
 		IdValue:          body.UserId,
 		StatusColumnName: nil,
@@ -112,7 +112,7 @@ func (u peopleUseCase) UpdatePerson(
 	defer cancel()
 
 	recordExistsParams := validationsDomain.RecordExistsParams{
-		Table:        "hr_people",
+		Table:        "people",
 		IdColumnName: "id",
 		IdValue:      peopleId,
 	}
@@ -143,7 +143,7 @@ func (u peopleUseCase) DeletePerson(
 	var deleted string
 	deleted = "deleted_at"
 	recordExistsParams := validationsDomain.RecordExistsParams{
-		Table:            "hr_people",
+		Table:            "people",
 		IdColumnName:     "id",
 		IdValue:          peopleId,
 		StatusColumnName: &deleted,

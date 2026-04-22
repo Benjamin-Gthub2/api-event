@@ -1,0 +1,605 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/event/people": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a person",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "People"
+                ],
+                "summary": "Create a person",
+                "parameters": [
+                    {
+                        "description": "Create body of person",
+                        "name": "createPersonBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.CreatePersonBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpResponse.IdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/event/people/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "get people",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "People"
+                ],
+                "summary": "get people",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the document number of the people",
+                        "name": "search_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "the document number of the people",
+                        "name": "document",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "the document type id of the people",
+                        "name": "document_type_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.peopleResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/event/people/{personId}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update a person",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "People"
+                ],
+                "summary": "Update a person",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "person id",
+                        "name": "personId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update person body",
+                        "name": "updatePersonBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.UpdatePersonBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpResponse.StatusResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a person",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "People"
+                ],
+                "summary": "Delete a person",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "person id",
+                        "name": "personId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.deletePersonResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.CreatePersonBody": {
+            "type": "object",
+            "required": [
+                "document",
+                "enable",
+                "names",
+                "surname",
+                "type_document_id"
+            ],
+            "properties": {
+                "document": {
+                    "description": "Description: the document number of the people",
+                    "type": "string",
+                    "example": "77895428"
+                },
+                "email": {
+                    "description": "Description: the email of the people",
+                    "type": "string",
+                    "example": "lucyhancco@gmail.com"
+                },
+                "enable": {
+                    "description": "Description: the status of the people",
+                    "type": "boolean",
+                    "example": true
+                },
+                "gender": {
+                    "description": "Description: the gender of the people",
+                    "type": "string",
+                    "example": "MASCULINO"
+                },
+                "last_name": {
+                    "description": "Description: the last name of the people",
+                    "type": "string",
+                    "example": "HUILLCA"
+                },
+                "names": {
+                    "description": "Description: the name of the people",
+                    "type": "string",
+                    "example": "LUCY ANDREA"
+                },
+                "phone": {
+                    "description": "Description: the phone of the people",
+                    "type": "string",
+                    "example": "918547496"
+                },
+                "surname": {
+                    "description": "Description: the surname of the people",
+                    "type": "string",
+                    "example": "HANCCO"
+                },
+                "type_document_id": {
+                    "description": "Description: the type of the document",
+                    "type": "string",
+                    "example": "00a58522-93b4-11ee-a040-0242ac11000e"
+                },
+                "user_id": {
+                    "description": "Description: the id of the user",
+                    "type": "string"
+                }
+            }
+        },
+        "domain.DocumentType": {
+            "type": "object",
+            "required": [
+                "abbreviated_description",
+                "description",
+                "id"
+            ],
+            "properties": {
+                "abbreviated_description": {
+                    "description": "Description: the abbreviated description of the document type",
+                    "type": "string",
+                    "example": "DNI"
+                },
+                "description": {
+                    "description": "Description: the status of the document type",
+                    "type": "string",
+                    "example": "DOCUMENTO NACIONAL DE IDENTIDAD"
+                },
+                "id": {
+                    "description": "Description: the id of the document type",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac110016"
+                }
+            }
+        },
+        "domain.PaginationResults": {
+            "type": "object",
+            "required": [
+                "current_page",
+                "last_page",
+                "size_page",
+                "total"
+            ],
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "size_page": {
+                    "type": "integer"
+                },
+                "to": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.People": {
+            "type": "object",
+            "required": [
+                "document",
+                "document_type",
+                "email",
+                "enable",
+                "gender",
+                "id",
+                "last_name",
+                "names",
+                "surname"
+            ],
+            "properties": {
+                "created_at": {
+                    "description": "Description: the date of created of the people",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "document": {
+                    "description": "Description: the document number of the people",
+                    "type": "string",
+                    "example": "77895428"
+                },
+                "document_type": {
+                    "$ref": "#/definitions/domain.DocumentType"
+                },
+                "email": {
+                    "description": "Description: the email of the people",
+                    "type": "string",
+                    "example": "lucyhancco@gmail.com"
+                },
+                "enable": {
+                    "description": "Description: the status of the people",
+                    "type": "boolean",
+                    "example": true
+                },
+                "gender": {
+                    "description": "Description: the gender of the people",
+                    "type": "string",
+                    "example": "MASCULINO"
+                },
+                "id": {
+                    "description": "Description: the id of the people",
+                    "type": "string",
+                    "example": "0abbb86f-9836-11ee-a040-0242ac11000e"
+                },
+                "last_name": {
+                    "description": "Description: the last name of the people",
+                    "type": "string",
+                    "example": "HUILLCA"
+                },
+                "names": {
+                    "description": "Description: the name of the people",
+                    "type": "string",
+                    "example": "LUCY ANDREA"
+                },
+                "phone": {
+                    "description": "Description: the phone of the people",
+                    "type": "string",
+                    "example": "918547496"
+                },
+                "surname": {
+                    "description": "Description: the surname of the people",
+                    "type": "string",
+                    "example": "HANCCO"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.User"
+                }
+            }
+        },
+        "domain.UpdatePersonBody": {
+            "type": "object",
+            "required": [
+                "document",
+                "enable",
+                "names",
+                "surname",
+                "type_document_id"
+            ],
+            "properties": {
+                "document": {
+                    "description": "Description: the document number of the people",
+                    "type": "string",
+                    "example": "77895428"
+                },
+                "email": {
+                    "description": "Description: the email of the people",
+                    "type": "string",
+                    "example": "lucyhancco@gmail.com"
+                },
+                "enable": {
+                    "description": "Description: the status of the people",
+                    "type": "boolean",
+                    "example": true
+                },
+                "gender": {
+                    "description": "Description: the gender of the people",
+                    "type": "string",
+                    "example": "MASCULINO"
+                },
+                "last_name": {
+                    "description": "Description: the last name of the people",
+                    "type": "string",
+                    "example": "HUILLCA"
+                },
+                "names": {
+                    "description": "Description: the name of the people",
+                    "type": "string",
+                    "example": "LUCY ANDREA"
+                },
+                "phone": {
+                    "description": "Description: the phone of the people",
+                    "type": "string",
+                    "example": "918547496"
+                },
+                "surname": {
+                    "description": "Description: the surname of the people",
+                    "type": "string",
+                    "example": "HANCCO"
+                },
+                "type_document_id": {
+                    "description": "Description: the type of the document",
+                    "type": "string",
+                    "example": "00a58522-93b4-11ee-a040-0242ac11000e"
+                },
+                "user_id": {
+                    "description": "Description: the id of the user",
+                    "type": "string"
+                }
+            }
+        },
+        "domain.User": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "Description: the date of created of the user",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "id": {
+                    "description": "Description: the id of the user",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac110016"
+                },
+                "username": {
+                    "description": "Description: the username of the user",
+                    "type": "string",
+                    "example": "pepito.quispe@smartc.pe"
+                }
+            }
+        },
+        "errorDomain.LayerErr": {
+            "type": "string",
+            "enum": [
+                "domain",
+                "infrastructure",
+                "interface",
+                "use_case"
+            ],
+            "x-enum-varnames": [
+                "Domain",
+                "Infra",
+                "Interface",
+                "UseCase"
+            ]
+        },
+        "errorDomain.LevelErr": {
+            "type": "string",
+            "enum": [
+                "info",
+                "warning",
+                "error",
+                "fatal"
+            ],
+            "x-enum-varnames": [
+                "LevelInfo",
+                "LevelWarning",
+                "LevelError",
+                "LevelFatal"
+            ]
+        },
+        "errorDomain.SmartError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "error": {},
+                "function": {
+                    "type": "string"
+                },
+                "httpStatus": {
+                    "type": "integer"
+                },
+                "layer": {
+                    "$ref": "#/definitions/errorDomain.LayerErr"
+                },
+                "level": {
+                    "$ref": "#/definitions/errorDomain.LevelErr"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "raw": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpResponse.IdResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "201"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "httpResponse.StatusResult": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        },
+        "rest.deletePersonResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.peopleResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "pagination",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.People"
+                    }
+                },
+                "pagination": {
+                    "$ref": "#/definitions/domain.PaginationResults"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

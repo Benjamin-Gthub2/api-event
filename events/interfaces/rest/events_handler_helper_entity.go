@@ -19,12 +19,12 @@ import (
 )
 
 type eventsResult struct {
-	Data       []eventsDomain.Merchant            `json:"data" binding:"required"`
+	Data       []eventsDomain.Event               `json:"data" binding:"required"`
 	Pagination paginationDomain.PaginationResults `json:"pagination" binding:"required"`
 	Status     int                                `json:"status" binding:"required"`
 }
 
-type deleteMerchantsResult struct {
+type deleteEventsResult struct {
 	Data   bool `json:"data" binding:"required"`
 	Status int  `json:"status" binding:"required"`
 }

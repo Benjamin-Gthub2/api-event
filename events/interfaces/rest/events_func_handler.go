@@ -17,6 +17,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+
 	restCore "github.com/smart0n3/api-shared/api-core/interfaces/rest"
 	httpResponse "github.com/smart0n3/api-shared/custom-http/interfaces/rest"
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
