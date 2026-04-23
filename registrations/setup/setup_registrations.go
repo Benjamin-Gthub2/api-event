@@ -17,12 +17,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/smart0n3/api-shared/mqtt"
 
 	"github.com/smart0n3/api-shared/auth"
 	authRepository "github.com/smart0n3/api-shared/auth/infrastructure/jwt"
 	smartClock "github.com/smart0n3/api-shared/clock"
 	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence/mysql"
 
+	registrationsMqttRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/mqtt"
 	registrationsRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/persistence/mysql"
 	registrationsHttpDelivery "github.com/Benjamin-Gthub2/api-event/registrations/interfaces/rest"
 	registrationsUseCase "github.com/Benjamin-Gthub2/api-event/registrations/usecase"
@@ -36,8 +38,11 @@ func LoadRegistrations(router *gin.Engine) {
 	registrationRepository := registrationsRepository.NewRegistrationsRepository(
 		clock, 60)
 	authMiddleware := auth.LoadAuthMiddleware()
+	registrationMqttRepository := registrationsMqttRepository.NewRegistrationsRTRepository(mqtt.MqttClient)
+
 	registrationsUCase := registrationsUseCase.NewRegistrationsUseCase(
 		registrationRepository,
+		registrationMqttRepository,
 		validationRepository,
 		authJWTRepository,
 		timeoutContext)
