@@ -41,9 +41,9 @@ func NewEventsHandler(
 	}
 
 	swaggerRest.Handler(router, eventsDocs.SwaggerInfoevents, eventsDocs.DocTemplateJson,
-		"core", "events")
+		"event", "events")
 
-	api := router.Group("/api/v1/core")
+	api := router.Group("/api/v1/event")
 	api.Use(handler.authMiddleware.Auth)
 	api.GET("/events", handler.GetEvents)
 	api.POST("/events", handler.CreateEvent)
@@ -51,5 +51,6 @@ func NewEventsHandler(
 	api.DELETE("/events/:eventId", handler.DeleteEvent)
 	api.GET("/events/:eventId/roles", handler.GetRolesByEvent)
 	api.PUT("/events/:eventId/enable", handler.ToggleEventEnable)
+	api.GET("/events/summary", handler.GetEventsSummary)
 
 }

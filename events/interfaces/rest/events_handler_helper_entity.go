@@ -33,3 +33,8 @@ type rolesResult struct {
 	Data   []eventsDomain.Role `json:"data" binding:"required"`
 	Status int                 `json:"status" binding:"required"`
 }
+
+type eventsSummaryResult struct {
+	Data   []eventsDomain.EventSums `json:"data" binding:"required"`
+	Status int                      `json:"status" binding:"required"`
+}

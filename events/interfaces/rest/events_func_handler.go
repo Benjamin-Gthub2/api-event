@@ -267,3 +267,29 @@ func (h eventsHandler) ToggleEventEnable(c *gin.Context) {
 	}
 	restCore.Json(c, http.StatusOK, res)
 }
+
+// GetEventsSummary is a method to get event sums
+// @Summary Get event sums
+// @Description Get event sums
+// @Tags EventSums
+// @Accept json
+// @Produce json
+// @Success 200 {object} eventsSummaryResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/events/summary [get]
+// @Security BearerAuth
+func (h eventsHandler) GetEventsSummary(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	eventsSummary, err := h.eventsUseCase.GetEventSummary(ctx)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := eventsSummaryResult{
+		Data:   eventsSummary,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}

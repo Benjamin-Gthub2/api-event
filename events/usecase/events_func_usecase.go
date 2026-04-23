@@ -278,3 +278,31 @@ func (u eventsUseCase) EnableDisableEvent(
 	err = u.eventsRepository.EnableDisableEvent(ctx, eventId, body)
 	return
 }
+
+func (u eventsUseCase) GetEventSummary(
+	ctx context.Context,
+) (
+	res []eventsDomain.EventSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var errGetEventSums error
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetEventSums, &wg)
+		res, errGetEventSums = u.eventsRepository.GetEventSums(ctx)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errGetEventSums != nil {
+		return nil, errGetEventSums
+	}
+
+	return res, nil
+}

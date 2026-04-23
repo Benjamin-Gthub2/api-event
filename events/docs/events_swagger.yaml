@@ -148,6 +148,39 @@ definitions:
         example: "61850"
         type: string
     type: object
+  domain.EventSums:
+    properties:
+      id:
+        description: 'Description: the id of event'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of event'
+        example: Event 1
+        type: string
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+      workshops_sums:
+        items:
+          $ref: '#/definitions/domain.WorkshopSums'
+        type: array
+    required:
+    - id
+    - name
+    - total_payments
+    - total_presences
+    - total_registrations
+    type: object
   domain.ModuleByPolicy:
     properties:
       code:
@@ -315,6 +348,33 @@ definitions:
     - policies
     - users
     type: object
+  domain.SessionSums:
+    properties:
+      end_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of session'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      start_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+    type: object
   domain.UpdateEventBody:
     properties:
       address:
@@ -369,6 +429,33 @@ definitions:
       user_role_id:
         example: 739bbbc9-7e93-11ee-89fd-0242ac113421
         type: string
+    type: object
+  domain.WorkshopSums:
+    properties:
+      id:
+        description: 'Description: the id of workshop'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of workshop'
+        example: Workshop 1
+        type: string
+      session_sums:
+        items:
+          $ref: '#/definitions/domain.SessionSums'
+        type: array
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
     type: object
   errorDomain.LayerErr:
     enum:
@@ -458,6 +545,18 @@ definitions:
     required:
     - data
     - pagination
+    - status
+    type: object
+  rest.eventsSummaryResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.EventSums'
+        type: array
+      status:
+        type: integer
+    required:
+    - data
     - status
     type: object
   rest.rolesResult:
@@ -645,6 +744,27 @@ paths:
       summary: Get roles by event
       tags:
       - Events
+  /api/v1/event/events/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get event sums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.eventsSummaryResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get event sums
+      tags:
+      - EventSums
 securityDefinitions:
   BearerAuth:
     in: header

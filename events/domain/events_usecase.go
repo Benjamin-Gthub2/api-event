@@ -27,4 +27,5 @@ type EventUseCase interface {
 	DeleteEvent(ctx context.Context, eventId string) (bool, error)
 	GetRolesByEvent(ctx context.Context, eventId string) ([]Role, error)
 	EnableDisableEvent(ctx context.Context, eventId string, enable EnableDisableEventRequest) (err error)
+	GetEventSummary(ctx context.Context) ([]EventSums, error)
 }

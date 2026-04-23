@@ -48,6 +48,9 @@ var QueryGetRolesUsersByEvent string
 //go:embed sql/enable_disable_event.sql
 var QueryEnableDisableEvent string
 
+//go:embed sql/get_event_sums.sql
+var QueryGetEventSums string
+
 func (r eventsMySQLRepo) GetEvents(
 	ctx context.Context,
 	pagination paramsDomain.PaginationParams,
@@ -348,4 +351,37 @@ func (r eventsMySQLRepo) EnableDisableEvent(
 		return r.err.Clone().SetFunction("EnableDisableEvent").SetRaw(err)
 	}
 	return
+}
+
+func (r eventsMySQLRepo) GetEventSums(
+	ctx context.Context,
+) (
+	eventsRows []eventDomain.EventSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetEventSums").SetRaw(err)
+	}
+	results, err := client.QueryContext(ctx,
+		QueryGetEventSums,
+	)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetEventSums").SetRaw(err)
+	}
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
+		}
+	}(results)
+	eventTmp := make([]EventSums, 0)
+	err = carta.Map(results, &eventTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetEventSums").SetRaw(err)
+	}
+	automapper.Map(eventTmp, &eventsRows)
+
+	return eventsRows, nil
 }

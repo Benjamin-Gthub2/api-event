@@ -92,3 +92,30 @@ type DocumentType struct {
 	Description            *string `db:"document_type_description"`
 	AbbreviatedDescription *string `db:"document_type_abbreviated_description"`
 }
+
+type EventSums struct {
+	Id                 string `db:"event_id"`
+	Name               string `db:"event_name"`
+	TotalRegistrations int    `db:"event_total_reg"`
+	TotalPayments      int    `db:"event_total_pay"`
+	TotalPresences     int    `db:"event_total_pres"`
+	WorkshopSums       []WorkshopSums
+}
+
+type WorkshopSums struct {
+	Id                 *string `db:"workshop_id"`
+	Name               *string `db:"workshop_name"`
+	TotalRegistrations *int    `db:"workshop_total_reg"`
+	TotalPayments      *int    `db:"workshop_total_pay"`
+	TotalPresences     *int    `db:"workshop_total_pres"`
+	SessionSums        []SessionSums
+}
+
+type SessionSums struct {
+	Id                 *string    `db:"session_id"`
+	StartDate          *time.Time `db:"session_start_date"`
+	EndDate            *time.Time `db:"session_end_date"`
+	TotalRegistrations *int       `db:"session_total_reg"`
+	TotalPayments      *int       `db:"session_total_pay"`
+	TotalPresences     *int       `db:"session_total_pres"`
+}

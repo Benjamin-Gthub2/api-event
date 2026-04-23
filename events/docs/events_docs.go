@@ -284,6 +284,40 @@ const docTemplateevents = `{
                     }
                 }
             }
+        },
+        "/api/v1/event/events/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get event sums",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventSums"
+                ],
+                "summary": "Get event sums",
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.eventsSummaryResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -475,6 +509,49 @@ const docTemplateevents = `{
                     "description": "Description: the description of the event files",
                     "type": "string",
                     "example": "61850"
+                }
+            }
+        },
+        "domain.EventSums": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "total_payments",
+                "total_presences",
+                "total_registrations"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Description: the id of event",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "name": {
+                    "description": "Description: the name of event",
+                    "type": "string",
+                    "example": "Event 1"
+                },
+                "total_payments": {
+                    "description": "Description: the quantity of payments",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_presences": {
+                    "description": "Description: the quantity of presences",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_registrations": {
+                    "description": "Description: the quantity of registrations",
+                    "type": "integer",
+                    "example": 1
+                },
+                "workshops_sums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.WorkshopSums"
+                    }
                 }
             }
         },
@@ -699,6 +776,41 @@ const docTemplateevents = `{
                 }
             }
         },
+        "domain.SessionSums": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "description": "Description: the name of session",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "id": {
+                    "description": "Description: the id of session",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "start_date": {
+                    "description": "Description: the name of session",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "total_payments": {
+                    "description": "Description: the quantity of payments",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_presences": {
+                    "description": "Description: the quantity of presences",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_registrations": {
+                    "description": "Description: the quantity of registrations",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "domain.UpdateEventBody": {
             "type": "object",
             "required": [
@@ -767,6 +879,42 @@ const docTemplateevents = `{
                 "user_role_id": {
                     "type": "string",
                     "example": "739bbbc9-7e93-11ee-89fd-0242ac113421"
+                }
+            }
+        },
+        "domain.WorkshopSums": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Description: the id of workshop",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "name": {
+                    "description": "Description: the name of workshop",
+                    "type": "string",
+                    "example": "Workshop 1"
+                },
+                "session_sums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.SessionSums"
+                    }
+                },
+                "total_payments": {
+                    "description": "Description: the quantity of payments",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_presences": {
+                    "description": "Description: the quantity of presences",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_registrations": {
+                    "description": "Description: the quantity of registrations",
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -892,6 +1040,24 @@ const docTemplateevents = `{
                 },
                 "pagination": {
                     "$ref": "#/definitions/domain.PaginationResults"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.eventsSummaryResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.EventSums"
+                    }
                 },
                 "status": {
                     "type": "integer"
