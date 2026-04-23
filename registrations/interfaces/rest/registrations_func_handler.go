@@ -90,7 +90,7 @@ func (h registrationsHandler) GetRegistrationById(c *gin.Context) {
 // @Param created_by query string false "the creator of the registration"
 // @Success 200 {object} registrationsResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
-// @Router /api/v1/treasury/registrations [get]
+// @Router /api/v1/event/registrations [get]
 // @Security BearerAuth
 func (h registrationsHandler) GetRegistrations(c *gin.Context) {
 	ctx := c.Request.Context()
@@ -118,14 +118,13 @@ func (h registrationsHandler) GetRegistrations(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param storeId path string true "Store id"
-// @Param createRegistrationBody body registrationsDomain.CreateRegistrationBody true "Create petty cashes body"
+// @Param createRegistrationBody body registrationsDomain.CreateRegistrationBody true "Create registrations body"
 // @Success 201 {object} httpResponse.IdResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
-// @Router /api/v1/treasury/stores/{storeId}/petty_cashes [post]
+// @Router /api/v1/event/registrations [post]
 // @Security BearerAuth
 func (h registrationsHandler) CreateRegistration(c *gin.Context) {
 	ctx := c.Request.Context()
-	storeId := c.Param("storeId")
 	userId := c.GetString("userId")
 
 	var createBodyValidated createRegistrationValidated
