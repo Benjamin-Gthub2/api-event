@@ -12,19 +12,7 @@
 
 package rest
 
-import (
-	paginationDomain "github.com/smart0n3/api-shared/params/domain"
-
-	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
-)
-
-type registrationByIdResult struct {
-	Data   *registrationsDomain.Registration `json:"data"`
-	Status int                               `json:"status" binding:"required"`
-}
-
-type registrationsResult struct {
-	Data       []registrationsDomain.Registration `json:"data"`
-	Pagination paginationDomain.PaginationResults `json:"pagination" binding:"required"`
-	Status     int                                `json:"status" binding:"required"`
+type createRegistrationValidated struct {
+	SessionId     string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }

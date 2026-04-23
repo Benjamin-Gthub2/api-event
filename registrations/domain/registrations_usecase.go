@@ -23,4 +23,5 @@ type RegistrationsUseCase interface {
 	GetRegistrationById(ctx context.Context, registrationId string) (*Registration, error)
 	GetRegistrations(ctx context.Context, pagination paramsDomain.PaginationParams, searchParams GetRegistrationsParams,
 	) ([]Registration, *paramsDomain.PaginationResults, error)
+	CreateRegistration(ctx context.Context, userId string, body CreateRegistrationBody) (*string, error)
 }

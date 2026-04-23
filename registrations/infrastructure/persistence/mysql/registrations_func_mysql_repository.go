@@ -37,6 +37,9 @@ var QueryGetRegistrations string
 //go:embed sql/get_total_registrations.sql
 var QueryGetTotalRegistrations string
 
+//go:embed sql/create_registration.sql
+var QueryCreateRegistration string
+
 func (r registrationsMySQLRepo) GetQrRegistrationById(
 	ctx context.Context,
 	registrationId string,
@@ -177,4 +180,30 @@ func (r registrationsMySQLRepo) GetTotalRegistrations(
 	}
 	total = &totalTmp
 	return total, nil
+}
+
+func (r registrationsMySQLRepo) CreateRegistration(
+	ctx context.Context,
+	body registrationsDomain.CreateRegistration,
+) (
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return r.err.Clone().SetFunction("CreateRegistration").SetRaw(err)
+	}
+	_, err = client.ExecContext(ctx,
+		QueryCreateRegistration,
+		body.Id,
+		body.SessionId,
+		body.BeneficiaryId,
+		body.CreatedBy,
+		now,
+	)
+	if err != nil {
+		return r.err.Clone().SetFunction("CreateRegistration").SetRaw(err)
+	}
+	return
 }

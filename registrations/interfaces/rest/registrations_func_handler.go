@@ -13,10 +13,13 @@
 package rest
 
 import (
+	"errors"
 	"net/http"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	httpResponse "github.com/smart0n3/api-shared/custom-http/interfaces/rest"
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 
 	restCore "github.com/smart0n3/api-shared/api-core/interfaces/rest"
@@ -106,4 +109,57 @@ func (h registrationsHandler) GetRegistrations(c *gin.Context) {
 		Status:     http.StatusOK,
 	}
 	restCore.Json(c, http.StatusOK, res)
+}
+
+// CreateRegistration is a method to create registrations
+// @Summary Create registrations
+// @Description Create registrations
+// @Tags Petty Cashes
+// @Accept json
+// @Produce json
+// @Param storeId path string true "Store id"
+// @Param createRegistrationBody body registrationsDomain.CreateRegistrationBody true "Create petty cashes body"
+// @Success 201 {object} httpResponse.IdResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/treasury/stores/{storeId}/petty_cashes [post]
+// @Security BearerAuth
+func (h registrationsHandler) CreateRegistration(c *gin.Context) {
+	ctx := c.Request.Context()
+	storeId := c.Param("storeId")
+	userId := c.GetString("userId")
+
+	var createBodyValidated createRegistrationValidated
+	if err := c.ShouldBindJSON(&createBodyValidated); err != nil {
+		validationErrs, errFind := err.(validator.ValidationErrors)
+		if !errFind {
+			err = h.err.Clone().SetFunction("CreateRegistration").SetRaw(errors.New("casting ValidationErrors"))
+			restCore.ErrJson(c, err)
+			return
+		}
+
+		messagesErr := make([]string, 0)
+		for _, validationErr := range validationErrs {
+			messagesErr = append(messagesErr, validationErr.Field()+" "+validationErr.Tag())
+		}
+		err = h.err.Clone().SetFunction("CreateRegistration").SetMessages(messagesErr)
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	var createBody = registrationsDomain.CreateRegistrationBody{
+		SessionId:     createBodyValidated.SessionId,
+		BeneficiaryId: createBodyValidated.BeneficiaryId,
+	}
+
+	id, err := h.registrationsUseCase.CreateRegistration(ctx, userId, createBody)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := httpResponse.IdResult{
+		Data:   *id,
+		Status: http.StatusCreated,
+	}
+	restCore.Json(c, http.StatusCreated, res)
 }

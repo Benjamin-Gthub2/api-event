@@ -46,7 +46,7 @@ func NewRegistrationsHandler(
 	api.GET("/registrations", handler.GetRegistrations)
 	api.GET("/registrations/:registrationId", handler.GetRegistrationById)
 	api.GET("/registrations/:registrationId/qr", handler.GetQrRegistrationById) //mas adelante convertir en dos enpoints para get y post
-	//api.POST("/registrations", handler.CreateRegistrations)
+	api.POST("/registrations", handler.CreateRegistrations)
 	//api.PUT("/registrations/:registrationId", handler.UpdateRegistrations)
 	//api.PUT("/registrations/:registrationId/statuses/:statusId", handler.UpdateStatusRegistration)
 }

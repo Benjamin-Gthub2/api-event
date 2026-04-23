@@ -22,7 +22,7 @@ import (
 	"github.com/smart0n3/api-shared/auth"
 	authRepository "github.com/smart0n3/api-shared/auth/infrastructure/jwt"
 	smartClock "github.com/smart0n3/api-shared/clock"
-	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence"
+	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence/mysql"
 
 	peopleRepository "github.com/Benjamin-Gthub2/api-event/people/infrastructure/persistence/mysql"
 	peopleHttpDelivery "github.com/Benjamin-Gthub2/api-event/people/interfaces/rest"

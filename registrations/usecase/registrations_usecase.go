@@ -23,24 +23,27 @@ import (
 )
 
 type registrationsUseCase struct {
-	registrationsRepository registrationsDomain.RegistrationsRepository
-	validationRepository    validationsDomain.ValidationRepository
-	authRepository          authDomain.AuthRepository
-	contextTimeout          time.Duration
-	err                     *errDomain.SmartError
+	registrationsRepository   registrationsDomain.RegistrationsRepository
+	registrationsRTRepository registrationsDomain.RegistrationsRTRepository
+	validationRepository      validationsDomain.ValidationRepository
+	authRepository            authDomain.AuthRepository
+	contextTimeout            time.Duration
+	err                       *errDomain.SmartError
 }
 
 func NewRegistrationsUseCase(
 	ur registrationsDomain.RegistrationsRepository,
+	registrationsRTRepository registrationsDomain.RegistrationsRTRepository,
 	validation validationsDomain.ValidationRepository,
 	authRepository authDomain.AuthRepository,
 	timeout time.Duration,
 ) registrationsDomain.RegistrationsUseCase {
 	return &registrationsUseCase{
-		registrationsRepository: ur,
-		validationRepository:    validation,
-		authRepository:          authRepository,
-		contextTimeout:          timeout,
-		err:                     errDomain.NewErr().SetLayer(errDomain.UseCase),
+		registrationsRepository:   ur,
+		registrationsRTRepository: registrationsRTRepository,
+		validationRepository:      validation,
+		authRepository:            authRepository,
+		contextTimeout:            timeout,
+		err:                       errDomain.NewErr().SetLayer(errDomain.UseCase),
 	}
 }

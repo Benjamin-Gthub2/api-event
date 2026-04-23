@@ -134,3 +134,19 @@ type GetRegistrationsParams struct {
 	//Description: the id of the user who created the expense
 	CreatedBy *string `json:"created_by" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }
+
+type CreateRegistrationBody struct {
+	SessionId     string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+}
+
+type CreateRegistration struct {
+	//Description: the id of registration
+	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the id of session
+	SessionId string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	//Description: the id of beneficiary
+	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	//Description: the id of creator
+	CreatedBy string `json:"created_by" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+}
