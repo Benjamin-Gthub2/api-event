@@ -27,7 +27,7 @@ func NewEventTypesHandler(
 		authMiddleware:    authMiddleware,
 		err:               errDomain.NewErr().SetLayer(errDomain.Interface),
 	}
-	swaggerRest.Handler(router, docs.SwaggerInfoeventTypes, docs.DocTemplateJson, "event", "event-types")
+	swaggerRest.Handler(router, docs.SwaggerInfoevent_types, docs.DocTemplateJson, "event", "event-types")
 
 	api := router.Group("/api/v1/event")
 	api.Use(handler.authMiddleware.Auth)
