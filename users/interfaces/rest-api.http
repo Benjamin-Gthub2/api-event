@@ -48,7 +48,6 @@ Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
 
-
 ### Get menu by user
 < {%
     request.variables.set("auth_token", client.global.get("auth_token"));

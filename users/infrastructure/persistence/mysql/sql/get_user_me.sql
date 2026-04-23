@@ -23,11 +23,11 @@ SELECT users.id                               AS user_id,
        roles.description                      AS role_description,
        roles.enable                           AS role_enable,
        roles.created_at                       AS role_created_at
-FROM core_users users
-         LEFT JOIN hr_people people ON users.id = people.user_id
-         LEFT JOIN core_document_types document_types ON people.type_document_id = document_types.id
-         INNER JOIN core_user_roles user_roles ON users.id = user_roles.user_id
-         INNER JOIN core_roles roles ON user_roles.role_id = roles.id
+FROM users users
+         LEFT JOIN people people ON users.id = people.user_id
+         LEFT JOIN document_types document_types ON people.type_document_id = document_types.id
+         INNER JOIN user_roles user_roles ON users.id = user_roles.user_id
+         INNER JOIN roles roles ON user_roles.role_id = roles.id
 WHERE users.id = ?
   AND users.deleted_at IS NULL
   AND people.deleted_at IS NULL
