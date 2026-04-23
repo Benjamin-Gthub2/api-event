@@ -16,3 +16,8 @@ type workshopsResult struct {
 	Pagination paginationDomain.PaginationResults `json:"pagination" binding:"required"`
 	Status     int                                `json:"status" binding:"required"`
 }
+
+type workshopsSummaryResult struct {
+	Data   []workshopsDomain.WorkshopSums `json:"data" binding:"required"`
+	Status int                            `json:"status" binding:"required"`
+}

@@ -46,6 +46,33 @@ definitions:
     - size_page
     - total
     type: object
+  domain.SessionSums:
+    properties:
+      end_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of session'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      start_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+    type: object
   domain.Workshop:
     properties:
       capacity:
@@ -78,6 +105,33 @@ definitions:
     - id
     - name
     - workshop_type
+    type: object
+  domain.WorkshopSums:
+    properties:
+      id:
+        description: 'Description: the id of workshop'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of workshop'
+        example: Workshop 1
+        type: string
+      session_sums:
+        items:
+          $ref: '#/definitions/domain.SessionSums'
+        type: array
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
     type: object
   domain.WorkshopType:
     properties:
@@ -219,6 +273,18 @@ definitions:
         type: integer
     required:
     - pagination
+    - status
+    type: object
+  rest.workshopsSummaryResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.WorkshopSums'
+        type: array
+      status:
+        type: integer
+    required:
+    - data
     - status
     type: object
 info:
@@ -374,6 +440,27 @@ paths:
       summary: Update workshop
       tags:
       - Workshops
+  /api/v1/event/workshops/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get workshop sums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.workshopsSummaryResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get workshop sums
+      tags:
+      - WorkshopSums
 securityDefinitions:
   BearerAuth:
     in: header

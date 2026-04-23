@@ -13,4 +13,5 @@ type WorkshopsRepository interface {
 	CreateWorkshop(ctx context.Context, body CreateWorkshop) error
 	UpdateWorkshop(ctx context.Context, body UpdateWorkshop) error
 	DeleteWorkshop(ctx context.Context, body DeleteWorkshop) error
+	GetWorkshopSums(ctx context.Context) ([]WorkshopSums, error)
 }

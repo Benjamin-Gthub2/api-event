@@ -118,6 +118,40 @@ const docTemplateworkshops = `{
                 }
             }
         },
+        "/api/v1/event/workshops/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get workshop sums",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WorkshopSums"
+                ],
+                "summary": "Get workshop sums",
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.workshopsSummaryResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/event/workshops/{workshopId}": {
             "get": {
                 "security": [
@@ -321,6 +355,41 @@ const docTemplateworkshops = `{
                 }
             }
         },
+        "domain.SessionSums": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "description": "Description: the name of session",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "id": {
+                    "description": "Description: the id of session",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "start_date": {
+                    "description": "Description: the name of session",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "total_payments": {
+                    "description": "Description: the quantity of payments",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_presences": {
+                    "description": "Description: the quantity of presences",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_registrations": {
+                    "description": "Description: the quantity of registrations",
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "domain.Workshop": {
             "type": "object",
             "required": [
@@ -363,6 +432,42 @@ const docTemplateworkshops = `{
                 },
                 "workshop_type": {
                     "$ref": "#/definitions/domain.WorkshopType"
+                }
+            }
+        },
+        "domain.WorkshopSums": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Description: the id of workshop",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "name": {
+                    "description": "Description: the name of workshop",
+                    "type": "string",
+                    "example": "Workshop 1"
+                },
+                "session_sums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.SessionSums"
+                    }
+                },
+                "total_payments": {
+                    "description": "Description: the quantity of payments",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_presences": {
+                    "description": "Description: the quantity of presences",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_registrations": {
+                    "description": "Description: the quantity of registrations",
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -559,6 +664,24 @@ const docTemplateworkshops = `{
                 },
                 "pagination": {
                     "$ref": "#/definitions/domain.PaginationResults"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.workshopsSummaryResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.WorkshopSums"
+                    }
                 },
                 "status": {
                     "type": "integer"

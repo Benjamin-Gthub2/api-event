@@ -36,4 +36,5 @@ func NewWorkshopsHandler(
 	api.POST("/workshops", handler.CreateWorkshop)
 	api.PUT("/workshops/:workshopId", handler.UpdateWorkshop)
 	api.DELETE("/workshops/:workshopId", handler.DeleteWorkshop)
+	api.GET("/workshops/summary", handler.GetWorkshopsSummary)
 }

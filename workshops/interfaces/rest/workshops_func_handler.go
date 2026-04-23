@@ -211,3 +211,29 @@ func (h workshopsHandler) DeleteWorkshop(c *gin.Context) {
 	}
 	restCore.Json(c, http.StatusOK, res)
 }
+
+// GetWorkshopsSummary is a method to get workshop sums
+// @Summary Get workshop sums
+// @Description Get workshop sums
+// @Tags WorkshopSums
+// @Accept json
+// @Produce json
+// @Success 200 {object} workshopsSummaryResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/workshops/summary [get]
+// @Security BearerAuth
+func (h workshopsHandler) GetWorkshopsSummary(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	workshopsSummary, err := h.workshopsUseCase.GetWorkshopSummary(ctx)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := workshopsSummaryResult{
+		Data:   workshopsSummary,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}

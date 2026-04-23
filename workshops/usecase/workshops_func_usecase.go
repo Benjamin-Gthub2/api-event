@@ -207,3 +207,31 @@ func (u workshopsUseCase) DeleteWorkshop(
 	}
 	return nil
 }
+
+func (u workshopsUseCase) GetWorkshopSummary(
+	ctx context.Context,
+) (
+	res []workshopsDomain.WorkshopSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var errGetWorkshopSums error
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetWorkshopSums, &wg)
+		res, errGetWorkshopSums = u.workshopsRepository.GetWorkshopSums(ctx)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errGetWorkshopSums != nil {
+		return nil, errGetWorkshopSums
+	}
+
+	return res, nil
+}

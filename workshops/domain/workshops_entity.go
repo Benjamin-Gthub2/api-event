@@ -84,3 +84,32 @@ type DeleteWorkshop struct {
 	DeletedBy string `json:"deleted_by"`
 	DeletedAt string `json:"deleted_at"`
 }
+
+type WorkshopSums struct {
+	//Description: the id of workshop
+	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the name of workshop
+	Name *string `json:"name" example:"Workshop 1"`
+	//Description: the quantity of registrations
+	TotalRegistrations *int `json:"total_registrations" example:"1"`
+	//Description: the quantity of payments
+	TotalPayments *int `json:"total_payments" example:"1"`
+	//Description: the quantity of presences
+	TotalPresences *int          `json:"total_presences" example:"1"`
+	SessionSums    []SessionSums `json:"session_sums"`
+}
+
+type SessionSums struct {
+	//Description: the id of session
+	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the name of session
+	StartDate *time.Time `json:"start_date" example:"2023-11-10 08:10:00"`
+	//Description: the name of session
+	EndDate *time.Time `json:"end_date" example:"2023-11-10 08:10:00"`
+	//Description: the quantity of registrations
+	TotalRegistrations *int `json:"total_registrations" example:"1"`
+	//Description: the quantity of payments
+	TotalPayments *int `json:"total_payments" example:"1"`
+	//Description: the quantity of presences
+	TotalPresences *int `json:"total_presences" example:"1"`
+}

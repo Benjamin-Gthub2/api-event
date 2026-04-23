@@ -32,6 +32,9 @@ var QueryUpdateWorkshop string
 //go:embed sql/delete_workshop.sql
 var QueryDeleteWorkshop string
 
+//go:embed sql/get_workshops_sums.sql
+var QueryGetWorkshopsSums string
+
 func (r workshopsMySQLRepo) GetWorkshopById(
 	ctx context.Context,
 	workshopId string,
@@ -223,4 +226,37 @@ func (r workshopsMySQLRepo) DeleteWorkshop(
 		return r.err.Clone().SetFunction("DeleteWorkshop").SetRaw(err)
 	}
 	return
+}
+
+func (r workshopsMySQLRepo) GetWorkshopSums(
+	ctx context.Context,
+) (
+	workshopsRows []workshopsDomain.WorkshopSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetWorkshopSums").SetRaw(err)
+	}
+	results, err := client.QueryContext(ctx,
+		QueryGetWorkshopsSums,
+	)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetWorkshopSums").SetRaw(err)
+	}
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
+		}
+	}(results)
+	workshopTmp := make([]WorkshopSums, 0)
+	err = carta.Map(results, &workshopTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetWorkshopSums").SetRaw(err)
+	}
+	automapper.Map(workshopTmp, &workshopsRows)
+
+	return workshopsRows, nil
 }

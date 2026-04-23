@@ -99,3 +99,17 @@ DELETE {{api_event_workshops}}/b3c5cde4-5a58-4841-a998-d2bd5d40cfa2
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
+
+### Get Workshops summary
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_workshops}}/summary
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
