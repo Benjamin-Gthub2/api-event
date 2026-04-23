@@ -23,10 +23,12 @@ import (
 	"github.com/smart0n3/api-shared/db"
 	"github.com/smart0n3/api-shared/mqtt"
 
+	eventTypesSetup "github.com/Benjamin-Gthub2/api-event/event-types/setup"
 	peopleSetup "github.com/Benjamin-Gthub2/api-event/people/setup"
 	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
 	sessionsSetup "github.com/Benjamin-Gthub2/api-event/sessions/setup"
 	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
+	workshopTypesSetup "github.com/Benjamin-Gthub2/api-event/workshop-types/setup"
 	workshopsSetup "github.com/Benjamin-Gthub2/api-event/workshops/setup"
 )
 
@@ -61,6 +63,8 @@ func main() {
 	peopleSetup.LoadPeople(router)
 	workshopsSetup.LoadWorkshops(router)
 	sessionsSetup.LoadSessions(router)
+	workshopTypesSetup.LoadWorkshopTypes(router)
+	eventTypesSetup.LoadEventTypes(router)
 
 	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 	err = router.Run(serverPort)

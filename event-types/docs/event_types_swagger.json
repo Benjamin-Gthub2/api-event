@@ -1,0 +1,478 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/event/event-types": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get event types",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventTypes"
+                ],
+                "summary": "Get event types",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Size page",
+                        "name": "size_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.eventTypesResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create event type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventTypes"
+                ],
+                "summary": "Create event type",
+                "parameters": [
+                    {
+                        "description": "Create event type body",
+                        "name": "createEventTypeBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.createEventTypeValidated"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpResponse.IdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/event/event-types/{eventTypeId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get event type by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventTypes"
+                ],
+                "summary": "Get event type by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of the event type",
+                        "name": "eventTypeId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.eventTypeByIdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update event type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventTypes"
+                ],
+                "summary": "Update event type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of the event type",
+                        "name": "eventTypeId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update event type body",
+                        "name": "updateEventTypeBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rest.updateEventTypeValidated"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpResponse.IdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete event type (soft delete)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "EventTypes"
+                ],
+                "summary": "Delete event type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of the event type",
+                        "name": "eventTypeId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpResponse.IdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.CreatedBy": {
+            "type": "object",
+            "required": [
+                "id",
+                "username"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin.smart"
+                }
+            }
+        },
+        "domain.EventType": {
+            "type": "object",
+            "required": [
+                "code",
+                "created_by",
+                "description",
+                "id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "0001"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-04-21 09:50:04"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/domain.CreatedBy"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "TIPO DE EVENTO"
+                },
+                "enable": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "id": {
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                }
+            }
+        },
+        "domain.PaginationResults": {
+            "type": "object",
+            "required": [
+                "current_page",
+                "last_page",
+                "size_page",
+                "total"
+            ],
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "size_page": {
+                    "type": "integer"
+                },
+                "to": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "errorDomain.LayerErr": {
+            "type": "string",
+            "enum": [
+                "domain",
+                "infrastructure",
+                "interface",
+                "use_case"
+            ],
+            "x-enum-varnames": [
+                "Domain",
+                "Infra",
+                "Interface",
+                "UseCase"
+            ]
+        },
+        "errorDomain.LevelErr": {
+            "type": "string",
+            "enum": [
+                "info",
+                "warning",
+                "error",
+                "fatal"
+            ],
+            "x-enum-varnames": [
+                "LevelInfo",
+                "LevelWarning",
+                "LevelError",
+                "LevelFatal"
+            ]
+        },
+        "errorDomain.SmartError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "error": {},
+                "function": {
+                    "type": "string"
+                },
+                "httpStatus": {
+                    "type": "integer"
+                },
+                "layer": {
+                    "$ref": "#/definitions/errorDomain.LayerErr"
+                },
+                "level": {
+                    "$ref": "#/definitions/errorDomain.LevelErr"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "raw": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpResponse.IdResult": {
+            "type": "object",
+            "required": [
+                "data",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "201"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.createEventTypeValidated": {
+            "type": "object",
+            "required": [
+                "code",
+                "description"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "0001"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "TIPO DE EVENTO"
+                },
+                "enable": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "rest.eventTypeByIdResult": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/domain.EventType"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.eventTypesResult": {
+            "type": "object",
+            "required": [
+                "pagination",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.EventType"
+                    }
+                },
+                "pagination": {
+                    "$ref": "#/definitions/domain.PaginationResults"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rest.updateEventTypeValidated": {
+            "type": "object",
+            "required": [
+                "code",
+                "description"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "0001"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "TIPO DE EVENTO"
+                },
+                "enable": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
