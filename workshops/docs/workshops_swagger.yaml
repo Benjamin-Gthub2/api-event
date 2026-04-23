@@ -1,0 +1,382 @@
+definitions:
+  domain.CreatedBy:
+    properties:
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      username:
+        example: admin.smart
+        type: string
+    required:
+    - id
+    - username
+    type: object
+  domain.Event:
+    properties:
+      code:
+        example: "0001"
+        type: string
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        example: EVENTO
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  domain.PaginationResults:
+    properties:
+      current_page:
+        type: integer
+      from:
+        type: integer
+      last_page:
+        type: integer
+      size_page:
+        type: integer
+      to:
+        type: integer
+      total:
+        type: integer
+    required:
+    - current_page
+    - last_page
+    - size_page
+    - total
+    type: object
+  domain.Workshop:
+    properties:
+      capacity:
+        example: 2
+        type: integer
+      code:
+        example: "0001"
+        type: string
+      created_at:
+        example: "2026-04-21 09:50:04"
+        type: string
+      created_by:
+        $ref: '#/definitions/domain.CreatedBy'
+      event:
+        $ref: '#/definitions/domain.Event'
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        example: TALLERES - 1ER BLOQUE
+        type: string
+      shortname:
+        example: 1ER BLOQUE
+        type: string
+      workshop_type:
+        $ref: '#/definitions/domain.WorkshopType'
+    required:
+    - created_by
+    - event
+    - id
+    - name
+    - workshop_type
+    type: object
+  domain.WorkshopType:
+    properties:
+      code:
+        example: "0001"
+        type: string
+      description:
+        example: TIPO DE TALLER
+        type: string
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - code
+    - description
+    - id
+    type: object
+  errorDomain.LayerErr:
+    enum:
+    - domain
+    - infrastructure
+    - interface
+    - use_case
+    type: string
+    x-enum-varnames:
+    - Domain
+    - Infra
+    - Interface
+    - UseCase
+  errorDomain.LevelErr:
+    enum:
+    - info
+    - warning
+    - error
+    - fatal
+    type: string
+    x-enum-varnames:
+    - LevelInfo
+    - LevelWarning
+    - LevelError
+    - LevelFatal
+  errorDomain.SmartError:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      error: {}
+      function:
+        type: string
+      httpStatus:
+        type: integer
+      layer:
+        $ref: '#/definitions/errorDomain.LayerErr'
+      level:
+        $ref: '#/definitions/errorDomain.LevelErr'
+      messages:
+        items:
+          type: string
+        type: array
+      raw:
+        type: string
+    type: object
+  httpResponse.IdResult:
+    properties:
+      data:
+        example: "201"
+        type: string
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  rest.createWorkshopValidated:
+    properties:
+      capacity:
+        example: 1
+        type: integer
+      code:
+        example: "0001"
+        type: string
+      event_id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        example: TALLERES - 1ER BLOQUE
+        type: string
+      shortname:
+        example: 1ER BLOQUE
+        type: string
+      type_id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - event_id
+    - name
+    - type_id
+    type: object
+  rest.updateWorkshopValidated:
+    properties:
+      capacity:
+        example: 1
+        type: integer
+      code:
+        example: "0001"
+        type: string
+      name:
+        example: TALLERES - 1ER BLOQUE
+        type: string
+      shortname:
+        example: 1ER BLOQUE
+        type: string
+      type_id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - name
+    - type_id
+    type: object
+  rest.workshopByIdResult:
+    properties:
+      data:
+        $ref: '#/definitions/domain.Workshop'
+      status:
+        type: integer
+    required:
+    - status
+    type: object
+  rest.workshopsResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Workshop'
+        type: array
+      pagination:
+        $ref: '#/definitions/domain.PaginationResults'
+      status:
+        type: integer
+    required:
+    - pagination
+    - status
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/event/workshops:
+    get:
+      consumes:
+      - application/json
+      description: Get workshops
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Size page
+        in: query
+        name: size_page
+        type: integer
+      - description: Filter by event id
+        in: query
+        name: event_id
+        type: string
+      - description: Filter by workshop type id
+        in: query
+        name: type_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.workshopsResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get workshops
+      tags:
+      - Workshops
+    post:
+      consumes:
+      - application/json
+      description: Create workshop
+      parameters:
+      - description: Create workshop body
+        in: body
+        name: createWorkshopBody
+        required: true
+        schema:
+          $ref: '#/definitions/rest.createWorkshopValidated'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Create workshop
+      tags:
+      - Workshops
+  /api/v1/event/workshops/{workshopId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete workshop (soft delete)
+      parameters:
+      - description: the id of the workshop
+        in: path
+        name: workshopId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Delete workshop
+      tags:
+      - Workshops
+    get:
+      consumes:
+      - application/json
+      description: Get workshop by id
+      parameters:
+      - description: the id of the workshop
+        in: path
+        name: workshopId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.workshopByIdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get workshop by id
+      tags:
+      - Workshops
+    put:
+      consumes:
+      - application/json
+      description: Update workshop
+      parameters:
+      - description: the id of the workshop
+        in: path
+        name: workshopId
+        required: true
+        type: string
+      - description: Update workshop body
+        in: body
+        name: updateWorkshopBody
+        required: true
+        schema:
+          $ref: '#/definitions/rest.updateWorkshopValidated'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Update workshop
+      tags:
+      - Workshops
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,101 @@
+### Login
+POST {{api_auth}}/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.global.set("auth_token", response.body.data);
+    const xTenantId = response.headers.valueOf("X-Tenant-Id");
+    client.global.set("x_tenant_id", xTenantId);
+%}
+
+
+### Get Workshops By Id
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_workshops}}/0464efbd-3d91-11f1-bd7e-0242ac110002
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
+
+### Get Workshops
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_workshops}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
+
+### Create Workshop
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+POST {{api_event_workshops}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "type_id": "a70f46f3-3d90-11f1-bd7e-0242ac110002",
+  "name": "TALLERES - PRUEBA #1",
+  "shortname": "1ER BLOQUE",
+  "code": "0002",
+  "capacity": 50,
+  "event_id": "45e2176c-3d91-11f1-bd7e-0242ac110002"
+}
+
+
+### Update Workshop
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+PUT {{api_event_workshops}}/b3c5cde4-5a58-4841-a998-d2bd5d40cfa2
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 2e9847a2-0b39-4e21-a545-fb730a0667c8
+#Store-Api-Key: 9fa66a3b-d25b-4304-800d-1200735bcc4f
+
+{
+  "type_id": "a70f46f3-3d90-11f1-bd7e-0242ac110002",
+  "name": "TALLERES - PRUEBA #2",
+  "shortname": "2ER BLOQUE",
+  "code": "0002",
+  "capacity": 40
+}
+
+### Delete Workshop
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+DELETE {{api_event_workshops}}/b3c5cde4-5a58-4841-a998-d2bd5d40cfa2
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}

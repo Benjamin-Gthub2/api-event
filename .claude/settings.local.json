@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree -L 2 -d /c/Users/Benjamin/dev/smartone/otros/api-event --ignore '.idea|cicd')",
+      "Bash(go build *)"
+    ]
+  }
+}

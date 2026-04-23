@@ -3,6 +3,7 @@ module github.com/Benjamin-Gthub2/api-event
 go 1.24
 
 require (
+	github.com/eclipse/paho.mqtt.golang v1.5.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.18.0
 	github.com/go-sql-driver/mysql v1.7.1
@@ -30,7 +31,6 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
@@ -84,8 +84,9 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/smart0n3/api-shared => ../api/api-shared
-replace github.com/smart0n3/carta => ../api/carta
+//replace github.com/smart0n3/api-shared => ../api/api-shared
+//replace github.com/smart0n3/carta => ../api/carta
 
-//replace github.com/smart0n3/api-shared => ../api-shared
-//replace github.com/smart0n3/carta => ../carta
+replace github.com/smart0n3/api-shared => ../api-shared
+
+replace github.com/smart0n3/carta => ../carta
