@@ -90,6 +90,9 @@ CREATE TABLE `events` (
   `name` varchar(36) NOT NULL,
   `description` varchar(256) NOT NULL,
   `enable` tinyint(1) NOT NULL,
+  `total_reg` int NOT NULL,
+  `total_pay` int NOT NULL,
+  `total_pres` int NOT NULL,
   `created_at` timestamp NOT NULL,
   `created_by` varchar(36) NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -110,7 +113,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES ('45e2176c-3d91-11f1-bd7e-0242ac110002','2fe413cd-3d91-11f1-bd7e-0242ac110002','0001','EVENTO','EVENTO',1,'2026-04-21 09:49:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `events` VALUES ('45e2176c-3d91-11f1-bd7e-0242ac110002','2fe413cd-3d91-11f1-bd7e-0242ac110002','0001','EVENTO','EVENTO',1,0,0,0,'2026-04-21 09:49:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,6 +400,9 @@ CREATE TABLE `sessions` (
   `workshop_id` varchar(36) NOT NULL,
   `start_date` timestamp NOT NULL,
   `end_date` timestamp NOT NULL,
+  `total_reg` int NOT NULL,
+  `total_pay` int NOT NULL,
+  `total_pres` int NOT NULL,
   `created_at` timestamp NOT NULL,
   `created_by` varchar(36) NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -417,7 +423,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('88939fe5-3d91-11f1-bd7e-0242ac110002','0464efbd-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:51:23','2026-04-21 11:00:00','2026-04-21 09:51:57','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `sessions` VALUES ('02687e8c-d267-4842-b974-3fb2a1873467','0464efbd-3d91-11f1-bd7e-0242ac110002','2024-09-06 08:10:00','2024-09-06 08:10:00',0,0,0,'2026-04-23 15:41:42','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-23 15:42:13','30e42728-fb67-11ee-a6a0-0242ac110013'),('88939fe5-3d91-11f1-bd7e-0242ac110002','0464efbd-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:51:23','2026-04-21 11:00:00',0,0,0,'2026-04-21 09:51:57','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','0464efbd-3d91-11f1-bd7e-0242ac110002','2025-09-06 08:10:00','2025-09-06 08:10:00',0,0,0,'2026-04-23 15:40:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -592,6 +598,10 @@ CREATE TABLE `workshops` (
   `name` text NOT NULL,
   `shortname` text,
   `code` varchar(15) DEFAULT NULL,
+  `capacity` int NOT NULL,
+  `total_reg` int NOT NULL,
+  `total_pay` int NOT NULL,
+  `total_pres` int NOT NULL,
   `event_id` varchar(36) NOT NULL,
   `created_at` timestamp NOT NULL,
   `created_by` varchar(36) NOT NULL,
@@ -615,7 +625,7 @@ CREATE TABLE `workshops` (
 
 LOCK TABLES `workshops` WRITE;
 /*!40000 ALTER TABLE `workshops` DISABLE KEYS */;
-INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001','45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001',0,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b3c5cde4-5a58-4841-a998-d2bd5d40cfa2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - PRUEBA #2','2ER BLOQUE','0002',40,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-23 15:51:56','30e42728-fb67-11ee-a6a0-0242ac110013');
 /*!40000 ALTER TABLE `workshops` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -628,4 +638,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-23  9:44:29
+-- Dump completed on 2026-04-23 19:00:26
