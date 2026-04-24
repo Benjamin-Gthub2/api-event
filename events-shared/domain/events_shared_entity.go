@@ -40,6 +40,8 @@ type UpdateSessionTotals struct {
 }
 
 type EventTotals struct {
+	//DescriptionL the id of event
+	Id string `json:"status_id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
 	TotalReg *int `json:"total_reg" example:"6"`
 	//Description: payments total of event
@@ -49,6 +51,8 @@ type EventTotals struct {
 }
 
 type WorkshopTotals struct {
+	//DescriptionL the id of workshop
+	Id string `json:"id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
 	TotalReg *int `json:"total_reg" example:"6"`
 	//Description: payments total of event
@@ -58,6 +62,8 @@ type WorkshopTotals struct {
 }
 
 type SessionTotals struct {
+	//DescriptionL the id of session
+	Id string `json:"id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
 	TotalReg *int `json:"total_reg" example:"6"`
 	//Description: payments total of event

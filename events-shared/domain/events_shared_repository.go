@@ -18,7 +18,10 @@ import (
 )
 
 type EventSharedRepository interface {
-	UpdateEventTotals(ctx context.Context, tx *sql.Tx, paymentId string, body UpdateEventTotals) error
-	UpdateWorkshopTotals(ctx context.Context, tx *sql.Tx, paymentId string, body UpdateWorkshopTotals) error
-	UpdateSessionTotals(ctx context.Context, tx *sql.Tx, paymentId string, body UpdateSessionTotals) error
+	UpdateEventTotals(ctx context.Context, tx *sql.Tx, eventId string, body UpdateEventTotals) error
+	UpdateWorkshopTotals(ctx context.Context, tx *sql.Tx, workshopId string, body UpdateWorkshopTotals) error
+	UpdateSessionTotals(ctx context.Context, tx *sql.Tx, sessionId string, body UpdateSessionTotals) error
+	GetEventTotals(ctx context.Context, tx *sql.Tx, eventId string) (*EventTotals, error)
+	GetWorkshopTotals(ctx context.Context, tx *sql.Tx, workshopId string) (*WorkshopTotals, error)
+	GetSessionTotals(ctx context.Context, tx *sql.Tx, sessionId string) (*SessionTotals, error)
 }

@@ -31,7 +31,7 @@ var (
 				SetLevel(errDomain.LevelError).
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.Infra).
-				SetFunction("GetEventAmountTotalById")
+				SetFunction("GetEventStatusIdByStatuCode")
 
 	ErrWorkshopNotFound = errDomain.NewErr().
 				SetCode(ErrWorkshopNotFoundCode).
