@@ -43,31 +43,31 @@ type EventTotals struct {
 	//DescriptionL the id of event
 	Id string `json:"status_id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
-	TotalReg *int `json:"total_reg" example:"6"`
+	TotalReg int `json:"total_reg" binding:"required" example:"6"`
 	//Description: payments total of event
-	TotalPay *int `json:"total_pay" example:"2"`
+	TotalPay int `json:"total_pay" binding:"required" example:"2"`
 	//Description: presence total of event
-	TotalPres *int `json:"total_pres" example:"3"`
+	TotalPres int `json:"total_pres" binding:"required" example:"3"`
 }
 
 type WorkshopTotals struct {
 	//DescriptionL the id of workshop
 	Id string `json:"id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
-	TotalReg *int `json:"total_reg" example:"6"`
+	TotalReg int `json:"total_reg" binding:"required" example:"6"`
 	//Description: payments total of event
-	TotalPay *int `json:"total_pay" example:"2"`
+	TotalPay int `json:"total_pay" binding:"required" example:"2"`
 	//Description: presence total of event
-	TotalPres *int `json:"total_pres" example:"3"`
+	TotalPres int `json:"total_pres" binding:"required" example:"3"`
 }
 
 type SessionTotals struct {
 	//DescriptionL the id of session
 	Id string `json:"id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: registrations total of event
-	TotalReg *int `json:"total_reg" example:"6"`
+	TotalReg int `json:"total_reg" binding:"required" example:"6"`
 	//Description: payments total of event
-	TotalPay *int `json:"total_pay" example:"2"`
+	TotalPay int `json:"total_pay" binding:"required" example:"2"`
 	//Description: presence total of event
-	TotalPres *int `json:"total_pres" example:"3"`
+	TotalPres int `json:"total_pres" binding:"required" example:"3"`
 }

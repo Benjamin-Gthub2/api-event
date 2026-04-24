@@ -24,6 +24,7 @@ import (
 	smartClock "github.com/smart0n3/api-shared/clock"
 	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence/mysql"
 
+	eventsSharedRepository "github.com/Benjamin-Gthub2/api-event/events-shared/infrastructure/persistence/mysql"
 	registrationsMqttRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/mqtt"
 	registrationsRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/persistence/mysql"
 	registrationsHttpDelivery "github.com/Benjamin-Gthub2/api-event/registrations/interfaces/rest"
@@ -35,8 +36,9 @@ func LoadRegistrations(router *gin.Engine) {
 	clock := smartClock.NewClock()
 	validationRepository := validationsRepository.NewValidationsRepository(60)
 	authJWTRepository := authRepository.NewAuthRepository()
+	eventSharedRepository := eventsSharedRepository.NewEventSharedRepository(clock, 60)
 	registrationRepository := registrationsRepository.NewRegistrationsRepository(
-		clock, 60)
+		clock, 60, eventSharedRepository)
 	authMiddleware := auth.LoadAuthMiddleware()
 	registrationMqttRepository := registrationsMqttRepository.NewRegistrationsRTRepository(mqtt.MqttClient)
 

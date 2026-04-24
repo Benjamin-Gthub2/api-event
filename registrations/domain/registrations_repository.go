@@ -14,6 +14,7 @@ package domain
 
 import (
 	"context"
+	"database/sql"
 
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 )
@@ -26,5 +27,5 @@ type RegistrationsRepository interface {
 	) ([]Registration, error)
 	GetTotalRegistrations(
 		ctx context.Context, searchParams GetRegistrationsParams) (*int, error)
-	CreateRegistration(ctx context.Context, body CreateRegistration) error
+	CreateRegistration(ctx context.Context, tx *sql.Tx, body CreateRegistration) error
 }

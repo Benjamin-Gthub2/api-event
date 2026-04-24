@@ -20,10 +20,12 @@ import (
 	"github.com/jackskj/carta"
 	"github.com/skip2/go-qrcode"
 	"github.com/smart0n3/api-shared/db"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 	"github.com/stroiman/go-automapper"
 
 	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
+	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+
+	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
@@ -39,6 +41,10 @@ var QueryGetTotalRegistrations string
 
 //go:embed sql/create_registration.sql
 var QueryCreateRegistration string
+
+func intToPtr(value int) *int {
+	return &value
+}
 
 func (r registrationsMySQLRepo) GetQrRegistrationById(
 	ctx context.Context,
@@ -182,19 +188,103 @@ func (r registrationsMySQLRepo) GetTotalRegistrations(
 	return total, nil
 }
 
-func (r registrationsMySQLRepo) CreateRegistration(
+func (r registrationsMySQLRepo) MainCreateRegistration(
 	ctx context.Context,
 	body registrationsDomain.CreateRegistration,
 ) (
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	var tx *sql.Tx
+
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
-		return r.err.Clone().SetFunction("CreateRegistration").SetRaw(err)
+		return r.err.Clone().SetFunction("MainCreateRegistration").SetRaw(err)
 	}
-	_, err = client.ExecContext(ctx,
+	tx, err = client.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	eventId := "21"
+	workshopId := "21"
+	sessionId := "21"
+
+	var eventTotals *eventSharedDomain.EventTotals
+	var workshopTotals *eventSharedDomain.WorkshopTotals
+	var sessionTotals *eventSharedDomain.SessionTotals
+	var updateEventTotals eventSharedDomain.UpdateEventTotals
+	var updateWorkshopTotals eventSharedDomain.UpdateWorkshopTotals
+	var updateSessionTotals eventSharedDomain.UpdateSessionTotals
+
+	eventTotals, err = r.eventsSharedRepository.GetEventTotals(ctx, tx, eventId)
+	if err != nil {
+		return err
+	}
+	updateEventTotals = eventSharedDomain.UpdateEventTotals{
+		TotalReg:  intToPtr(eventTotals.TotalReg + 1),
+		TotalPay:  intToPtr(eventTotals.TotalPay + 1),
+		TotalPres: intToPtr(eventTotals.TotalPres + 1),
+	}
+	err = r.eventsSharedRepository.UpdateEventTotals(ctx, tx, eventId, updateEventTotals)
+	if err != nil {
+		return err
+	}
+
+	workshopTotals, err = r.eventsSharedRepository.GetWorkshopTotals(ctx, tx, workshopId)
+	if err != nil {
+		return err
+	}
+	updateWorkshopTotals = eventSharedDomain.UpdateWorkshopTotals{
+		TotalReg:  intToPtr(workshopTotals.TotalReg + 1),
+		TotalPay:  intToPtr(workshopTotals.TotalPay + 1),
+		TotalPres: intToPtr(workshopTotals.TotalPres + 1),
+	}
+	err = r.eventsSharedRepository.UpdateWorkshopTotals(ctx, tx, workshopId, updateWorkshopTotals)
+	if err != nil {
+		return err
+	}
+
+	sessionTotals, err = r.eventsSharedRepository.GetSessionTotals(ctx, tx, sessionId)
+	if err != nil {
+		return err
+	}
+	updateSessionTotals = eventSharedDomain.UpdateSessionTotals{
+		TotalReg:  intToPtr(sessionTotals.TotalReg + 1),
+		TotalPay:  intToPtr(sessionTotals.TotalPay + 1),
+		TotalPres: intToPtr(sessionTotals.TotalPres + 1),
+	}
+	err = r.eventsSharedRepository.UpdateSessionTotals(ctx, tx, sessionId, updateSessionTotals)
+	if err != nil {
+		return err
+	}
+
+	err = r.CreateRegistration(ctx, tx, body)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+	return err
+}
+
+func (r registrationsMySQLRepo) CreateRegistration(
+	ctx context.Context,
+	tx *sql.Tx,
+	body registrationsDomain.CreateRegistration,
+) (
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	_, err = tx.ExecContext(ctx,
 		QueryCreateRegistration,
 		body.Id,
 		body.SessionId,
