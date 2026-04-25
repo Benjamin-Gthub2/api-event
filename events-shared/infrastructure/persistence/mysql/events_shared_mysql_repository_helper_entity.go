@@ -32,3 +32,10 @@ type SessionTotals struct {
 	TotalPay  int    `db:"session_total_pay"`
 	TotalPres int    `db:"session_total_pres"`
 }
+
+type EventWorkshopSession struct {
+	RegistrationId string `db:"registration_id"`
+	SessionId      string `db:"session_id"`
+	WorkshopId     string `db:"workshop_id"`
+	EventId        string `db:"event_id"`
+}

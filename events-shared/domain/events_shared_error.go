@@ -19,9 +19,10 @@ import (
 )
 
 const (
-	ErrEventNotFoundCode    = "ERR_EVENT_NOT_FOUND"
-	ErrWorkshopNotFoundCode = "ERR_WORKSHOP_NOT_FOUND"
-	ErrSessionNotFoundCode  = "ERR_SESSION_NOT_FOUND"
+	ErrEventNotFoundCode        = "ERR_EVENT_NOT_FOUND"
+	ErrWorkshopNotFoundCode     = "ERR_WORKSHOP_NOT_FOUND"
+	ErrSessionNotFoundCode      = "ERR_SESSION_NOT_FOUND"
+	ErrRegistrationNotFoundCode = "ERR_REGISTRATION_NOT_FOUND"
 )
 
 var (
@@ -48,4 +49,11 @@ var (
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.Infra).
 				SetFunction("GetEventAmountTotalById")
+	ErrRegistrationNotFound = errDomain.NewErr().
+				SetCode(ErrRegistrationNotFoundCode).
+				SetDescription("REGISTRATION NOT FOUND").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusNotFound).
+				SetLayer(errDomain.Infra).
+				SetFunction("GetSessionWorkshopEventById")
 )

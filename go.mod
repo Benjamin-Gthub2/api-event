@@ -84,9 +84,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-//replace github.com/smart0n3/api-shared => ../api/api-shared
-//replace github.com/smart0n3/carta => ../api/carta
+replace github.com/smart0n3/api-shared => ../api/api-shared
 
-replace github.com/smart0n3/api-shared => ../api-shared
+replace github.com/smart0n3/carta => ../api/carta
 
-replace github.com/smart0n3/carta => ../carta
+//replace github.com/smart0n3/api-shared => ../api-shared
+//
+//replace github.com/smart0n3/carta => ../carta
