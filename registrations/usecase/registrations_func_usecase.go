@@ -166,7 +166,7 @@ func (u registrationsUseCase) CreateRegistration(
 		BeneficiaryId: body.BeneficiaryId,
 		CreatedBy:     userId,
 	}
-	err = u.registrationsRepository.CreateRegistration(ctx, createRegistration)
+	err = u.registrationsRepository.MainCreateRegistration(ctx, createRegistration)
 	if err != nil {
 		return nil, err
 	}
