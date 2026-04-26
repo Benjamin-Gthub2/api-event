@@ -44,6 +44,9 @@ var QueryGetWorkshopTotals string
 //go:embed sql/get_session_totals.sql
 var QueryGetSessionTotals string
 
+//go:embed sql/get_event_workshop_session_by_registration_id.sql
+var QueryGetSessionWorkshopEventById string
+
 func (r eventSharedMySQLRepo) UpdateEventTotals(
 	ctx context.Context,
 	tx *sql.Tx,
@@ -141,6 +144,9 @@ func (r eventSharedMySQLRepo) GetEventTotals(
 			eventId,
 		)
 	}
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetEventTotals").SetRaw(err)
+	}
 
 	defer func(results *sql.Rows) {
 		errClose := results.Close()
@@ -176,7 +182,7 @@ func (r eventSharedMySQLRepo) GetWorkshopTotals(
 	if tx != nil {
 		results, err = tx.QueryContext(
 			ctx,
-			QueryGetEventTotals,
+			QueryGetWorkshopTotals,
 			workshopId,
 		)
 	} else {
@@ -187,9 +193,12 @@ func (r eventSharedMySQLRepo) GetWorkshopTotals(
 		}
 		results, err = client.QueryContext(
 			ctx,
-			QueryGetEventTotals,
+			QueryGetWorkshopTotals,
 			workshopId,
 		)
+	}
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetWorkshopTotals").SetRaw(err)
 	}
 
 	defer func(results *sql.Rows) {
@@ -199,7 +208,7 @@ func (r eventSharedMySQLRepo) GetWorkshopTotals(
 		}
 	}(results)
 
-	workshopTotalsTmp := make([]EventTotals, 0)
+	workshopTotalsTmp := make([]WorkshopTotals, 0)
 	err = carta.Map(results, &workshopTotalsTmp)
 	if err != nil {
 		return workshopTotals, r.err.Clone().SetFunction("GetWorkshopTotals").SetRaw(err)
@@ -208,7 +217,7 @@ func (r eventSharedMySQLRepo) GetWorkshopTotals(
 	workshopTotalsAux := make([]eventSharedDomain.WorkshopTotals, 0)
 	automapper.Map(workshopTotalsTmp, &workshopTotalsAux)
 	if len(workshopTotalsAux) == 0 {
-		return workshopTotals, eventSharedDomain.ErrEventNotFound
+		return workshopTotals, eventSharedDomain.ErrWorkshopNotFound
 	}
 	return &workshopTotalsAux[0], nil
 }
@@ -226,7 +235,7 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 	if tx != nil {
 		results, err = tx.QueryContext(
 			ctx,
-			QueryGetEventTotals,
+			QueryGetSessionTotals,
 			sessionId,
 		)
 	} else {
@@ -237,9 +246,12 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 		}
 		results, err = client.QueryContext(
 			ctx,
-			QueryGetEventTotals,
+			QueryGetSessionTotals,
 			sessionId,
 		)
+	}
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetSessionTotals").SetRaw(err)
 	}
 
 	defer func(results *sql.Rows) {
@@ -249,7 +261,7 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 		}
 	}(results)
 
-	sessionTotalsTmp := make([]EventTotals, 0)
+	sessionTotalsTmp := make([]SessionTotals, 0)
 	err = carta.Map(results, &sessionTotalsTmp)
 	if err != nil {
 		return sessionTotals, r.err.Clone().SetFunction("GetSessionTotals").SetRaw(err)
@@ -258,7 +270,7 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 	sessionTotalsAux := make([]eventSharedDomain.SessionTotals, 0)
 	automapper.Map(sessionTotalsTmp, &sessionTotalsAux)
 	if len(sessionTotalsAux) == 0 {
-		return sessionTotals, eventSharedDomain.ErrEventNotFound
+		return sessionTotals, eventSharedDomain.ErrSessionNotFound
 	}
 	return &sessionTotalsAux[0], nil
 }
@@ -266,7 +278,7 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 	ctx context.Context,
 	tx *sql.Tx,
-	registrationId string,
+	sessionId string,
 ) (
 	eventWorkshopSession *eventSharedDomain.EventWorkshopSession,
 	err error,
@@ -276,8 +288,8 @@ func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 	if tx != nil {
 		results, err = tx.QueryContext(
 			ctx,
-			QueryGetEventTotals,
-			registrationId,
+			QueryGetSessionWorkshopEventById,
+			sessionId,
 		)
 	} else {
 		var client *sql.DB
@@ -287,12 +299,18 @@ func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 		}
 		results, err = client.QueryContext(
 			ctx,
-			QueryGetEventTotals,
-			registrationId,
+			QueryGetSessionWorkshopEventById,
+			sessionId,
 		)
+	}
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetSessionWorkshopEventById").SetRaw(err)
 	}
 
 	defer func(results *sql.Rows) {
+		if results == nil {
+			return
+		}
 		errClose := results.Close()
 		if errClose != nil {
 			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
@@ -308,7 +326,7 @@ func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 	eventWorkshopSessionAux := make([]eventSharedDomain.EventWorkshopSession, 0)
 	automapper.Map(eventWorkshopSessionTmp, &eventWorkshopSessionAux)
 	if len(eventWorkshopSessionAux) == 0 {
-		return eventWorkshopSession, eventSharedDomain.ErrEventNotFound
+		return eventWorkshopSession, eventSharedDomain.ErrSessionNotFound
 	}
 	return &eventWorkshopSessionAux[0], nil
 }

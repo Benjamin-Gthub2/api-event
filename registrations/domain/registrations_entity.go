@@ -63,19 +63,19 @@ type TypeDocument struct {
 
 type User struct {
 	//Description: the id of user
-	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the username
-	Username string   `json:"username" binding:"required" example:"admin.smart"`
+	Username *string  `json:"username" example:"admin.smart"`
 	TypeUser TypeUser `json:"type_user" binding:"required"`
 }
 
 type TypeUser struct {
 	//Description: the id of type user
-	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the description of type user
-	Description string `json:"description" binding:"required" example:"This is a description"`
+	Description *string `json:"description" example:"This is a description"`
 	//Description: the code of type user
-	Code string `json:"code" binding:"required" example:"1234"`
+	Code *string `json:"code" example:"1234"`
 	//Description: the date of creation
 	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
 }

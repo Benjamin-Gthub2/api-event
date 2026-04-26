@@ -53,15 +53,15 @@ type TypeDocument struct {
 }
 
 type User struct {
-	Id       string `db:"beneficiary_user_id"`
-	Username string `db:"beneficiary_username"`
+	Id       *string `db:"beneficiary_user_id"`
+	Username *string `db:"beneficiary_username"`
 	TypeUser TypeUser
 }
 
 type TypeUser struct {
-	Id          string     `db:"beneficiary_user_type_id"`
-	Description string     `db:"beneficiary_user_type_description"`
-	Code        string     `db:"beneficiary_user_type_code"`
+	Id          *string    `db:"beneficiary_user_type_id"`
+	Description *string    `db:"beneficiary_user_type_description"`
+	Code        *string    `db:"beneficiary_user_type_code"`
 	CreatedAt   *time.Time `db:"beneficiary_user_type_created_at"`
 }
 

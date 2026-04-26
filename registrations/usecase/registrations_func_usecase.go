@@ -157,9 +157,55 @@ func (u registrationsUseCase) CreateRegistration(
 	var cancel context.CancelFunc
 	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
 	defer cancel()
+	var wg sync.WaitGroup
+	deleted := "deleted_at"
+	var errSession, errBeneficiary error
+	var existSession, existBeneficiary bool
+
+	wg.Add(2)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errSession, &wg)
+		recordExistsParams := validationsDomain.RecordExistsParams{
+			Table:            "sessions",
+			IdColumnName:     "id",
+			IdValue:          body.SessionId,
+			StatusColumnName: &deleted,
+			StatusValue:      nil,
+		}
+		existSession, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+		wg.Done()
+	}()
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errBeneficiary, &wg)
+		recordExistsParams := validationsDomain.RecordExistsParams{
+			Table:            "people",
+			IdColumnName:     "id",
+			IdValue:          body.BeneficiaryId,
+			StatusColumnName: &deleted,
+			StatusValue:      nil,
+		}
+		existBeneficiary, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errSession != nil {
+		err = errSession
+		return
+	}
+	if errBeneficiary != nil {
+		err = errBeneficiary
+		return
+	}
+
+	if !existSession {
+		return nil, registrationsDomain.ErrSessionNotFound
+	}
+	if !existBeneficiary {
+		return nil, registrationsDomain.ErrPersonNotFound
+	}
 
 	registrationId := uuid.New().String()
-
 	createRegistration := registrationsDomain.CreateRegistration{
 		Id:            registrationId,
 		SessionId:     body.SessionId,

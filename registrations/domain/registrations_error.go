@@ -20,6 +20,8 @@ import (
 
 const (
 	ErrRegistrationsNotFoundCode = "ERR_REGISTRATION_NOT_FOUND"
+	ErrSessionsNotFoundCode      = "ERR_SESSION_NOT_FOUND"
+	ErrPeopleNotFoundCode        = "ERR_PERSON_NOT_FOUND"
 )
 
 var (
@@ -30,6 +32,20 @@ var (
 					SetHttpStatus(http.StatusNotFound).
 					SetLayer(errDomain.UseCase).
 					SetFunction("GetQrRegistrationById")
+	ErrSessionNotFound = errDomain.NewErr().
+				SetCode(ErrSessionsNotFoundCode).
+				SetDescription("SESSION NOT FOUND").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusNotFound).
+				SetLayer(errDomain.UseCase).
+				SetFunction("CreateRegistration")
+	ErrPersonNotFound = errDomain.NewErr().
+				SetCode(ErrSessionsNotFoundCode).
+				SetDescription("PERSON NOT FOUND").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusNotFound).
+				SetLayer(errDomain.UseCase).
+				SetFunction("CreateRegistration")
 
 	ErrUseCaseRegistrationsNotFound = errDomain.NewErr().
 					SetCode(ErrRegistrationsNotFoundCode).

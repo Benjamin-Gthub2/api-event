@@ -32,7 +32,7 @@ var (
 				SetLevel(errDomain.LevelError).
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.Infra).
-				SetFunction("GetEventStatusIdByStatuCode")
+				SetFunction("GetEventTotals")
 
 	ErrWorkshopNotFound = errDomain.NewErr().
 				SetCode(ErrWorkshopNotFoundCode).
@@ -40,7 +40,7 @@ var (
 				SetLevel(errDomain.LevelError).
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.Infra).
-				SetFunction("GetEventAmountTotalById")
+				SetFunction("GetWorkshopTotals")
 
 	ErrSessionNotFound = errDomain.NewErr().
 				SetCode(ErrSessionNotFoundCode).
@@ -48,7 +48,7 @@ var (
 				SetLevel(errDomain.LevelError).
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.Infra).
-				SetFunction("GetEventAmountTotalById")
+				SetFunction("GetSessionTotals")
 	ErrRegistrationNotFound = errDomain.NewErr().
 				SetCode(ErrRegistrationNotFoundCode).
 				SetDescription("REGISTRATION NOT FOUND").

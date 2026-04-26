@@ -211,9 +211,15 @@ func (r registrationsMySQLRepo) MainCreateRegistration(
 		}
 	}()
 
-	eventId := "21"
-	workshopId := "21"
-	sessionId := "21"
+	var sessionWorkshopEventById *eventSharedDomain.EventWorkshopSession
+	sessionWorkshopEventById, err = r.eventsSharedRepository.GetSessionWorkshopEventById(ctx, tx, body.SessionId)
+	if err != nil {
+		return err
+	}
+
+	eventId := sessionWorkshopEventById.EventId
+	workshopId := sessionWorkshopEventById.WorkshopId
+	sessionId := sessionWorkshopEventById.SessionId
 
 	var eventTotals *eventSharedDomain.EventTotals
 	var workshopTotals *eventSharedDomain.WorkshopTotals
