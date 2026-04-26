@@ -230,6 +230,7 @@ func (r workshopsMySQLRepo) DeleteWorkshop(
 
 func (r workshopsMySQLRepo) GetWorkshopSums(
 	ctx context.Context,
+	searchParams workshopsDomain.GetWorkshopSumsParams,
 ) (
 	workshopsRows []workshopsDomain.WorkshopSums,
 	err error,
@@ -241,6 +242,8 @@ func (r workshopsMySQLRepo) GetWorkshopSums(
 	}
 	results, err := client.QueryContext(ctx,
 		QueryGetWorkshopsSums,
+		searchParams.WorkshopId,
+		searchParams.WorkshopId,
 	)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetWorkshopSums").SetRaw(err)

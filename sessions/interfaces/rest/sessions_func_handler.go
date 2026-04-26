@@ -206,3 +206,32 @@ func (h sessionsHandler) DeleteSession(c *gin.Context) {
 	}
 	restCore.Json(c, http.StatusOK, res)
 }
+
+// GetSessionsSummary is a method to get session sums
+// @Summary Get session sums
+// @Description Get session sums
+// @Tags SessionSums
+// @Accept json
+// @Produce json
+// @Param session_id query string false "the id of session"
+// @Success 200 {object} sessionsSummaryResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/sessions/summary [get]
+// @Security BearerAuth
+func (h sessionsHandler) GetSessionsSummary(c *gin.Context) {
+	ctx := c.Request.Context()
+	searchParams := sessionsDomain.GetSessionSumsParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
+
+	sessionsSummary, err := h.sessionsUseCase.GetSessionSummary(ctx, searchParams)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := sessionsSummaryResult{
+		Data:   sessionsSummary,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}

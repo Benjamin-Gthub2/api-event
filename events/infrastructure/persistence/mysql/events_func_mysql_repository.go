@@ -73,7 +73,6 @@ func (r eventsMySQLRepo) GetEvents(
 		params.NameOrDocument,
 		params.NameOrDocument,
 		params.NameOrDocument,
-		params.NameOrDocument,
 		sizePage,
 		offset)
 	if err != nil {
@@ -92,11 +91,11 @@ func (r eventsMySQLRepo) GetEvents(
 	}
 	automapper.Map(eventTmp, &eventsRows)
 
-	for iEvent, event := range eventsRows {
-		if event.EventFiles[0].Id == nil {
-			eventsRows[iEvent].EventFiles = []eventDomain.EventFile{}
-		}
-	}
+	//for iEvent, event := range eventsRows {
+	//	if event.EventFiles[0].Id == nil {
+	//		eventsRows[iEvent].EventFiles = []eventDomain.EventFile{}
+	//	}
+	//}
 
 	return eventsRows, nil
 }
@@ -121,7 +120,6 @@ func (r eventsMySQLRepo) GetTotalEvents(
 			QueryGetTotalEvents,
 			params.Status,
 			params.Status,
-			params.NameOrDocument,
 			params.NameOrDocument,
 			params.NameOrDocument,
 			params.NameOrDocument,
@@ -355,6 +353,7 @@ func (r eventsMySQLRepo) EnableDisableEvent(
 
 func (r eventsMySQLRepo) GetEventSums(
 	ctx context.Context,
+	params eventDomain.GetEventSumsParams,
 ) (
 	eventsRows []eventDomain.EventSums,
 	err error,
@@ -366,6 +365,8 @@ func (r eventsMySQLRepo) GetEventSums(
 	}
 	results, err := client.QueryContext(ctx,
 		QueryGetEventSums,
+		params.EventId,
+		params.EventId,
 	)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetEventSums").SetRaw(err)

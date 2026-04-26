@@ -1,6 +1,5 @@
 SELECT COUNT(*) AS total
-FROM core_merchants merchants
-WHERE merchants.deleted_at IS NULL
-  AND IF(? IS NULL, TRUE, merchants.enable = ?)
-  AND IF(? IS NULL, TRUE, merchants.name LIKE CONCAT('%', ?, '%') OR merchants.description LIKE CONCAT('%', ?, '%') OR
-                          merchants.document LIKE CONCAT(?, '%'));
+FROM events events
+WHERE events.deleted_at IS NULL
+  AND IF(? IS NULL, TRUE, events.enable = ?)
+  AND IF(? IS NULL, TRUE, events.name LIKE CONCAT('%', ?, '%') OR events.description LIKE CONCAT('%', ?, '%'));

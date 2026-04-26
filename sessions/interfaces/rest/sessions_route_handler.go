@@ -36,4 +36,5 @@ func NewSessionsHandler(
 	api.POST("/sessions", handler.CreateSession)
 	api.PUT("/sessions/:sessionId", handler.UpdateSession)
 	api.DELETE("/sessions/:sessionId", handler.DeleteSession)
+	api.GET("/sessions/summary", handler.GetSessionsSummary)
 }

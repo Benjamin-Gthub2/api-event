@@ -13,4 +13,5 @@ type SessionsRepository interface {
 	CreateSession(ctx context.Context, body CreateSession) error
 	UpdateSession(ctx context.Context, body UpdateSession) error
 	DeleteSession(ctx context.Context, body DeleteSession) error
+	GetSessionSums(ctx context.Context, params GetSessionSumsParams) ([]SessionSums, error)
 }

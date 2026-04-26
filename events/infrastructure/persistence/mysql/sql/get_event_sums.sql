@@ -17,6 +17,7 @@ SELECT events.id            AS event_id,
 FROM events events
          LEFT JOIN workshops workshops ON events.id = workshops.event_id
          LEFT JOIN sessions sessions ON workshops.id = sessions.workshop_id
-WHERE events.deleted_at IS NULL
+WHERE IF(? IS NULL, TRUE, events.id = ?)
+  AND events.deleted_at IS NULL
   AND workshops.deleted_at IS NULL
   AND sessions.deleted_at IS NULL;

@@ -281,6 +281,7 @@ func (u eventsUseCase) EnableDisableEvent(
 
 func (u eventsUseCase) GetEventSummary(
 	ctx context.Context,
+	params eventsDomain.GetEventSumsParams,
 ) (
 	res []eventsDomain.EventSums,
 	err error,
@@ -295,7 +296,7 @@ func (u eventsUseCase) GetEventSummary(
 	wg.Add(1)
 	go func() {
 		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetEventSums, &wg)
-		res, errGetEventSums = u.eventsRepository.GetEventSums(ctx)
+		res, errGetEventSums = u.eventsRepository.GetEventSums(ctx, params)
 		wg.Done()
 	}()
 	wg.Wait()

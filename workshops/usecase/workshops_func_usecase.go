@@ -210,6 +210,7 @@ func (u workshopsUseCase) DeleteWorkshop(
 
 func (u workshopsUseCase) GetWorkshopSummary(
 	ctx context.Context,
+	searchParams workshopsDomain.GetWorkshopSumsParams,
 ) (
 	res []workshopsDomain.WorkshopSums,
 	err error,
@@ -224,7 +225,7 @@ func (u workshopsUseCase) GetWorkshopSummary(
 	wg.Add(1)
 	go func() {
 		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetWorkshopSums, &wg)
-		res, errGetWorkshopSums = u.workshopsRepository.GetWorkshopSums(ctx)
+		res, errGetWorkshopSums = u.workshopsRepository.GetWorkshopSums(ctx, searchParams)
 		wg.Done()
 	}()
 	wg.Wait()

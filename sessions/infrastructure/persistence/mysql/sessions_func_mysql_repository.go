@@ -32,6 +32,9 @@ var QueryUpdateSession string
 //go:embed sql/delete_session.sql
 var QueryDeleteSession string
 
+//go:embed sql/get_session_sums.sql
+var QueryGetSessionSums string
+
 func (r sessionsMySQLRepo) GetSessionById(
 	ctx context.Context,
 	sessionId string,
@@ -221,4 +224,40 @@ func (r sessionsMySQLRepo) DeleteSession(
 		return r.err.Clone().SetFunction("DeleteSession").SetRaw(err)
 	}
 	return
+}
+
+func (r sessionsMySQLRepo) GetSessionSums(
+	ctx context.Context,
+	searchParams sessionsDomain.GetSessionSumsParams,
+) (
+	sessionsRows []sessionsDomain.SessionSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetSessionSums").SetRaw(err)
+	}
+	results, err := client.QueryContext(ctx,
+		QueryGetSessionSums,
+		searchParams.SessionId,
+		searchParams.SessionId,
+	)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetSessionSums").SetRaw(err)
+	}
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
+		}
+	}(results)
+	sessionTmp := make([]SessionSums, 0)
+	err = carta.Map(results, &sessionTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetSessionSums").SetRaw(err)
+	}
+	automapper.Map(sessionTmp, &sessionsRows)
+
+	return sessionsRows, nil
 }

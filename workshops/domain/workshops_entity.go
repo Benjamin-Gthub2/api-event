@@ -85,6 +85,12 @@ type DeleteWorkshop struct {
 	DeletedAt string `json:"deleted_at"`
 }
 
+type GetWorkshopSumsParams struct {
+	paramsDomain.Params
+	//Description: the id of workshop
+	WorkshopId *string `json:"workshop_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113421"`
+}
+
 type WorkshopSums struct {
 	//Description: the id of workshop
 	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`

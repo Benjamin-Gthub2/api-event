@@ -201,3 +201,32 @@ func (u sessionsUseCase) DeleteSession(
 	}
 	return nil
 }
+
+func (u sessionsUseCase) GetSessionSummary(
+	ctx context.Context,
+	searchParams sessionsDomain.GetSessionSumsParams,
+) (
+	res []sessionsDomain.SessionSums,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var errGetSessionSums error
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetSessionSums, &wg)
+		res, errGetSessionSums = u.sessionsRepository.GetSessionSums(ctx, searchParams)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errGetSessionSums != nil {
+		return nil, errGetSessionSums
+	}
+
+	return res, nil
+}

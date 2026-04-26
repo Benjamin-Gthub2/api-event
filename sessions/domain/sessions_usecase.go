@@ -12,4 +12,5 @@ type SessionsUseCase interface {
 	CreateSession(ctx context.Context, userId string, body CreateSessionBody) (*string, error)
 	UpdateSession(ctx context.Context, sessionId string, body UpdateSessionBody) error
 	DeleteSession(ctx context.Context, sessionId string, userId string) error
+	GetSessionSummary(ctx context.Context, params GetSessionSumsParams) ([]SessionSums, error)
 }

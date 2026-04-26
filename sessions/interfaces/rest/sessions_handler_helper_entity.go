@@ -16,3 +16,8 @@ type sessionsResult struct {
 	Pagination paginationDomain.PaginationResults `json:"pagination" binding:"required"`
 	Status     int                                `json:"status" binding:"required"`
 }
+
+type sessionsSummaryResult struct {
+	Data   []sessionsDomain.SessionSums `json:"data" binding:"required"`
+	Status int                          `json:"status" binding:"required"`
+}

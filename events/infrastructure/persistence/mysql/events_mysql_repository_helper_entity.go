@@ -19,13 +19,9 @@ type EventHelper struct {
 	Name        string     `db:"events_name"`
 	Description string     `db:"events_description"`
 	Code        *string    `db:"events_code"`
-	Phone       string     `db:"events_phone"`
-	Document    string     `db:"events_document"`
-	Address     string     `db:"events_address"`
-	Industry    string     `db:"events_industry"`
 	Enable      bool       `db:"events_enable"`
 	CreatedAt   *time.Time `db:"events_created_at"`
-	EventFiles  []EventFileHelper
+	//EventFiles  []EventFileHelper
 }
 
 type EventFileHelper struct {

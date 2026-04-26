@@ -11,5 +11,6 @@ SELECT workshops.id         AS workshop_id,
        sessions.total_pres  AS session_total_pres
 FROM workshops workshops
          LEFT JOIN sessions sessions ON workshops.id = sessions.workshop_id
-WHERE workshops.deleted_at IS NULL
+WHERE IF(? IS NULL, TRUE, workshops.id = ?)
+  AND workshops.deleted_at IS NULL
   AND sessions.deleted_at IS NULL;

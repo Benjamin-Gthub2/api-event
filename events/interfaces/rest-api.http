@@ -14,7 +14,7 @@ Content-Type: application/json
 %}
 
 ### create an event
-POST {{api_core_events}}
+POST {{api_event_events}}
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -37,7 +37,7 @@ X-Tenant-Id: {{x_tenant_id}}
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
     console.log(client.global.get("x_tenant_id"))
 %}
-GET {{api_core_events}}
+GET {{api_event_events}}
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -78,7 +78,7 @@ X-Tenant-Id: {{x_tenant_id}}
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
     console.log(client.global.get("x_tenant_id"))
 %}
-PUT {{api_core_events}}/c2c98b56-5a0a-45a1-96b1-c4dc202edeeb
+PUT {{api_event_events}}/c2c98b56-5a0a-45a1-96b1-c4dc202edeeb
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}

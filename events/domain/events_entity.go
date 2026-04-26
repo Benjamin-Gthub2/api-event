@@ -27,19 +27,11 @@ type Event struct {
 	Description string `json:"description" binding:"required" example:"Proveedor de servicios de mantenimiento"`
 	//Description: the code of the event
 	Code *string `json:"code" example:"123456789"`
-	//Description: the phone of the event
-	Phone *string `json:"phone" example:"+1234567890"`
-	//Description: the document of the event
-	Document string `json:"document" binding:"required" example:"123456789"`
-	//Description: the address of the event
-	Address string `json:"address" binding:"required" example:"123 Main Street"`
-	//Description: the industry of the event
-	Industry string `json:"industry" binding:"required" example:"Mantenimiento"`
 	//The status enable of the event
 	Enable bool `json:"enable" binding:"required" example:"true"`
 	//Description: the created_at of the event
-	CreatedAt  *time.Time  `json:"created_at" binding:"required" example:"2023-11-10 08:10:00"`
-	EventFiles []EventFile `json:"event_files" binding:"required"`
+	CreatedAt *time.Time `json:"created_at" binding:"required" example:"2023-11-10 08:10:00"`
+	//EventFiles []EventFile `json:"event_files" binding:"required"`
 }
 
 type EventFile struct {
@@ -197,6 +189,12 @@ type GetEventsParams struct {
 }
 
 type RoleDefault struct {
+}
+
+type GetEventSumsParams struct {
+	paramsDomain.Params
+	//Description: the id of event
+	EventId *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113421"`
 }
 
 type EventSums struct {

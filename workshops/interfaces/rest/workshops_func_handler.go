@@ -218,14 +218,17 @@ func (h workshopsHandler) DeleteWorkshop(c *gin.Context) {
 // @Tags WorkshopSums
 // @Accept json
 // @Produce json
+// @Param workshop_id query string false "the id of workshop"
 // @Success 200 {object} workshopsSummaryResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
 // @Router /api/v1/event/workshops/summary [get]
 // @Security BearerAuth
 func (h workshopsHandler) GetWorkshopsSummary(c *gin.Context) {
 	ctx := c.Request.Context()
+	searchParams := workshopsDomain.GetWorkshopSumsParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
 
-	workshopsSummary, err := h.workshopsUseCase.GetWorkshopSummary(ctx)
+	workshopsSummary, err := h.workshopsUseCase.GetWorkshopSummary(ctx, searchParams)
 	if err != nil {
 		restCore.ErrJson(c, err)
 		return

@@ -274,14 +274,17 @@ func (h eventsHandler) ToggleEventEnable(c *gin.Context) {
 // @Tags EventSums
 // @Accept json
 // @Produce json
+// @Param event_id query string false "the id of event"
 // @Success 200 {object} eventsSummaryResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
 // @Router /api/v1/event/events/summary [get]
 // @Security BearerAuth
 func (h eventsHandler) GetEventsSummary(c *gin.Context) {
 	ctx := c.Request.Context()
+	searchParams := eventsDomain.GetEventSumsParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
 
-	eventsSummary, err := h.eventsUseCase.GetEventSummary(ctx)
+	eventsSummary, err := h.eventsUseCase.GetEventSummary(ctx, searchParams)
 	if err != nil {
 		restCore.ErrJson(c, err)
 		return
