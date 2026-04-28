@@ -1,5 +1,6 @@
 SELECT workshops.id         AS workshop_id,
        workshops.name       AS workshop_name,
+       workshops.capacity   AS workshop_capacity,
        workshops.total_reg  AS workshop_total_reg,
        workshops.total_pay  AS workshop_total_pay,
        workshops.total_pres AS workshop_total_pres,

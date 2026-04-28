@@ -34,6 +34,7 @@ type CreatedBy struct {
 type WorkshopSums struct {
 	Id                 *string `db:"workshop_id"`
 	Name               *string `db:"workshop_name"`
+	Capacity           *int    `db:"workshop_capacity"`
 	TotalRegistrations *int    `db:"workshop_total_reg"`
 	TotalPayments      *int    `db:"workshop_total_pay"`
 	TotalPresences     *int    `db:"workshop_total_pres"`

@@ -96,6 +96,8 @@ type WorkshopSums struct {
 	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the name of workshop
 	Name *string `json:"name" example:"Workshop 1"`
+	//Description: the capacity of workshop
+	Capacity *int `json:"capacity" example:"1"`
 	//Description: the quantity of registrations
 	TotalRegistrations *int `json:"total_registrations" example:"1"`
 	//Description: the quantity of payments

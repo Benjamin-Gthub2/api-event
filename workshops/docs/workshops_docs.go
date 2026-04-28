@@ -136,6 +136,14 @@ const docTemplateworkshops = `{
                     "WorkshopSums"
                 ],
                 "summary": "Get workshop sums",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of workshop",
+                        "name": "workshop_id",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success Request",
@@ -438,6 +446,11 @@ const docTemplateworkshops = `{
         "domain.WorkshopSums": {
             "type": "object",
             "properties": {
+                "capacity": {
+                    "description": "Description: the capacity of workshop",
+                    "type": "integer",
+                    "example": 1
+                },
                 "id": {
                     "description": "Description: the id of workshop",
                     "type": "string",

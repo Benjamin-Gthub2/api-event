@@ -108,6 +108,10 @@ definitions:
     type: object
   domain.WorkshopSums:
     properties:
+      capacity:
+        description: 'Description: the capacity of workshop'
+        example: 1
+        type: integer
       id:
         description: 'Description: the id of workshop'
         example: 739bbbc9-7e93-11ee-89fd-0242ac113422
@@ -445,6 +449,11 @@ paths:
       consumes:
       - application/json
       description: Get workshop sums
+      parameters:
+      - description: the id of workshop
+        in: query
+        name: workshop_id
+        type: string
       produces:
       - application/json
       responses:
