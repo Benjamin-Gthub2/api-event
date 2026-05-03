@@ -6,5 +6,6 @@ SELECT registration_statuses.id          AS registration_status_id,
        registration_statuses.created_at  AS registration_status_created_at
 FROM registration_statuses
 WHERE registration_statuses.deleted_at IS NULL
+  AND registration_statuses.enable = 1
 ORDER BY registration_statuses.position ASC
 LIMIT ? OFFSET ?;
