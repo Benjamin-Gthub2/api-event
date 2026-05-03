@@ -29,4 +29,5 @@ type RegistrationsRepository interface {
 		ctx context.Context, searchParams GetRegistrationsParams) (*int, error)
 	CreateRegistration(ctx context.Context, tx *sql.Tx, body CreateRegistration) error
 	MainCreateRegistration(ctx context.Context, body CreateRegistration) (err error)
+	UpdateRegistrationStatus(ctx context.Context, registrationId string, statusCode string) error
 }

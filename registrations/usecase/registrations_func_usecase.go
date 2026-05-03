@@ -245,35 +245,20 @@ func (u registrationsUseCase) UpdateRegistrationStatus(
 	var cancel context.CancelFunc
 	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
 	defer cancel()
-	//var approvedStatusId *string
-	//
-	//var approvedStatusCode *string
 
-	//esta validacion esta de mas, pero la dejo por si en un futuro se quieren agregar algunos cambios
-	//if statusCode == registrationsDomain.RegistrationRegisteredStatus {
-	//	approvedStatusCode = &statusCode
-	//} else if statusCode == registrationsDomain.RegistrationPaidStatus {
-	//	approvedStatusCode = &statusCode
-	//} else if statusCode == registrationsDomain.RegistrationReceivedStatus {
-	//	approvedStatusCode = &statusCode
-	//} else if statusCode == registrationsDomain.RegistrationAttendedStatus {
-	//	approvedStatusCode = &statusCode
-	//} else {
-	//	if err != nil {
-	//		return registrationsDomain.ErrChangeOfStatusIsNotAllowed
-	//	}
-	//}
+	_, err = u.registrationSharedRepository.GetStatusByCode(ctx, statusCode)
+	if err != nil {
+		return err
+	}
 
-	//err = u.registrationsRepository.MainUpdateRegistrationStatus(ctx, registrationId, approvedStatusCode, approvedStatusId)
-	//if err != nil {
-	//	return err
-	//}
+	err = u.registrationsRepository.UpdateRegistrationStatus(ctx, registrationId, statusCode)
+	if err != nil {
+		return err
+	}
 
-	//emitir la señal
 	_, xTenantId, _ := db.ClientDB(ctx)
-	//linearJson, _ := u.transformToLinearJSON(notificationById)
 	linearJson := "señal enviada"
-	mqttTopicSendNotification := fmt.Sprintf("/event/registrations/updates/%s", *xTenantId) //changes or remove userId
+	mqttTopicSendNotification := fmt.Sprintf("/event/registrations/updates/%s", *xTenantId)
 	_ = u.registrationsRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
 
 	return

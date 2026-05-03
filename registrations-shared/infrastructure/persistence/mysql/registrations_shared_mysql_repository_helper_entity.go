@@ -2,7 +2,7 @@ package mysql
 
 import "time"
 
-type RegistrationStatus struct {
+type RegistrationStatusRow struct {
 	Id          string     `db:"registration_status_id"`
 	Code        string     `db:"registration_status_code"`
 	Description string     `db:"registration_status_description"`

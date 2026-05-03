@@ -42,6 +42,9 @@ var QueryGetTotalRegistrations string
 //go:embed sql/create_registration.sql
 var QueryCreateRegistration string
 
+//go:embed sql/update_registration_status.sql
+var QueryUpdateRegistrationStatus string
+
 func intToPtr(value int) *int {
 	return &value
 }
@@ -301,6 +304,23 @@ func (r registrationsMySQLRepo) CreateRegistration(
 	)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateRegistration").SetRaw(err)
+	}
+	return
+}
+
+func (r registrationsMySQLRepo) UpdateRegistrationStatus(
+	ctx context.Context,
+	registrationId string,
+	statusCode string,
+) (err error) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return r.err.Clone().SetFunction("UpdateRegistrationStatus").SetRaw(err)
+	}
+	_, err = client.ExecContext(ctx, QueryUpdateRegistrationStatus, statusCode, registrationId)
+	if err != nil {
+		return r.err.Clone().SetFunction("UpdateRegistrationStatus").SetRaw(err)
 	}
 	return
 }

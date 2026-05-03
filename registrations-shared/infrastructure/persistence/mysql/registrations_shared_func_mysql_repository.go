@@ -39,7 +39,7 @@ func (r registrationSharedMySQLRepo) GetStatusByCode(
 		}
 	}(results)
 
-	registrationStatusesTmp := make([]RegistrationStatus, 0)
+	registrationStatusesTmp := make([]RegistrationStatusRow, 0)
 	err = carta.Map(results, &registrationStatusesTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetStatusByCode").SetRaw(err)
