@@ -1,5 +1,11 @@
 SELECT registrations.id                                     AS registration_id,
        registrations.created_at                             AS registration_created_at,
+       statuses.id                                          AS status_id,
+       statuses.code                                        AS status_code,
+       statuses.description                                 AS status_description,
+       statuses.position                                    AS status_position,
+       statuses.enable                                      AS status_enable,
+       statuses.created_at                                  AS status_created_at,
        sessions.id                                          AS session_id,
        sessions.start_date                                  AS session_start_date,
        sessions.end_date                                    AS session_end_date,
@@ -37,7 +43,8 @@ SELECT registrations.id                                     AS registration_id,
        creators_document_types.abbreviated_description      AS creator_document_type_abbreviated_description,
        creators_document_types.enable                       AS creator_document_type_enable
 FROM registrations registrations
-         INNER JOIN registration_statuses statuses ON registrations.status_id = statuses.id
+         INNER JOIN registration_statuses statuses
+                    ON registrations.status_id = statuses.id
          INNER JOIN sessions sessions ON registrations.session_id = sessions.id
          INNER JOIN workshops workshops ON sessions.workshop_id = workshops.id
          INNER JOIN people beneficiaries

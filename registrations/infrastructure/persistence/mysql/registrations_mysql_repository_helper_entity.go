@@ -17,9 +17,19 @@ import "time"
 type Registration struct {
 	Id          string     `db:"registration_id"`
 	CreatedAt   *time.Time `db:"registration_created_at"`
+	Status      Status
 	Session     Session
 	Beneficiary Beneficiary
 	CreatedBy   CreatedBy
+}
+
+type Status struct {
+	Id          string     `db:"status_id"`
+	Code        string     `db:"status_code"`
+	Description string     `db:"status_description"`
+	Position    int        `db:"status_position"`
+	Enable      bool       `db:"status_enable"`
+	CreatedAt   *time.Time `db:"status_created_at"`
 }
 
 type Session struct {

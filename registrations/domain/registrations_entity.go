@@ -15,9 +15,19 @@ type Registration struct {
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: The date of the creation of the registration.
 	CreatedAt   *time.Time  `json:"created_at" example:"2023-11-10 08:10:00"`
+	Status      Status      `json:"status" binding:"required"`
 	Session     Session     `json:"session" binding:"required"`
 	Beneficiary Beneficiary `json:"beneficiary" binding:"required"`
 	CreatedBy   CreatedBy   `json:"created_by" binding:"required"`
+}
+
+type Status struct {
+	Id          string     `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Code        string     `json:"code" binding:"required" example:"REGISTERED"`
+	Description string     `json:"description" binding:"required" example:"REGISTRADO"`
+	Position    int        `json:"position" example:"1"`
+	Enable      bool       `json:"enable" example:"true"`
+	CreatedAt   *time.Time `json:"created_at" example:"2026-04-21 09:50:04"`
 }
 
 type Session struct {
