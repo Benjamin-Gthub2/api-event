@@ -37,14 +37,15 @@ SELECT registrations.id                                     AS registration_id,
        creators_document_types.abbreviated_description      AS creator_document_type_abbreviated_description,
        creators_document_types.enable                       AS creator_document_type_enable
 FROM registrations registrations
+         INNER JOIN registration_statuses statuses ON registrations.status_id = statuses.id
          INNER JOIN sessions sessions ON registrations.session_id = sessions.id
          INNER JOIN workshops workshops ON sessions.workshop_id = workshops.id
          INNER JOIN people beneficiaries
                     ON registrations.beneficiary_id = beneficiaries.id
          LEFT JOIN users beneficiaries_users
-                    ON beneficiaries.user_id = beneficiaries_users.id
+                   ON beneficiaries.user_id = beneficiaries_users.id
          LEFT JOIN user_types beneficiaries_user_types
-                    ON beneficiaries_user_types.id = beneficiaries_users.type_id
+                   ON beneficiaries_user_types.id = beneficiaries_users.type_id
          INNER JOIN document_types beneficiaries_document_types
                     ON beneficiaries.type_document_id = beneficiaries_document_types.id
          INNER JOIN users creator_users

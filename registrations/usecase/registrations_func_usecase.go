@@ -23,6 +23,8 @@ import (
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
 
+	registrationSharedDomain "github.com/Benjamin-Gthub2/api-event/registrations-shared/domain"
+
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
 
@@ -205,9 +207,16 @@ func (u registrationsUseCase) CreateRegistration(
 		return nil, registrationsDomain.ErrPersonNotFound
 	}
 
+	var status *registrationSharedDomain.RegistrationStatus
+	status, err = u.registrationSharedRepository.GetStatusByCode(ctx, registrationsDomain.TypeRegisteredStatus)
+	if err != nil {
+		return nil, err
+	}
+
 	registrationId := uuid.New().String()
 	createRegistration := registrationsDomain.CreateRegistration{
 		Id:            registrationId,
+		StatusId:      status.Id,
 		SessionId:     body.SessionId,
 		BeneficiaryId: body.BeneficiaryId,
 		CreatedBy:     userId,

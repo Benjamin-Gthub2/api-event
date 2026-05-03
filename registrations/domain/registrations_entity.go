@@ -6,6 +6,10 @@ import (
 	paramsDomain "github.com/smart0n3/api-shared/params/domain"
 )
 
+var (
+	TypeRegisteredStatus = "REGISTERED"
+)
+
 type Registration struct {
 	//Description: The id of registration.
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
@@ -143,6 +147,8 @@ type CreateRegistrationBody struct {
 type CreateRegistration struct {
 	//Description: the id of registration
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the id of registration
+	StatusId string `json:"status_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the id of session
 	SessionId string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: the id of beneficiary

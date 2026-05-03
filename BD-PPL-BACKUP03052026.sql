@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `db_cumbre_ppln` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `db_cumbre_ppln`;
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: db_cumbre_ppln
+-- Host: localhost    Database: db_cumbre_ppln
 -- ------------------------------------------------------
--- Server version	8.4.9
+-- Server version	8.4.8
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,36 @@ USE `db_cumbre_ppln`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `attendances`
+--
+
+DROP TABLE IF EXISTS `attendances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `attendances` (
+  `id` varchar(36) NOT NULL,
+  `created_by` varchar(36) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `deleted_by` varchar(36) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendances_users_id_fk` (`created_by`),
+  KEY `attendances_users_id_fk_2` (`deleted_by`),
+  CONSTRAINT `attendances_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `attendances_users_id_fk_2` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `attendances`
+--
+
+LOCK TABLES `attendances` WRITE;
+/*!40000 ALTER TABLE `attendances` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attendances` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `document_types`
@@ -113,8 +143,39 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES ('45e2176c-3d91-11f1-bd7e-0242ac110002','2fe413cd-3d91-11f1-bd7e-0242ac110002','0001','EVENTO','EVENTO',1,0,0,0,'2026-04-21 09:49:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `events` VALUES ('45e2176c-3d91-11f1-bd7e-0242ac110002','2fe413cd-3d91-11f1-bd7e-0242ac110002','0001','EVENTO','EVENTO',1,40,40,40,'2026-04-21 09:49:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materials_issued`
+--
+
+DROP TABLE IF EXISTS `materials_issued`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `materials_issued` (
+  `id` varchar(36) NOT NULL,
+  `description` text,
+  `created_by` varchar(36) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `deleted_by` varchar(36) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `materials_issued_users_id_fk` (`created_by`),
+  KEY `materials_issued_users_id_fk_2` (`deleted_by`),
+  CONSTRAINT `materials_issued_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `materials_issued_users_id_fk_2` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materials_issued`
+--
+
+LOCK TABLES `materials_issued` WRITE;
+/*!40000 ALTER TABLE `materials_issued` DISABLE KEYS */;
+/*!40000 ALTER TABLE `materials_issued` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -213,7 +274,7 @@ CREATE TABLE `people` (
 
 LOCK TABLES `people` WRITE;
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
-INSERT INTO `people` VALUES ('01307ba2-726c-4316-b3df-b2a14745d684','30e42728-fb67-11ee-a6a0-0242ac110013','00a58296-93b4-11ee-a040-0242ac11000e','00000000','SMART','ONE','','','','VARON',1,'2024-02-21 14:45:24',NULL),('038d1d8a-3ea1-11f1-8bb5-0242ac110002','2191771e-3e8f-11f1-8bb5-0242ac110002','00a58296-93b4-11ee-a040-0242ac11000e','11111111','PERSON 1','ONE',NULL,NULL,NULL,NULL,1,'2026-04-22 18:15:11',NULL);
+INSERT INTO `people` VALUES ('01307ba2-726c-4316-b3df-b2a14745d684','30e42728-fb67-11ee-a6a0-0242ac110013','00a58296-93b4-11ee-a040-0242ac11000e','00000000','SMART','ONE','','','','VARON',1,'2024-02-21 14:45:24',NULL),('038d1d8a-3ea1-11f1-8bb5-0242ac110002','2191771e-3e8f-11f1-8bb5-0242ac110002','00a58296-93b4-11ee-a040-0242ac11000e','11111111','PERSON 1','ONE',NULL,NULL,NULL,NULL,1,'2026-04-22 18:15:11',NULL),('37643eb0-4140-11f1-88aa-b2d3e152b33b',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','1231232112','P2','SASA','ASAAS',NULL,NULL,NULL,1,'2026-04-26 02:19:38',NULL);
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,6 +315,34 @@ LOCK TABLES `registration_payments` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `registration_statuses`
+--
+
+DROP TABLE IF EXISTS `registration_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `registration_statuses` (
+  `id` varchar(36) NOT NULL,
+  `code` varchar(15) NOT NULL,
+  `description` text NOT NULL,
+  `position` int NOT NULL,
+  `enable` tinyint(1) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registration_statuses`
+--
+
+LOCK TABLES `registration_statuses` WRITE;
+/*!40000 ALTER TABLE `registration_statuses` DISABLE KEYS */;
+INSERT INTO `registration_statuses` VALUES ('eacdb210-4708-11f1-8fa8-b601ee4fecb2','REGISTERED','REGISTRADO',1,1,'2026-05-03 15:58:24',NULL),('eacdde29-4708-11f1-8fa8-b601ee4fecb2','PAID','PAGADO',2,1,'2026-05-03 15:58:24',NULL),('eacde339-4708-11f1-8fa8-b601ee4fecb2','RECEIVED','RECIBIDO',3,1,'2026-05-03 15:58:24',NULL),('eacde3b6-4708-11f1-8fa8-b601ee4fecb2','ATTENDED','ASISTIDO',4,1,'2026-05-03 15:58:24',NULL);
+/*!40000 ALTER TABLE `registration_statuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `registrations`
 --
 
@@ -263,20 +352,20 @@ DROP TABLE IF EXISTS `registrations`;
 CREATE TABLE `registrations` (
   `id` varchar(36) NOT NULL,
   `session_id` varchar(36) NOT NULL,
-  `user_id` varchar(36) NOT NULL,
+  `beneficiary_id` varchar(36) NOT NULL,
   `created_at` timestamp NOT NULL,
   `created_by` varchar(36) NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `deleted_by` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `registrations_sessions_id_fk` (`session_id`),
-  KEY `registrations_users_id_fk` (`user_id`),
   KEY `registrations_users_id_fk_2` (`created_by`),
   KEY `registrations_users_id_fk_3` (`deleted_by`),
+  KEY `registrations_people_id_fk` (`beneficiary_id`),
+  CONSTRAINT `registrations_people_id_fk` FOREIGN KEY (`beneficiary_id`) REFERENCES `people` (`id`),
   CONSTRAINT `registrations_sessions_id_fk` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
-  CONSTRAINT `registrations_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `registrations_users_id_fk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
-  CONSTRAINT `registrations_users_id_fk_3` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`)
+  CONSTRAINT `registrations_users_id_fk` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `registrations_users_id_fk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -286,7 +375,7 @@ CREATE TABLE `registrations` (
 
 LOCK TABLES `registrations` WRITE;
 /*!40000 ALTER TABLE `registrations` DISABLE KEYS */;
-INSERT INTO `registrations` VALUES ('b6cc2af6-3d91-11f1-bd7e-0242ac110002','88939fe5-3d91-11f1-bd7e-0242ac110002','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-21 09:52:50','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `registrations` VALUES ('0c2b90f4-4b03-4c27-8e44-6f0b0267138f','88939fe5-3d91-11f1-bd7e-0242ac110002','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-26 07:17:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('1738d8f5-c9e7-4dad-abf7-b64716568350','88939fe5-3d91-11f1-bd7e-0242ac110002','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-28 19:20:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('178e29ef-281d-4afa-a7be-acd4c081806c','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:19:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('1fe609fb-211f-40cf-ae11-0c05ed4c5abd','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:38:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('2597dafd-9d0e-40a6-ac55-eadc2a9eb443','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 17:43:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('2b078800-67e0-458a-a284-ec0cdf9ff67a','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('2c85a56f-f6e4-4674-8af2-020b8ab5a0e8','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:38:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('34c7822a-2609-4673-bef0-ba292126b08e','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('43fa5ff4-a963-42bd-b018-fc842d254355','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:10:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('44184db9-1c38-46e6-b19f-5948f9e32ac3','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('48a5330c-5734-4670-8fca-697ab64e7547','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:10:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('4e34c3fb-752d-449c-8ddc-b4f7567b1a63','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:18:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('4e62d98f-0bdc-48c4-9744-702d8ace53d5','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-26 07:17:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('5596125e-6ca9-4013-bd21-87da13f54805','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('56f380d9-0c56-49dd-aace-bb397d5aeece','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 23:47:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('7067fa06-fe00-491e-82b4-f276cd06bfa6','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:38:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('71369d87-4a15-4f02-9a61-2684a7c42ecd','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:16:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('85f52d73-5e9d-4c55-9137-f488e124b8aa','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:19:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('8824455d-8441-4933-b737-ade0cfa0cfb9','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 23:46:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('99dceff2-8100-4eca-ac74-75bf5d59cbbe','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 08:24:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('9e5f0871-811b-42ab-81b6-8df48926b8e4','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:36:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('9fbfa71f-9bb9-4b4e-9e2c-29171d61065b','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-26 23:44:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('a33025e9-3bb2-4338-ae7e-137e8bd03f36','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:20:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('acdc5817-424f-4c85-941a-165c40f6fc0d','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:11:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b1e793e0-b8e5-4182-b660-94478efde766','88939fe5-3d91-11f1-bd7e-0242ac110002','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-28 19:36:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b81f0fbd-ef3d-45e2-bf71-1abb50760092','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-26 23:45:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('bacc3ce5-0854-4f88-8b94-a8e662e2e42f','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 08:23:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('c5280804-f133-4fe1-bd6d-03740e135d45','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-26 17:53:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('c9866a89-55c7-4c2b-876b-3fa5292a8bf5','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:20:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('cca3cad0-0dc1-4ff9-9d1d-2fcca770da1c','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 23:46:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('d91dfa25-3c92-423d-9934-3defc8a501ed','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-26 17:52:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('dbb9828a-5858-43c9-bdc8-bf94ff5d84fe','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('dbe156c4-dda6-4d13-82ea-d163c3862736','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 17:52:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('e2868296-ba7d-477e-80d1-978e62a041e0','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-26 23:45:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('e4622825-af4e-4ff9-a36b-27ad8adc493d','88939fe5-3d91-11f1-bd7e-0242ac110002','038d1d8a-3ea1-11f1-8bb5-0242ac110002','2026-04-28 19:36:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('e6ace2b7-c9b9-43f4-940c-958226f7c58f','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:18:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('f20113ee-a56d-419c-900a-0f75e0a50488','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 07:19:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('f5895f11-b335-4780-be39-dcccd83fdbdf','88939fe5-3d91-11f1-bd7e-0242ac110002','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-28 19:37:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('ff23d6dd-fc03-4b99-b95f-b4e613cb84a3','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','01307ba2-726c-4316-b3df-b2a14745d684','2026-04-28 19:11:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('ffc3583e-addb-4d91-8fff-eb4bcc2ee4e4','8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','37643eb0-4140-11f1-88aa-b2d3e152b33b','2026-04-26 17:53:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `registrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +512,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('02687e8c-d267-4842-b974-3fb2a1873467','0464efbd-3d91-11f1-bd7e-0242ac110002','2024-09-06 08:10:00','2024-09-06 08:10:00',0,0,0,'2026-04-23 15:41:42','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-23 15:42:13','30e42728-fb67-11ee-a6a0-0242ac110013'),('88939fe5-3d91-11f1-bd7e-0242ac110002','0464efbd-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:51:23','2026-04-21 11:00:00',0,0,0,'2026-04-21 09:51:57','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','0464efbd-3d91-11f1-bd7e-0242ac110002','2025-09-06 08:10:00','2025-09-06 08:10:00',0,0,0,'2026-04-23 15:40:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `sessions` VALUES ('02687e8c-d267-4842-b974-3fb2a1873467','0464efbd-3d91-11f1-bd7e-0242ac110002','2024-09-06 08:10:00','2024-09-06 08:10:00',0,0,0,'2026-04-23 15:41:42','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-23 15:42:13','30e42728-fb67-11ee-a6a0-0242ac110013'),('88939fe5-3d91-11f1-bd7e-0242ac110002','0464efbd-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:51:23','2026-04-21 11:00:00',28,28,28,'2026-04-21 09:51:57','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('8b4806f7-91d3-4c63-9b2f-c9c583fbe34c','0464efbd-3d91-11f1-bd7e-0242ac110002','2025-09-06 08:10:00','2025-09-06 08:10:00',12,12,12,'2026-04-23 15:40:41','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,7 +714,7 @@ CREATE TABLE `workshops` (
 
 LOCK TABLES `workshops` WRITE;
 /*!40000 ALTER TABLE `workshops` DISABLE KEYS */;
-INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001',0,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b3c5cde4-5a58-4841-a998-d2bd5d40cfa2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - PRUEBA #2','2ER BLOQUE','0002',40,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013','2026-04-23 15:51:56','30e42728-fb67-11ee-a6a0-0242ac110013');
+INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001',40,40,40,40,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b3c5cde4-5a58-4841-a998-d2bd5d40cfa2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - PRUEBA #2','2ER BLOQUE','0002',40,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,'30e42728-fb67-11ee-a6a0-0242ac110013');
 /*!40000 ALTER TABLE `workshops` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -638,4 +727,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-23 19:00:26
+-- Dump completed on 2026-05-03 11:00:32

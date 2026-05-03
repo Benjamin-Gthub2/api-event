@@ -293,6 +293,7 @@ func (r registrationsMySQLRepo) CreateRegistration(
 	_, err = tx.ExecContext(ctx,
 		QueryCreateRegistration,
 		body.Id,
+		body.StatusId,
 		body.SessionId,
 		body.BeneficiaryId,
 		body.CreatedBy,

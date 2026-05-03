@@ -23,9 +23,12 @@ import (
 	"github.com/smart0n3/api-shared/db"
 	"github.com/smart0n3/api-shared/mqtt"
 
+	attendancesSetup "github.com/Benjamin-Gthub2/api-event/attendances/setup"
 	eventTypesSetup "github.com/Benjamin-Gthub2/api-event/event-types/setup"
 	eventsSetup "github.com/Benjamin-Gthub2/api-event/events/setup"
+	materialsIssuedSetup "github.com/Benjamin-Gthub2/api-event/materials-issued/setup"
 	peopleSetup "github.com/Benjamin-Gthub2/api-event/people/setup"
+	registrationStatusesSetup "github.com/Benjamin-Gthub2/api-event/registration-statuses/setup"
 	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
 	sessionsSetup "github.com/Benjamin-Gthub2/api-event/sessions/setup"
 	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
@@ -67,6 +70,9 @@ func main() {
 	workshopTypesSetup.LoadWorkshopTypes(router)
 	eventTypesSetup.LoadEventTypes(router)
 	eventsSetup.LoadEvents(router)
+	attendancesSetup.LoadAttendances(router)
+	materialsIssuedSetup.LoadMaterialsIssued(router)
+	registrationStatusesSetup.LoadRegistrationStatuses(router)
 
 	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 	err = router.Run(serverPort)
