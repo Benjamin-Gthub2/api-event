@@ -7,7 +7,11 @@ import (
 )
 
 var (
-	TypeRegisteredStatus = "REGISTERED"
+	TypeRegisteredStatus         = "REGISTERED"
+	RegistrationRegisteredStatus = "REGISTERED"
+	RegistrationPaidStatus       = "PAID"
+	RegistrationReceivedStatus   = "RECEIVED"
+	RegistrationAttendedStatus   = "ATTENDED"
 )
 
 type Registration struct {

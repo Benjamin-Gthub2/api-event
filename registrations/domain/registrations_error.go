@@ -19,9 +19,10 @@ import (
 )
 
 const (
-	ErrRegistrationsNotFoundCode = "ERR_REGISTRATION_NOT_FOUND"
-	ErrSessionsNotFoundCode      = "ERR_SESSION_NOT_FOUND"
-	ErrPeopleNotFoundCode        = "ERR_PERSON_NOT_FOUND"
+	ErrRegistrationsNotFoundCode      = "ERR_REGISTRATION_NOT_FOUND"
+	ErrSessionsNotFoundCode           = "ERR_SESSION_NOT_FOUND"
+	ErrPeopleNotFoundCode             = "ERR_PERSON_NOT_FOUND"
+	ErrChangeOfStatusIsNotAllowedCode = "ERR_CHANGE_OF_STATUS_IS_NOT_ALLOWED"
 )
 
 var (
@@ -46,7 +47,6 @@ var (
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.UseCase).
 				SetFunction("CreateRegistration")
-
 	ErrUseCaseRegistrationsNotFound = errDomain.NewErr().
 					SetCode(ErrRegistrationsNotFoundCode).
 					SetDescription("TRANSFER RECEIPT NOT FOUND").
@@ -54,4 +54,11 @@ var (
 					SetHttpStatus(http.StatusNotFound).
 					SetLayer(errDomain.UseCase).
 					SetFunction("GetRegistrationById")
+	ErrChangeOfStatusIsNotAllowed = errDomain.NewErr().
+					SetCode(ErrChangeOfStatusIsNotAllowedCode).
+					SetDescription("CHANGE OF STATUS IS NOT POSSIBLE").
+					SetLevel(errDomain.LevelError).
+					SetHttpStatus(http.StatusNotFound).
+					SetLayer(errDomain.UseCase).
+					SetFunction("UpdateRegistrationApprovalStatus")
 )

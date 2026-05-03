@@ -114,7 +114,7 @@ func (h registrationsHandler) GetRegistrations(c *gin.Context) {
 // CreateRegistration is a method to create registrations
 // @Summary Create registrations
 // @Description Create registrations
-// @Tags Petty Cashes
+// @Tags Registrations
 // @Accept json
 // @Produce json
 // @Param storeId path string true "Store id"
@@ -161,4 +161,32 @@ func (h registrationsHandler) CreateRegistration(c *gin.Context) {
 		Status: http.StatusCreated,
 	}
 	restCore.Json(c, http.StatusCreated, res)
+}
+
+// UpdateRegistrationApprovalStatus is a method to update registration approval status
+// @Summary Update registration approval status
+// @Description Update registration approval status
+// @Tags Registrations
+// @Accept json
+// @Produce json
+// @Param registrationId path string true "registration id"
+// @Param statusCode path string true "status code"
+// @Success 201 {object} httpResponse.StatusResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/registrations/{registrationId}/statuses/{statusCode} [put]
+// @Security BearerAuth
+func (h registrationsHandler) UpdateRegistrationApprovalStatus(c *gin.Context) {
+	ctx := c.Request.Context()
+	registrationId := c.Param("registrationId")
+	statusCode := c.Param("statusCode")
+	err := h.registrationsUseCase.UpdateRegistrationStatus(ctx, registrationId, statusCode)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := httpResponse.StatusResult{
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
 }
