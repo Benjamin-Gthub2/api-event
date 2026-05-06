@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 
@@ -61,6 +62,14 @@ func main() {
 	}
 
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{os.Getenv("CORS_ALLOW_ORIGIN")},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Tenant-Id"},
+		ExposeHeaders:    []string{"X-Tenant-Id"},
+		AllowCredentials: true,
+	}))
 
 	usersSetup.LoadUsers(router)
 	registrationsSetup.LoadRegistrations(router)
