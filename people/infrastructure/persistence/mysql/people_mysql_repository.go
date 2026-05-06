@@ -15,8 +15,8 @@ package mysql
 import (
 	"time"
 
-	"github.com/smart0n3/api-shared/clock"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	"github.com/Benjamin-Gthub2/api-shared/clock"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	"github.com/Benjamin-Gthub2/api-event/people/domain"
 )

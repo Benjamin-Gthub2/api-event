@@ -18,8 +18,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/smart0n3/api-shared/config"
-	"github.com/smart0n3/api-shared/db"
+	"github.com/Benjamin-Gthub2/api-shared/config"
+	"github.com/Benjamin-Gthub2/api-shared/db"
 
 	"github.com/Benjamin-Gthub2/api-event/workshop-types/setup"
 )

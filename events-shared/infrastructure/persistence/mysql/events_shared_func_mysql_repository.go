@@ -20,8 +20,8 @@ import (
 	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
 
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 )

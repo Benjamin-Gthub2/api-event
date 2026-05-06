@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 )
 
 var (

@@ -6,8 +6,8 @@ import (
 	_ "embed"
 
 	"github.com/jackskj/carta"
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	"github.com/stroiman/go-automapper"
 
 	registrationSharedDomain "github.com/Benjamin-Gthub2/api-event/registrations-shared/domain"

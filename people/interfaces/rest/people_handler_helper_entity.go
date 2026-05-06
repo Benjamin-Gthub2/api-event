@@ -13,7 +13,7 @@
 package rest
 
 import (
-	paginationDomain "github.com/smart0n3/api-shared/params/domain"
+	paginationDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	"github.com/Benjamin-Gthub2/api-event/people/domain"
 )

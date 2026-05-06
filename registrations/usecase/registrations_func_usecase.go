@@ -18,10 +18,10 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
-	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 
 	registrationSharedDomain "github.com/Benjamin-Gthub2/api-event/registrations-shared/domain"
 

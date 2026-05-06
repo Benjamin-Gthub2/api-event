@@ -3,8 +3,8 @@ package mysql
 import (
 	"time"
 
-	smartClock "github.com/smart0n3/api-shared/clock"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	smartClock "github.com/Benjamin-Gthub2/api-shared/clock"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	workshopTypesDomain "github.com/Benjamin-Gthub2/api-event/workshop-types/domain"
 )

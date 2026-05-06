@@ -3,6 +3,8 @@ module github.com/Benjamin-Gthub2/api-event
 go 1.24
 
 require (
+	github.com/Benjamin-Gthub2/api-shared v1.1.28
+	github.com/Benjamin-Gthub2/carta v0.2.2
 	github.com/eclipse/paho.mqtt.golang v1.5.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.18.0
@@ -11,8 +13,6 @@ require (
 	github.com/jackskj/carta v0.2.0
 	github.com/lib/pq v1.6.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
-	github.com/smart0n3/api-shared v1.1.26
-	github.com/smart0n3/carta v0.2.0
 	github.com/stretchr/testify v1.9.0
 	github.com/stroiman/go-automapper v0.0.0-20200419053654-7c63d5bb0eb4
 	github.com/swaggo/files v1.0.1
@@ -84,10 +84,11 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/smart0n3/api-shared => ../api/api-shared
-
-replace github.com/smart0n3/carta => ../api/carta
-
-//replace github.com/smart0n3/api-shared => ../api-shared
+//replace github.com/Benjamin-Gthub2/api-shared => ../api/api-shared
 //
-//replace github.com/smart0n3/carta => ../carta
+//replace github.com/Benjamin-Gthub2/carta => ../api/carta
+
+//para la maquina de Odin
+//replace github.com/Benjamin-Gthub2/api-shared => ../api-shared
+//
+//replace github.com/Benjamin-Gthub2/carta => ../carta

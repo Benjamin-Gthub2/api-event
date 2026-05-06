@@ -21,10 +21,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/skip2/go-qrcode"
 
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
-	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"
 )

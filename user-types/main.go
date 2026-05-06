@@ -21,8 +21,8 @@ import (
 	"github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
 
-	"github.com/smart0n3/api-shared/config"
-	"github.com/smart0n3/api-shared/db"
+	"github.com/Benjamin-Gthub2/api-shared/config"
+	"github.com/Benjamin-Gthub2/api-shared/db"
 
 	"github.com/Benjamin-Gthub2/api-event/user-types/docs"
 	"github.com/Benjamin-Gthub2/api-event/user-types/setup"

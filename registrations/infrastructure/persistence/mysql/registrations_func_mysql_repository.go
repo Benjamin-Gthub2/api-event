@@ -19,11 +19,11 @@ import (
 
 	"github.com/jackskj/carta"
 	"github.com/skip2/go-qrcode"
-	"github.com/smart0n3/api-shared/db"
+	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/stroiman/go-automapper"
 
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 

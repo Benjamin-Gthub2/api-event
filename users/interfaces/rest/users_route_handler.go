@@ -15,9 +15,9 @@ package rest
 import (
 	"github.com/gin-gonic/gin"
 
-	authMiddleware "github.com/smart0n3/api-shared/auth/interfaces/rest"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
-	swaggerRest "github.com/smart0n3/api-shared/swagger/interfaces/rest"
+	authMiddleware "github.com/Benjamin-Gthub2/api-shared/auth/interfaces/rest"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	swaggerRest "github.com/Benjamin-Gthub2/api-shared/swagger/interfaces/rest"
 
 	"github.com/Benjamin-Gthub2/api-event/users/docs"
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"

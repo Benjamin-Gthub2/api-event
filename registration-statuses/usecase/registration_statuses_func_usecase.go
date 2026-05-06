@@ -5,9 +5,9 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
-	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 
 	registrationStatusesDomain "github.com/Benjamin-Gthub2/api-event/registration-statuses/domain"
 )

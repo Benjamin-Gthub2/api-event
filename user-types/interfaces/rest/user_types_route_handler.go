@@ -15,8 +15,8 @@ package rest
 import (
 	"github.com/gin-gonic/gin"
 
-	authMiddleware "github.com/smart0n3/api-shared/auth/interfaces/rest"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	authMiddleware "github.com/Benjamin-Gthub2/api-shared/auth/interfaces/rest"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	userTypesDomain "github.com/Benjamin-Gthub2/api-event/user-types/domain"
 )

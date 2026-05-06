@@ -16,7 +16,7 @@ import (
 	"context"
 	"fmt"
 
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 )
 
 func (r registrationsMqttRepository) SendNotification(

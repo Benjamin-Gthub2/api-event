@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/smart0n3/api-shared/auth"
-	authRepository "github.com/smart0n3/api-shared/auth/infrastructure/jwt"
-	smartClock "github.com/smart0n3/api-shared/clock"
-	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence/mysql"
+	"github.com/Benjamin-Gthub2/api-shared/auth"
+	authRepository "github.com/Benjamin-Gthub2/api-shared/auth/infrastructure/jwt"
+	smartClock "github.com/Benjamin-Gthub2/api-shared/clock"
+	validationsRepository "github.com/Benjamin-Gthub2/api-shared/validations/infrastructure/persistence/mysql"
 
 	attendancesRepository "github.com/Benjamin-Gthub2/api-event/attendances/infrastructure/persistence/mysql"
 	attendancesHttpDelivery "github.com/Benjamin-Gthub2/api-event/attendances/interfaces/rest"

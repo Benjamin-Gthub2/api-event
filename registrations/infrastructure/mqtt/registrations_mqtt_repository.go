@@ -15,7 +15,7 @@ package mqtt
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )

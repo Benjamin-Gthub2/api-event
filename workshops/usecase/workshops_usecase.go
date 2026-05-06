@@ -3,9 +3,9 @@ package usecase
 import (
 	"time"
 
-	authDomain "github.com/smart0n3/api-shared/auth/domain"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
-	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
+	authDomain "github.com/Benjamin-Gthub2/api-shared/auth/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 
 	workshopsDomain "github.com/Benjamin-Gthub2/api-event/workshops/domain"
 )

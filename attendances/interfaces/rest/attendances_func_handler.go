@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	restCore "github.com/smart0n3/api-shared/api-core/interfaces/rest"
-	httpResponse "github.com/smart0n3/api-shared/custom-http/interfaces/rest"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
+	httpResponse "github.com/Benjamin-Gthub2/api-shared/custom-http/interfaces/rest"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	attendancesDomain "github.com/Benjamin-Gthub2/api-event/attendances/domain"
 )

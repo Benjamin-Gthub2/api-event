@@ -19,10 +19,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 
-	"github.com/smart0n3/api-shared/auth"
-	authRepository "github.com/smart0n3/api-shared/auth/infrastructure/jwt"
-	smartClock "github.com/smart0n3/api-shared/clock"
-	validationsRepository "github.com/smart0n3/api-shared/validations/infrastructure/persistence/mysql"
+	"github.com/Benjamin-Gthub2/api-shared/auth"
+	authRepository "github.com/Benjamin-Gthub2/api-shared/auth/infrastructure/jwt"
+	smartClock "github.com/Benjamin-Gthub2/api-shared/clock"
+	validationsRepository "github.com/Benjamin-Gthub2/api-shared/validations/infrastructure/persistence/mysql"
 
 	peopleRepository "github.com/Benjamin-Gthub2/api-event/people/infrastructure/persistence/mysql"
 	peopleHttpDelivery "github.com/Benjamin-Gthub2/api-event/people/interfaces/rest"

@@ -3,7 +3,7 @@ package domain
 import (
 	"net/http"
 
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 )
 
 const (

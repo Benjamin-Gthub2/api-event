@@ -19,10 +19,10 @@ import (
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	httpResponse "github.com/smart0n3/api-shared/custom-http/interfaces/rest"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	httpResponse "github.com/Benjamin-Gthub2/api-shared/custom-http/interfaces/rest"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
-	restCore "github.com/smart0n3/api-shared/api-core/interfaces/rest"
+	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
 )
 
 // GetQrRegistrationById is a method to get qr registrations

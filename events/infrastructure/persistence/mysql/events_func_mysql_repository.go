@@ -17,12 +17,12 @@ import (
 	"database/sql"
 	_ "embed"
 
-	"github.com/smart0n3/carta"
+	"github.com/Benjamin-Gthub2/carta"
 	"github.com/stroiman/go-automapper"
 
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	eventDomain "github.com/Benjamin-Gthub2/api-event/events/domain"
 )
