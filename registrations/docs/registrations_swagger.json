@@ -1,0 +1,515 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/event/registrations/{registrationId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get registration by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Registrations"
+                ],
+                "summary": "Get registration by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of the registration",
+                        "name": "registrationId",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "$ref": "#/definitions/rest.registrationByIdResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/event/registrations/{registrationId}/qr": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get qr registration by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "image/png"
+                ],
+                "tags": [
+                    "Registrations"
+                ],
+                "summary": "Get qr registration by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the id of the registration",
+                        "name": "registrationId",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDomain.SmartError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Beneficiary": {
+            "type": "object",
+            "required": [
+                "document",
+                "id",
+                "names",
+                "surname",
+                "type_document",
+                "user"
+            ],
+            "properties": {
+                "document": {
+                    "description": "Description: the document of beneficiary",
+                    "type": "string",
+                    "example": "73213212"
+                },
+                "id": {
+                    "description": "Description: the id of beneficiary",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "last_name": {
+                    "description": "Description: the last names of beneficiary",
+                    "type": "string",
+                    "example": "Gthub2"
+                },
+                "names": {
+                    "description": "Description: the names of beneficiary",
+                    "type": "string",
+                    "example": "Alexander"
+                },
+                "surname": {
+                    "description": "Description: the names of beneficiary",
+                    "type": "string",
+                    "example": "Leon"
+                },
+                "type_document": {
+                    "$ref": "#/definitions/domain.TypeDocument"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.User"
+                }
+            }
+        },
+        "domain.CreatedBy": {
+            "type": "object",
+            "required": [
+                "document",
+                "id",
+                "names",
+                "surname",
+                "type_document",
+                "user"
+            ],
+            "properties": {
+                "document": {
+                    "description": "Description: the document of creator",
+                    "type": "string",
+                    "example": "73213212"
+                },
+                "id": {
+                    "description": "Description: the id of creator",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "last_name": {
+                    "description": "Description: the last names of creator",
+                    "type": "string",
+                    "example": "Gthub2"
+                },
+                "names": {
+                    "description": "Description: the names of creator",
+                    "type": "string",
+                    "example": "Alexander"
+                },
+                "surname": {
+                    "description": "Description: the names of creator",
+                    "type": "string",
+                    "example": "Leon"
+                },
+                "type_document": {
+                    "$ref": "#/definitions/domain.TypeDocumentCreatedBy"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.UserCreatedBy"
+                }
+            }
+        },
+        "domain.Registration": {
+            "type": "object",
+            "required": [
+                "beneficiary",
+                "created_by",
+                "id",
+                "session"
+            ],
+            "properties": {
+                "beneficiary": {
+                    "$ref": "#/definitions/domain.Beneficiary"
+                },
+                "created_at": {
+                    "description": "Description: The date of the creation of the registration.",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/domain.CreatedBy"
+                },
+                "id": {
+                    "description": "Description: The id of registration.",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "session": {
+                    "$ref": "#/definitions/domain.Session"
+                }
+            }
+        },
+        "domain.Session": {
+            "type": "object",
+            "required": [
+                "id",
+                "work_shop"
+            ],
+            "properties": {
+                "created_at": {
+                    "description": "Description: the date of creation",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "end_date": {
+                    "description": "Description: the end date",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "id": {
+                    "description": "Description: the id of session.",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "start_date": {
+                    "description": "Description: the start date",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "work_shop": {
+                    "$ref": "#/definitions/domain.WorkShop"
+                }
+            }
+        },
+        "domain.TypeDocument": {
+            "type": "object",
+            "required": [
+                "abbreviated_description",
+                "description",
+                "enable",
+                "id"
+            ],
+            "properties": {
+                "abbreviated_description": {
+                    "description": "Description: the abbreviated description",
+                    "type": "string",
+                    "example": "DNI"
+                },
+                "description": {
+                    "description": "Description: the description of type document",
+                    "type": "string",
+                    "example": "Register Document Identify"
+                },
+                "enable": {
+                    "description": "Description: the enable of type document",
+                    "type": "string",
+                    "example": "true"
+                },
+                "id": {
+                    "description": "Description: the id of type document",
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "domain.TypeDocumentCreatedBy": {
+            "type": "object",
+            "required": [
+                "abbreviated_description",
+                "description",
+                "enable",
+                "id"
+            ],
+            "properties": {
+                "abbreviated_description": {
+                    "description": "Description: the abbreviated description",
+                    "type": "string",
+                    "example": "DNI"
+                },
+                "description": {
+                    "description": "Description: the description of type document",
+                    "type": "string",
+                    "example": "Register Document Identify"
+                },
+                "enable": {
+                    "description": "Description: the enable of type document",
+                    "type": "string",
+                    "example": "true"
+                },
+                "id": {
+                    "description": "Description: the id of type document",
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "domain.TypeUser": {
+            "type": "object",
+            "required": [
+                "code",
+                "description",
+                "id"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Description: the code of type user",
+                    "type": "string",
+                    "example": "1234"
+                },
+                "created_at": {
+                    "description": "Description: the date of creation",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "description": {
+                    "description": "Description: the description of type user",
+                    "type": "string",
+                    "example": "This is a description"
+                },
+                "id": {
+                    "description": "Description: the id of type user",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                }
+            }
+        },
+        "domain.TypeUserCreatedBy": {
+            "type": "object",
+            "required": [
+                "code",
+                "description",
+                "id"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Description: the code of type user",
+                    "type": "string",
+                    "example": "1234"
+                },
+                "created_at": {
+                    "description": "Description: the date of creation",
+                    "type": "string",
+                    "example": "2023-11-10 08:10:00"
+                },
+                "description": {
+                    "description": "Description: the description of type user",
+                    "type": "string",
+                    "example": "This is a description"
+                },
+                "id": {
+                    "description": "Description: the id of type user",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                }
+            }
+        },
+        "domain.User": {
+            "type": "object",
+            "required": [
+                "id",
+                "type_user",
+                "username"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Description: the id of user",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "type_user": {
+                    "$ref": "#/definitions/domain.TypeUser"
+                },
+                "username": {
+                    "description": "Description: the username",
+                    "type": "string",
+                    "example": "admin.smart"
+                }
+            }
+        },
+        "domain.UserCreatedBy": {
+            "type": "object",
+            "required": [
+                "id",
+                "type_user",
+                "username"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Description: the id of user",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "type_user": {
+                    "$ref": "#/definitions/domain.TypeUserCreatedBy"
+                },
+                "username": {
+                    "description": "Description: the username",
+                    "type": "string",
+                    "example": "admin.smart"
+                }
+            }
+        },
+        "domain.WorkShop": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Description: the id of workshop.",
+                    "type": "string",
+                    "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"
+                },
+                "name": {
+                    "description": "Description: the name of workshop.",
+                    "type": "string",
+                    "example": "FIRST WORKSHOP"
+                }
+            }
+        },
+        "errorDomain.LayerErr": {
+            "type": "string",
+            "enum": [
+                "domain",
+                "infrastructure",
+                "interface",
+                "use_case"
+            ],
+            "x-enum-varnames": [
+                "Domain",
+                "Infra",
+                "Interface",
+                "UseCase"
+            ]
+        },
+        "errorDomain.LevelErr": {
+            "type": "string",
+            "enum": [
+                "info",
+                "warning",
+                "error",
+                "fatal"
+            ],
+            "x-enum-varnames": [
+                "LevelInfo",
+                "LevelWarning",
+                "LevelError",
+                "LevelFatal"
+            ]
+        },
+        "errorDomain.SmartError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "error": {},
+                "function": {
+                    "type": "string"
+                },
+                "httpStatus": {
+                    "type": "integer"
+                },
+                "layer": {
+                    "$ref": "#/definitions/errorDomain.LayerErr"
+                },
+                "level": {
+                    "$ref": "#/definitions/errorDomain.LevelErr"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "raw": {
+                    "type": "string"
+                }
+            }
+        },
+        "rest.registrationByIdResult": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/domain.Registration"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

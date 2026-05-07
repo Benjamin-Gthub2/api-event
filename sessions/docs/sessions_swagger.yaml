@@ -1,0 +1,348 @@
+definitions:
+  domain.CreatedBy:
+    properties:
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      username:
+        example: admin.smart
+        type: string
+    required:
+    - id
+    - username
+    type: object
+  domain.PaginationResults:
+    properties:
+      current_page:
+        type: integer
+      from:
+        type: integer
+      last_page:
+        type: integer
+      size_page:
+        type: integer
+      to:
+        type: integer
+      total:
+        type: integer
+    required:
+    - current_page
+    - last_page
+    - size_page
+    - total
+    type: object
+  domain.Session:
+    properties:
+      created_at:
+        example: "2026-04-21 09:51:57"
+        type: string
+      created_by:
+        $ref: '#/definitions/domain.CreatedBy'
+      end_date:
+        example: "2026-04-21 11:00:00"
+        type: string
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      start_date:
+        example: "2026-04-21 09:51:23"
+        type: string
+      workshop:
+        $ref: '#/definitions/domain.Workshop'
+    required:
+    - created_by
+    - id
+    - workshop
+    type: object
+  domain.Workshop:
+    properties:
+      capacity:
+        example: 1
+        type: integer
+      code:
+        example: "0001"
+        type: string
+      id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        example: TALLERES - 1ER BLOQUE
+        type: string
+      shortname:
+        example: 1ER BLOQUE
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  errorDomain.LayerErr:
+    enum:
+    - domain
+    - infrastructure
+    - interface
+    - use_case
+    type: string
+    x-enum-varnames:
+    - Domain
+    - Infra
+    - Interface
+    - UseCase
+  errorDomain.LevelErr:
+    enum:
+    - info
+    - warning
+    - error
+    - fatal
+    type: string
+    x-enum-varnames:
+    - LevelInfo
+    - LevelWarning
+    - LevelError
+    - LevelFatal
+  errorDomain.SmartError:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      error: {}
+      function:
+        type: string
+      httpStatus:
+        type: integer
+      layer:
+        $ref: '#/definitions/errorDomain.LayerErr'
+      level:
+        $ref: '#/definitions/errorDomain.LevelErr'
+      messages:
+        items:
+          type: string
+        type: array
+      raw:
+        type: string
+    type: object
+  httpResponse.IdResult:
+    properties:
+      data:
+        example: "201"
+        type: string
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  rest.createSessionValidated:
+    properties:
+      end_date:
+        example: "2026-04-21 11:00:00"
+        type: string
+      start_date:
+        example: "2026-04-21 09:00:00"
+        type: string
+      workshop_id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - end_date
+    - start_date
+    - workshop_id
+    type: object
+  rest.sessionByIdResult:
+    properties:
+      data:
+        $ref: '#/definitions/domain.Session'
+      status:
+        type: integer
+    required:
+    - status
+    type: object
+  rest.sessionsResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Session'
+        type: array
+      pagination:
+        $ref: '#/definitions/domain.PaginationResults'
+      status:
+        type: integer
+    required:
+    - pagination
+    - status
+    type: object
+  rest.updateSessionValidated:
+    properties:
+      end_date:
+        example: "2026-04-21 11:00:00"
+        type: string
+      start_date:
+        example: "2026-04-21 09:00:00"
+        type: string
+    required:
+    - end_date
+    - start_date
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/event/sessions:
+    get:
+      consumes:
+      - application/json
+      description: Get sessions
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Size page
+        in: query
+        name: size_page
+        type: integer
+      - description: Filter by workshop id
+        in: query
+        name: workshop_id
+        type: string
+      - description: Filter by start date (YYYY-MM-DD)
+        in: query
+        name: start_date
+        type: string
+      - description: Filter by end date (YYYY-MM-DD)
+        in: query
+        name: end_date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.sessionsResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get sessions
+      tags:
+      - Sessions
+    post:
+      consumes:
+      - application/json
+      description: Create session
+      parameters:
+      - description: Create session body
+        in: body
+        name: createSessionBody
+        required: true
+        schema:
+          $ref: '#/definitions/rest.createSessionValidated'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Create session
+      tags:
+      - Sessions
+  /api/v1/event/sessions/{sessionId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete session (soft delete)
+      parameters:
+      - description: the id of the session
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Delete session
+      tags:
+      - Sessions
+    get:
+      consumes:
+      - application/json
+      description: Get session by id
+      parameters:
+      - description: the id of the session
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.sessionByIdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get session by id
+      tags:
+      - Sessions
+    put:
+      consumes:
+      - application/json
+      description: Update session
+      parameters:
+      - description: the id of the session
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      - description: Update session body
+        in: body
+        name: updateSessionBody
+        required: true
+        schema:
+          $ref: '#/definitions/rest.updateSessionValidated'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Update session
+      tags:
+      - Sessions
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

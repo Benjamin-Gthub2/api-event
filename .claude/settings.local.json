@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree -L 2 -d /c/Users/Benjamin/dev/smartone/otros/api-event --ignore '.idea|cicd')",
+      "Bash(go build *)",
+      "Bash(xargs sed -i 's|github\\\\.com/smart0n3/api-shared|github.com/Benjamin-Gthub2/api-shared|g; s|github\\\\.com/smart0n3/carta|github.com/Benjamin-Gthub2/carta|g')",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)"
+    ]
+  }
+}

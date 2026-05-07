@@ -1,0 +1,95 @@
+### Login
+POST {{api_auth}}/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+> {%
+    client.global.set("auth_token", response.body.data);
+    const xTenantId = response.headers.valueOf("X-Tenant-Id");
+    client.global.set("x_tenant_id", xTenantId);
+%}
+
+
+### Get Sessions By Id
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_sessions}}/88939fe5-3d91-11f1-bd7e-0242ac110002
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
+
+### Get Sessions
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_sessions}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 84cb99b7-ca31-45a4-af7a-75f815192033
+#Store-Api-Key: 211231dd-2e52-4598-9720-7396a29f9229
+
+### Create Session
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+POST {{api_event_sessions}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+{
+  "workshop_id": "0464efbd-3d91-11f1-bd7e-0242ac110002",
+  "start_date": "2024-09-06 08:10:00",
+  "end_date": "2024-09-06 08:10:00"
+}
+
+
+### Update Session
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+PUT {{api_event_sessions}}/8b4806f7-91d3-4c63-9b2f-c9c583fbe34c
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+#Merchant-Api-Key: 2e9847a2-0b39-4e21-a545-fb730a0667c8
+#Store-Api-Key: 9fa66a3b-d25b-4304-800d-1200735bcc4f
+
+{
+  "start_date": "2025-09-06 08:10:00",
+  "end_date": "2025-09-06 08:10:00"
+}
+
+### Delete Session
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+
+DELETE {{api_event_sessions}}/02687e8c-d267-4842-b974-3fb2a1873467
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}

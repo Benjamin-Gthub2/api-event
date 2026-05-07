@@ -21,9 +21,9 @@ import (
 	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
 
-	"github.com/smart0n3/api-shared/db"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"
 )

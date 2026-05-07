@@ -1,0 +1,373 @@
+definitions:
+  domain.Beneficiary:
+    properties:
+      document:
+        description: 'Description: the document of beneficiary'
+        example: "73213212"
+        type: string
+      id:
+        description: 'Description: the id of beneficiary'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      last_name:
+        description: 'Description: the last names of beneficiary'
+        example: Gthub2
+        type: string
+      names:
+        description: 'Description: the names of beneficiary'
+        example: Alexander
+        type: string
+      surname:
+        description: 'Description: the names of beneficiary'
+        example: Leon
+        type: string
+      type_document:
+        $ref: '#/definitions/domain.TypeDocument'
+      user:
+        $ref: '#/definitions/domain.User'
+    required:
+    - document
+    - id
+    - names
+    - surname
+    - type_document
+    - user
+    type: object
+  domain.CreatedBy:
+    properties:
+      document:
+        description: 'Description: the document of creator'
+        example: "73213212"
+        type: string
+      id:
+        description: 'Description: the id of creator'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      last_name:
+        description: 'Description: the last names of creator'
+        example: Gthub2
+        type: string
+      names:
+        description: 'Description: the names of creator'
+        example: Alexander
+        type: string
+      surname:
+        description: 'Description: the names of creator'
+        example: Leon
+        type: string
+      type_document:
+        $ref: '#/definitions/domain.TypeDocumentCreatedBy'
+      user:
+        $ref: '#/definitions/domain.UserCreatedBy'
+    required:
+    - document
+    - id
+    - names
+    - surname
+    - type_document
+    - user
+    type: object
+  domain.Registration:
+    properties:
+      beneficiary:
+        $ref: '#/definitions/domain.Beneficiary'
+      created_at:
+        description: 'Description: The date of the creation of the registration.'
+        example: "2023-11-10 08:10:00"
+        type: string
+      created_by:
+        $ref: '#/definitions/domain.CreatedBy'
+      id:
+        description: 'Description: The id of registration.'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      session:
+        $ref: '#/definitions/domain.Session'
+    required:
+    - beneficiary
+    - created_by
+    - id
+    - session
+    type: object
+  domain.Session:
+    properties:
+      created_at:
+        description: 'Description: the date of creation'
+        example: "2023-11-10 08:10:00"
+        type: string
+      end_date:
+        description: 'Description: the end date'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of session.'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      start_date:
+        description: 'Description: the start date'
+        example: "2023-11-10 08:10:00"
+        type: string
+      work_shop:
+        $ref: '#/definitions/domain.WorkShop'
+    required:
+    - id
+    - work_shop
+    type: object
+  domain.TypeDocument:
+    properties:
+      abbreviated_description:
+        description: 'Description: the abbreviated description'
+        example: DNI
+        type: string
+      description:
+        description: 'Description: the description of type document'
+        example: Register Document Identify
+        type: string
+      enable:
+        description: 'Description: the enable of type document'
+        example: "true"
+        type: string
+      id:
+        description: 'Description: the id of type document'
+        example: "1"
+        type: string
+    required:
+    - abbreviated_description
+    - description
+    - enable
+    - id
+    type: object
+  domain.TypeDocumentCreatedBy:
+    properties:
+      abbreviated_description:
+        description: 'Description: the abbreviated description'
+        example: DNI
+        type: string
+      description:
+        description: 'Description: the description of type document'
+        example: Register Document Identify
+        type: string
+      enable:
+        description: 'Description: the enable of type document'
+        example: "true"
+        type: string
+      id:
+        description: 'Description: the id of type document'
+        example: "1"
+        type: string
+    required:
+    - abbreviated_description
+    - description
+    - enable
+    - id
+    type: object
+  domain.TypeUser:
+    properties:
+      code:
+        description: 'Description: the code of type user'
+        example: "1234"
+        type: string
+      created_at:
+        description: 'Description: the date of creation'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of type user'
+        example: This is a description
+        type: string
+      id:
+        description: 'Description: the id of type user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - code
+    - description
+    - id
+    type: object
+  domain.TypeUserCreatedBy:
+    properties:
+      code:
+        description: 'Description: the code of type user'
+        example: "1234"
+        type: string
+      created_at:
+        description: 'Description: the date of creation'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of type user'
+        example: This is a description
+        type: string
+      id:
+        description: 'Description: the id of type user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+    required:
+    - code
+    - description
+    - id
+    type: object
+  domain.User:
+    properties:
+      id:
+        description: 'Description: the id of user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      type_user:
+        $ref: '#/definitions/domain.TypeUser'
+      username:
+        description: 'Description: the username'
+        example: admin.smart
+        type: string
+    required:
+    - id
+    - type_user
+    - username
+    type: object
+  domain.UserCreatedBy:
+    properties:
+      id:
+        description: 'Description: the id of user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      type_user:
+        $ref: '#/definitions/domain.TypeUserCreatedBy'
+      username:
+        description: 'Description: the username'
+        example: admin.smart
+        type: string
+    required:
+    - id
+    - type_user
+    - username
+    type: object
+  domain.WorkShop:
+    properties:
+      id:
+        description: 'Description: the id of workshop.'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of workshop.'
+        example: FIRST WORKSHOP
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  errorDomain.LayerErr:
+    enum:
+    - domain
+    - infrastructure
+    - interface
+    - use_case
+    type: string
+    x-enum-varnames:
+    - Domain
+    - Infra
+    - Interface
+    - UseCase
+  errorDomain.LevelErr:
+    enum:
+    - info
+    - warning
+    - error
+    - fatal
+    type: string
+    x-enum-varnames:
+    - LevelInfo
+    - LevelWarning
+    - LevelError
+    - LevelFatal
+  errorDomain.SmartError:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      error: {}
+      function:
+        type: string
+      httpStatus:
+        type: integer
+      layer:
+        $ref: '#/definitions/errorDomain.LayerErr'
+      level:
+        $ref: '#/definitions/errorDomain.LevelErr'
+      messages:
+        items:
+          type: string
+        type: array
+      raw:
+        type: string
+    type: object
+  rest.registrationByIdResult:
+    properties:
+      data:
+        $ref: '#/definitions/domain.Registration'
+      status:
+        type: integer
+    required:
+    - status
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/event/registrations/{registrationId}:
+    get:
+      consumes:
+      - application/json
+      description: Get registration by id
+      parameters:
+      - description: the id of the registration
+        in: query
+        name: registrationId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.registrationByIdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get registration by id
+      tags:
+      - Registrations
+  /api/v1/event/registrations/{registrationId}/qr:
+    get:
+      consumes:
+      - application/json
+      description: Get qr registration by id
+      parameters:
+      - description: the id of the registration
+        in: query
+        name: registrationId
+        type: string
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            type: string
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get qr registration by id
+      tags:
+      - Registrations
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

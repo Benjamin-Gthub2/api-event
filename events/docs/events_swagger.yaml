@@ -1,0 +1,773 @@
+definitions:
+  domain.CreateEventBody:
+    properties:
+      address:
+        description: 'Description: the address of the event'
+        example: 123 Main Street
+        type: string
+      code:
+        description: 'Description: the code of the event'
+        example: "123456789"
+        type: string
+      description:
+        description: 'Description: the description of the event'
+        example: Proveedor de servicios de mantenimiento
+        type: string
+      document:
+        description: 'Description: the document of the event'
+        example: "123456789"
+        type: string
+      enable:
+        description: The status enable of the event
+        example: true
+        type: boolean
+      industry:
+        description: 'Description: the industry of the event'
+        example: Mantenimiento
+        type: string
+      name:
+        description: 'Description: the name of the event'
+        example: Odin Corp
+        type: string
+      phone:
+        description: 'Description: the phone of the event'
+        example: "+1234567890"
+        type: string
+    required:
+    - address
+    - code
+    - description
+    - document
+    - enable
+    - industry
+    - name
+    type: object
+  domain.DocumentType:
+    properties:
+      abbreviated_description:
+        description: 'Description: the abbreviated description of the document type'
+        example: "25"
+        type: string
+      description:
+        description: 'Description: the abbreviated description of the document type'
+        example: "25"
+        type: string
+      id:
+        description: 'Description: the id of the document type'
+        example: "25"
+        type: string
+      number:
+        description: 'Description: the name of the document type'
+        example: 25Y
+        type: string
+    type: object
+  domain.EnableDisableEventRequest:
+    properties:
+      enable:
+        description: 'Description: to enable or disable an event'
+        example: true
+        type: boolean
+    type: object
+  domain.Event:
+    properties:
+      address:
+        description: 'Description: the address of the event'
+        example: 123 Main Street
+        type: string
+      code:
+        description: 'Description: the code of the event'
+        example: "123456789"
+        type: string
+      created_at:
+        description: 'Description: the created_at of the event'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of the event'
+        example: Proveedor de servicios de mantenimiento
+        type: string
+      document:
+        description: 'Description: the document of the event'
+        example: "123456789"
+        type: string
+      enable:
+        description: The status enable of the event
+        example: true
+        type: boolean
+      event_files:
+        items:
+          $ref: '#/definitions/domain.EventFile'
+        type: array
+      id:
+        description: 'Description: the id of the event'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110016
+        type: string
+      industry:
+        description: 'Description: the industry of the event'
+        example: Mantenimiento
+        type: string
+      name:
+        description: 'Description: the name of the event'
+        example: Odin Corp
+        type: string
+      phone:
+        description: 'Description: the phone of the event'
+        example: "+1234567890"
+        type: string
+    required:
+    - address
+    - created_at
+    - description
+    - document
+    - enable
+    - event_files
+    - id
+    - industry
+    - name
+    type: object
+  domain.EventFile:
+    properties:
+      created_at:
+        description: 'Description: the created_at of the event files'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of the event files'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110016
+        type: string
+      name:
+        description: 'Description: the name of the event files'
+        example: dark
+        type: string
+      url:
+        description: 'Description: the phone of the event files'
+        example: event_files/e60372e6-af75-4af2-b3eb-d9598e92dda6.png
+        type: string
+      weight:
+        description: 'Description: the description of the event files'
+        example: "61850"
+        type: string
+    type: object
+  domain.EventSums:
+    properties:
+      id:
+        description: 'Description: the id of event'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of event'
+        example: Event 1
+        type: string
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+      workshops_sums:
+        items:
+          $ref: '#/definitions/domain.WorkshopSums'
+        type: array
+    required:
+    - id
+    - name
+    - total_payments
+    - total_presences
+    - total_registrations
+    type: object
+  domain.ModuleByPolicy:
+    properties:
+      code:
+        description: 'Description: the code of the module'
+        example: logistic
+        type: string
+      created_at:
+        description: 'Description: The date of created the menu user'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of the module'
+        example: Modulo de logística
+        type: string
+      icon:
+        description: 'Description: the icon of the module'
+        example: fa fa-home
+        type: string
+      id:
+        description: 'Description: the id of the module'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110018
+        type: string
+      name:
+        description: 'Description: the name of the module'
+        example: Logistic
+        type: string
+      position:
+        description: 'Description: The position of the menu user'
+        example: 1
+        type: integer
+    required:
+    - position
+    type: object
+  domain.PaginationResults:
+    properties:
+      current_page:
+        type: integer
+      from:
+        type: integer
+      last_page:
+        type: integer
+      size_page:
+        type: integer
+      to:
+        type: integer
+      total:
+        type: integer
+    required:
+    - current_page
+    - last_page
+    - size_page
+    - total
+    type: object
+  domain.Person:
+    properties:
+      created_at:
+        description: 'Description: the date of created of the person'
+        example: "2023-11-10 08:10:00"
+        type: string
+      document:
+        description: 'Description: the document of the person'
+        example: "20508997913"
+        type: string
+      document_type:
+        $ref: '#/definitions/domain.DocumentType'
+      email:
+        description: 'Description: the email of the person'
+        example: albert@mail.com
+        type: string
+      enable:
+        description: 'Description: the status of the person'
+        example: true
+        type: boolean
+      gender:
+        description: 'Description: the gender of the person'
+        example: M
+        type: string
+      id:
+        description: 'Description: the id of the person'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113421
+        type: string
+      last_name:
+        description: 'Description: the last name of the person'
+        example: Quispe
+        type: string
+      names:
+        description: 'Description: the names of the person'
+        example: Pepo
+        type: string
+      phone:
+        description: 'Description: the phone of the person'
+        example: (01) 317-6000
+        type: string
+      surname:
+        description: 'Description: the surname of the person'
+        example: Quispe
+        type: string
+    type: object
+  domain.Policy:
+    properties:
+      created_at:
+        description: 'Description: the created_at of the policy'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of the policy'
+        example: Politica para accesos a logistica requerimientos en todo el conglomerado
+        type: string
+      enable:
+        description: 'Description: enable of the policy'
+        example: true
+        type: boolean
+      id:
+        description: 'Description: the id of the policy'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac110016
+        type: string
+      level:
+        description: 'Description: the level of the policy'
+        example: system
+        type: string
+      module:
+        $ref: '#/definitions/domain.ModuleByPolicy'
+      name:
+        description: 'Description: the name of the policy'
+        example: LOGISTICA_REQUERIMIENTOS_CONGLOMERADO
+        type: string
+    required:
+    - description
+    - id
+    - level
+    - name
+    type: object
+  domain.Role:
+    properties:
+      created_at:
+        description: 'Description: the created_at of the role'
+        example: "2023-11-10 08:10:00"
+        type: string
+      description:
+        description: 'Description: the description of the role'
+        example: Gerencia del conglomerado
+        type: string
+      enable:
+        description: 'Description: enable of the role'
+        example: true
+        type: boolean
+      id:
+        description: 'Description: the id of the role'
+        example: fcdbfacf-8305-11ee-89fd-0242555555
+        type: string
+      name:
+        description: 'Description: the name of the role'
+        example: Gerencia
+        type: string
+      policies:
+        items:
+          $ref: '#/definitions/domain.Policy'
+        type: array
+      users:
+        items:
+          $ref: '#/definitions/domain.User'
+        type: array
+    required:
+    - id
+    - policies
+    - users
+    type: object
+  domain.SessionSums:
+    properties:
+      end_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      id:
+        description: 'Description: the id of session'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      start_date:
+        description: 'Description: the name of session'
+        example: "2023-11-10 08:10:00"
+        type: string
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+    type: object
+  domain.UpdateEventBody:
+    properties:
+      address:
+        description: 'Description: the address of the event'
+        example: 123 Main Street
+        type: string
+      code:
+        description: 'Description: the code of the event'
+        example: "123456789"
+        type: string
+      description:
+        description: 'Description: the description of the event'
+        example: Proveedor de servicios de mantenimiento
+        type: string
+      document:
+        description: 'Description: the document of the event'
+        example: "123456789"
+        type: string
+      enable:
+        description: The status enable of the event
+        example: true
+        type: boolean
+      industry:
+        description: 'Description: the industry of the event'
+        example: Mantenimiento
+        type: string
+      name:
+        description: 'Description: the name of the event'
+        example: Odin Corp
+        type: string
+      phone:
+        description: 'Description: the phone of the event'
+        example: "+1234567890"
+        type: string
+    required:
+    - address
+    - code
+    - description
+    - document
+    - enable
+    - industry
+    - name
+    type: object
+  domain.User:
+    properties:
+      id:
+        description: 'Description: the id of the user'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113421
+        type: string
+      person:
+        $ref: '#/definitions/domain.Person'
+      user_role_id:
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113421
+        type: string
+    type: object
+  domain.WorkshopSums:
+    properties:
+      id:
+        description: 'Description: the id of workshop'
+        example: 739bbbc9-7e93-11ee-89fd-0242ac113422
+        type: string
+      name:
+        description: 'Description: the name of workshop'
+        example: Workshop 1
+        type: string
+      session_sums:
+        items:
+          $ref: '#/definitions/domain.SessionSums'
+        type: array
+      total_payments:
+        description: 'Description: the quantity of payments'
+        example: 1
+        type: integer
+      total_presences:
+        description: 'Description: the quantity of presences'
+        example: 1
+        type: integer
+      total_registrations:
+        description: 'Description: the quantity of registrations'
+        example: 1
+        type: integer
+    type: object
+  errorDomain.LayerErr:
+    enum:
+    - domain
+    - infrastructure
+    - interface
+    - use_case
+    type: string
+    x-enum-varnames:
+    - Domain
+    - Infra
+    - Interface
+    - UseCase
+  errorDomain.LevelErr:
+    enum:
+    - info
+    - warning
+    - error
+    - fatal
+    type: string
+    x-enum-varnames:
+    - LevelInfo
+    - LevelWarning
+    - LevelError
+    - LevelFatal
+  errorDomain.SmartError:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      error: {}
+      function:
+        type: string
+      httpStatus:
+        type: integer
+      layer:
+        $ref: '#/definitions/errorDomain.LayerErr'
+      level:
+        $ref: '#/definitions/errorDomain.LevelErr'
+      messages:
+        items:
+          type: string
+        type: array
+      raw:
+        type: string
+    type: object
+  httpResponse.IdResult:
+    properties:
+      data:
+        example: "201"
+        type: string
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  httpResponse.StatusResult:
+    properties:
+      status:
+        example: 200
+        type: integer
+    required:
+    - status
+    type: object
+  rest.deleteEventsResult:
+    properties:
+      data:
+        type: boolean
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  rest.eventsResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Event'
+        type: array
+      pagination:
+        $ref: '#/definitions/domain.PaginationResults'
+      status:
+        type: integer
+    required:
+    - data
+    - pagination
+    - status
+    type: object
+  rest.eventsSummaryResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.EventSums'
+        type: array
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+  rest.rolesResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Role'
+        type: array
+      status:
+        type: integer
+    required:
+    - data
+    - status
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/core/events:
+    get:
+      consumes:
+      - application/json
+      description: Get event
+      parameters:
+      - description: the status of the event
+        in: query
+        name: status
+        type: string
+      - description: the name or document of the event
+        in: query
+        name: name_or_document
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.eventsResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get events
+      tags:
+      - Events
+    post:
+      consumes:
+      - application/json
+      description: Create event
+      parameters:
+      - description: Create event body
+        in: body
+        name: createEventBody
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateEventBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.IdResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Create event
+      tags:
+      - Events
+  /api/v1/core/events/{eventId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete event
+      parameters:
+      - description: event id
+        in: path
+        name: eventId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.deleteEventsResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Delete a event
+      tags:
+      - Events
+    put:
+      consumes:
+      - application/json
+      description: Update event
+      parameters:
+      - description: event id
+        in: path
+        name: eventId
+        required: true
+        type: string
+      - description: Update event body
+        in: body
+        name: updateEventBody
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UpdateEventBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.StatusResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Update event
+      tags:
+      - Events
+  /api/v1/core/events/{eventId}/enable:
+    put:
+      consumes:
+      - application/json
+      description: Enable or disable event
+      parameters:
+      - description: event id
+        in: path
+        name: eventId
+        required: true
+        type: string
+      - description: Enable or Disable event body
+        in: body
+        name: enableDisableEventBody
+        required: true
+        schema:
+          $ref: '#/definitions/domain.EnableDisableEventRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/httpResponse.StatusResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Enable or disable event
+      tags:
+      - Events
+  /api/v1/core/events/{eventId}/roles:
+    get:
+      consumes:
+      - application/json
+      description: Get roles by event
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.rolesResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get roles by event
+      tags:
+      - Events
+  /api/v1/event/events/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get event sums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/rest.eventsSummaryResult'
+        "500":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDomain.SmartError'
+      security:
+      - BearerAuth: []
+      summary: Get event sums
+      tags:
+      - EventSums
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

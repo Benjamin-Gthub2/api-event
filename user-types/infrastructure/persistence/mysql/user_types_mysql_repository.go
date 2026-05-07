@@ -15,10 +15,10 @@ package mysql
 import (
 	"time"
 
-	smartClock "github.com/smart0n3/api-shared/clock"
+	smartClock "github.com/Benjamin-Gthub2/api-shared/clock"
 
 	userTypeDomain "github.com/Benjamin-Gthub2/api-event/user-types/domain"
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 )
 
 type userTypesMySQLRepo struct {

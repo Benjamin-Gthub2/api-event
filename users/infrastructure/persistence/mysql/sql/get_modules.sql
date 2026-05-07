@@ -5,6 +5,6 @@ SELECT id,
        icon,
        position,
        created_at
-FROM core_modules
+FROM modules
 WHERE deleted_at IS NULL
 ORDER BY position;

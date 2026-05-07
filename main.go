@@ -16,14 +16,25 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/smart0n3/api-shared/config"
-	"github.com/smart0n3/api-shared/db"
-	"github.com/smart0n3/api-shared/mqtt"
+	"github.com/Benjamin-Gthub2/api-shared/config"
+	"github.com/Benjamin-Gthub2/api-shared/db"
+	"github.com/Benjamin-Gthub2/api-shared/mqtt"
 
+	attendancesSetup "github.com/Benjamin-Gthub2/api-event/attendances/setup"
+	eventTypesSetup "github.com/Benjamin-Gthub2/api-event/event-types/setup"
+	eventsSetup "github.com/Benjamin-Gthub2/api-event/events/setup"
+	materialsIssuedSetup "github.com/Benjamin-Gthub2/api-event/materials-issued/setup"
+	peopleSetup "github.com/Benjamin-Gthub2/api-event/people/setup"
+	registrationStatusesSetup "github.com/Benjamin-Gthub2/api-event/registration-statuses/setup"
+	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
+	sessionsSetup "github.com/Benjamin-Gthub2/api-event/sessions/setup"
 	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
+	workshopTypesSetup "github.com/Benjamin-Gthub2/api-event/workshop-types/setup"
+	workshopsSetup "github.com/Benjamin-Gthub2/api-event/workshops/setup"
 )
 
 func main() {
@@ -52,9 +63,35 @@ func main() {
 
 	router := gin.Default()
 
-	usersSetup.LoadUsers(router)
+	corsOrigin := os.Getenv("CORS_ALLOW_ORIGIN")
+	if corsOrigin == "" {
+		corsOrigin = "*"
+	}
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{corsOrigin},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Tenant-Id"},
+		ExposeHeaders:    []string{"X-Tenant-Id"},
+		AllowCredentials: corsOrigin != "*",
+	}))
 
-	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
+	usersSetup.LoadUsers(router)
+	registrationsSetup.LoadRegistrations(router)
+	peopleSetup.LoadPeople(router)
+	workshopsSetup.LoadWorkshops(router)
+	sessionsSetup.LoadSessions(router)
+	workshopTypesSetup.LoadWorkshopTypes(router)
+	eventTypesSetup.LoadEventTypes(router)
+	eventsSetup.LoadEvents(router)
+	attendancesSetup.LoadAttendances(router)
+	materialsIssuedSetup.LoadMaterialsIssued(router)
+	registrationStatusesSetup.LoadRegistrationStatuses(router)
+
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = os.Getenv("PORT")
+	}
+	serverPort := fmt.Sprintf(":%s", port)
 	err = router.Run(serverPort)
 	if err != nil {
 		return

@@ -9,6 +9,7 @@ Content-Type: application/json
 
 > {%
     client.global.set("auth_token", response.body.data);
+    // const xTenantId = response.headers.valueOf("x_tenant_id"); OJO aquiii
     const xTenantId = response.headers.valueOf("X-Tenant-Id");
     client.global.set("x_tenant_id", xTenantId);
 %}
@@ -18,7 +19,7 @@ Content-Type: application/json
     request.variables.set("auth_token", client.global.get("auth_token"));
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
 %}
-GET {{api_core_users}}/me
+GET {{api_event_users}}/me
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -28,32 +29,46 @@ X-Tenant-Id: {{x_tenant_id}}
     request.variables.set("auth_token", client.global.get("auth_token"));
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
 %}
-GET {{api_core_users}}
+GET {{api_event_users}}
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
 
 ### Get merchants roles by user
-GET {{api_core_users}}/9339c11d-a064-4c93-bea6-3bff04c4199e/merchants/roles
+GET {{api_event_users}}/9339c11d-a064-4c93-bea6-3bff04c4199e/merchants/roles
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
 ### Get user permissions by role
-GET {{api_core_users}}/91fb86bd-da46-414b-97a1-fcdaa8cd35d1/roles/eec5a2b2-cb2a-4cef-a56c-0ab42712394b/permissions
+GET {{api_event_users}}/91fb86bd-da46-414b-97a1-fcdaa8cd35d1/roles/eec5a2b2-cb2a-4cef-a56c-0ab42712394b/permissions
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
+
 ### Get menu by user
-GET {{api_core_users}}/13c9a1e0-69a9-4252-af4a-45030efe37f7/menu
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    console.log(client.global.get("auth_token"))
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+    console.log(client.global.get("x_tenant_id"))
+%}
+GET {{api_event_users}}/menu
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}
+
+
+### Get menu by user
+GET {{api_event_users}}/13c9a1e0-69a9-4252-af4a-45030efe37f7/menu
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
 
 ### Post user
-POST {{api_core_users}}
+POST {{api_event_users}}
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -81,7 +96,7 @@ X-Tenant-Id: {{x_tenant_id}}
     request.variables.set("auth_token", client.global.get("auth_token"));
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
 %}
-PUT {{api_core_users}}/update_password
+PUT {{api_event_users}}/update_password
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -96,7 +111,7 @@ X-Tenant-Id: {{x_tenant_id}}
     request.variables.set("auth_token", client.global.get("auth_token"));
     request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
 %}
-PUT {{api_core_users}}/348ef013-afe8-46f4-9792-3f0b5cc68613/theme
+PUT {{api_event_users}}/348ef013-afe8-46f4-9792-3f0b5cc68613/theme
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
@@ -104,3 +119,13 @@ X-Tenant-Id: {{x_tenant_id}}
 {
   "theme": "dark"
 }
+
+### Get My QR
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+GET {{api_event_users}}/qr
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}

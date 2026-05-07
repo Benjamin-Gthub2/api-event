@@ -33,17 +33,17 @@ FROM (SELECT users.id,
              types.id              AS type_id,
              types.description,
              types.code
-      FROM (SELECT * FROM core_users WHERE deleted_at IS NULL) users
-               INNER JOIN core_user_types types ON users.type_id = types.id
-               LEFT JOIN core_user_roles user_roles ON user_roles.user_id = users.id AND user_roles.deleted_at IS NULL
-               LEFT JOIN core_roles roles ON user_roles.role_id = roles.id
+      FROM (SELECT * FROM users WHERE deleted_at IS NULL) users
+               INNER JOIN user_types types ON users.type_id = types.id
+               LEFT JOIN user_roles user_roles ON user_roles.user_id = users.id AND user_roles.deleted_at IS NULL
+               LEFT JOIN roles roles ON user_roles.role_id = roles.id
       WHERE IF(? IS NULL, TRUE, types.id = TRIM(?))
         AND IF(? IS NULL, TRUE, users.username LIKE CONCAT('%', TRIM(?), '%'))
         AND IF(? = '', TRUE, FIND_IN_SET(roles.id, TRIM(?)))
       GROUP BY users.id
       ORDER BY max_created_at DESC
       LIMIT ? OFFSET ?) users
-         LEFT JOIN core_user_roles user_roles ON user_roles.user_id = users.id AND user_roles.deleted_at IS NULL
-         LEFT JOIN core_roles roles ON user_roles.role_id = roles.id
-         LEFT JOIN hr_people people ON users.id = people.user_id
-         LEFT JOIN core_document_types document_types ON people.type_document_id = document_types.id;
+         LEFT JOIN user_roles user_roles ON user_roles.user_id = users.id AND user_roles.deleted_at IS NULL
+         LEFT JOIN roles roles ON user_roles.role_id = roles.id
+         LEFT JOIN people people ON users.id = people.user_id
+         LEFT JOIN document_types document_types ON people.type_document_id = document_types.id;

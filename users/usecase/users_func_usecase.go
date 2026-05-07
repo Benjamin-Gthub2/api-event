@@ -19,11 +19,12 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
+	"github.com/skip2/go-qrcode"
 
-	errDomain "github.com/smart0n3/api-shared/error-core/domain"
-	logErrorCoreDomain "github.com/smart0n3/api-shared/error-core/domain"
-	paramsDomain "github.com/smart0n3/api-shared/params/domain"
-	validationsDomain "github.com/smart0n3/api-shared/validations/domain"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"
 )
@@ -640,4 +641,23 @@ func (u usersUseCase) UpdateUserTheme(
 		return err
 	}
 	return nil
+}
+
+func (u usersUseCase) GenerateQRCode(
+	ctx context.Context,
+	userId string,
+) (
+	png []byte,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	png, err = qrcode.Encode(userId, qrcode.Medium, 256)
+	if err != nil {
+		return nil, err
+	}
+	return png, nil
 }
