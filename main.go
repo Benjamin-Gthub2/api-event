@@ -63,12 +63,16 @@ func main() {
 
 	router := gin.Default()
 
+	corsOrigin := os.Getenv("CORS_ALLOW_ORIGIN")
+	if corsOrigin == "" {
+		corsOrigin = "*"
+	}
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{os.Getenv("CORS_ALLOW_ORIGIN")},
+		AllowOrigins:     []string{corsOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Tenant-Id"},
 		ExposeHeaders:    []string{"X-Tenant-Id"},
-		AllowCredentials: true,
+		AllowCredentials: corsOrigin != "*",
 	}))
 
 	usersSetup.LoadUsers(router)
@@ -83,7 +87,11 @@ func main() {
 	materialsIssuedSetup.LoadMaterialsIssued(router)
 	registrationStatusesSetup.LoadRegistrationStatuses(router)
 
-	serverPort := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = os.Getenv("PORT")
+	}
+	serverPort := fmt.Sprintf(":%s", port)
 	err = router.Run(serverPort)
 	if err != nil {
 		return
