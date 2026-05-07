@@ -58,7 +58,8 @@ func main() {
 
 	_, err = mqtt.ConnectToMQTT()
 	if err != nil {
-		return
+		fmt.Println("MQTT connection failed, continuing without it:", err)
+		//return
 	}
 
 	router := gin.Default()
