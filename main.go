@@ -75,6 +75,8 @@ func main() {
 		AllowCredentials: corsOrigin != "*",
 	}))
 
+	router.GET("/health", func(c *gin.Context) { c.Status(200) })
+
 	usersSetup.LoadUsers(router)
 	registrationsSetup.LoadRegistrations(router)
 	peopleSetup.LoadPeople(router)
