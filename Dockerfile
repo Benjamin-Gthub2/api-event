@@ -8,9 +8,13 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=vendor -o app .
 
-FROM alpine:3.20
+FROM debian:bookworm-slim
 
-RUN apk --no-cache add ca-certificates tzdata wkhtmltopdf
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    tzdata \
+    wkhtmltopdf \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
