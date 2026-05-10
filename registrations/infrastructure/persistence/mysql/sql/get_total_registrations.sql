@@ -1,7 +1,6 @@
 SELECT COUNT(DISTINCT registrations.id) AS total
 FROM registrations registrations
-         INNER JOIN sessions sessions ON registrations.session_id = sessions.id
-         INNER JOIN workshops workshops ON sessions.workshop_id = workshops.id
+         INNER JOIN events events ON registrations.event_id = events.id
          INNER JOIN people beneficiaries
                     ON registrations.beneficiary_id = beneficiaries.id
          LEFT JOIN users beneficiaries_users

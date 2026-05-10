@@ -1,12 +1,14 @@
 package rest
 
 import (
+	"errors"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
 	httpResponse "github.com/Benjamin-Gthub2/api-shared/custom-http/interfaces/rest"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	attendancesDomain "github.com/Benjamin-Gthub2/api-event/attendances/domain"
 )
@@ -81,13 +83,37 @@ func (h attendancesHandler) GetAttendances(c *gin.Context) {
 // @Produce json
 // @Success 201 {object} httpResponse.IdResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Param createAttendanceBody body attendancesDomain.CreateAttendanceBody true "Create attendance body"
 // @Router /api/v1/event/attendances [post]
 // @Security BearerAuth
 func (h attendancesHandler) CreateAttendance(c *gin.Context) {
 	ctx := c.Request.Context()
 	userId := c.GetString("userId")
 
-	id, err := h.attendancesUseCase.CreateAttendance(ctx, userId)
+	var createBodyValidated createAttendanceValidated
+	if err := c.ShouldBindJSON(&createBodyValidated); err != nil {
+		validationErrs, errFind := err.(validator.ValidationErrors)
+		if !errFind {
+			err = h.err.Clone().SetFunction("CreateAttendance").SetRaw(errors.New("casting ValidationErrors"))
+			restCore.ErrJson(c, err)
+			return
+		}
+
+		messagesErr := make([]string, 0)
+		for _, validationErr := range validationErrs {
+			messagesErr = append(messagesErr, validationErr.Field()+" "+validationErr.Tag())
+		}
+		err = h.err.Clone().SetFunction("CreateAttendance").SetMessages(messagesErr)
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	var createBody = attendancesDomain.CreateAttendanceBody{
+		WorkshopId:    createBodyValidated.WorkshopId,
+		BeneficiaryId: createBodyValidated.BeneficiaryId,
+	}
+
+	id, err := h.attendancesUseCase.CreateAttendance(ctx, userId, createBody)
 	if err != nil {
 		restCore.ErrJson(c, err)
 		return

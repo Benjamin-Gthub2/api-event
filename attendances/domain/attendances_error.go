@@ -8,6 +8,8 @@ import (
 
 const (
 	ErrAttendanceNotFoundCode = "ERR_ATTENDANCE_NOT_FOUND"
+	ErrWorkshopsNotFoundCode  = "ERR_WORKSHOP_NOT_FOUND"
+	ErrPeopleNotFoundCode     = "ERR_PERSON_NOT_FOUND"
 )
 
 var (
@@ -18,4 +20,18 @@ var (
 				SetHttpStatus(http.StatusNotFound).
 				SetLayer(errDomain.UseCase).
 				SetFunction("GetAttendanceById")
+	ErrWorkshopNotFound = errDomain.NewErr().
+				SetCode(ErrWorkshopsNotFoundCode).
+				SetDescription("WORKSHOP NOT FOUND").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusNotFound).
+				SetLayer(errDomain.UseCase).
+				SetFunction("CreateAttendance")
+	ErrPersonNotFound = errDomain.NewErr().
+				SetCode(ErrPeopleNotFoundCode).
+				SetDescription("PERSON NOT FOUND").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusNotFound).
+				SetLayer(errDomain.UseCase).
+				SetFunction("CreateRegistration")
 )

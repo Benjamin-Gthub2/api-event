@@ -2,9 +2,12 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
+	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/google/uuid"
+
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
@@ -95,6 +98,7 @@ func (u attendancesUseCase) GetAttendances(
 func (u attendancesUseCase) CreateAttendance(
 	ctx context.Context,
 	userId string,
+	body attendancesDomain.CreateAttendanceBody,
 ) (
 	id *string,
 	err error,
@@ -103,16 +107,73 @@ func (u attendancesUseCase) CreateAttendance(
 	var cancel context.CancelFunc
 	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
 	defer cancel()
+	var wg sync.WaitGroup
+	deleted := "deleted_at"
+	var errWorkshop, errBeneficiary error
+	var existWorkshop, existBeneficiary bool
+
+	wg.Add(2)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errWorkshop, &wg)
+		recordExistsParams := validationsDomain.RecordExistsParams{
+			Table:            "workshops",
+			IdColumnName:     "id",
+			IdValue:          body.WorkshopId,
+			StatusColumnName: &deleted,
+			StatusValue:      nil,
+		}
+		existWorkshop, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+		wg.Done()
+	}()
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errBeneficiary, &wg)
+		recordExistsParams := validationsDomain.RecordExistsParams{
+			Table:            "people",
+			IdColumnName:     "id",
+			IdValue:          body.BeneficiaryId,
+			StatusColumnName: &deleted,
+			StatusValue:      nil,
+		}
+		existBeneficiary, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errWorkshop != nil {
+		err = errWorkshop
+		return
+	}
+	if errBeneficiary != nil {
+		err = errBeneficiary
+		return
+	}
+
+	if !existWorkshop {
+		return nil, attendancesDomain.ErrWorkshopNotFound
+	}
+	if !existBeneficiary {
+		return nil, attendancesDomain.ErrPersonNotFound
+	}
 
 	attendanceId := uuid.New().String()
 	createAttendance := attendancesDomain.CreateAttendance{
-		Id:        attendanceId,
-		CreatedBy: userId,
+		Id:            attendanceId,
+		WorkshopId:    body.WorkshopId,
+		BeneficiaryId: body.BeneficiaryId,
+		CreatedBy:     userId,
 	}
-	err = u.attendancesRepository.CreateAttendance(ctx, createAttendance)
+	err = u.attendancesRepository.MainCreateAttendance(ctx, createAttendance)
 	if err != nil {
 		return nil, err
 	}
+
+	//emitir la señal
+	_, xTenantId, _ := db.ClientDB(ctx)
+	//linearJson, _ := u.transformToLinearJSON(notificationById)
+	linearJson := "señal enviada"
+	mqttTopicSendNotification := fmt.Sprintf("/event/attendances/updates/%s", *xTenantId) //changes or remove userId
+	_ = u.attendancesRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
+
 	return &attendanceId, nil
 }
 

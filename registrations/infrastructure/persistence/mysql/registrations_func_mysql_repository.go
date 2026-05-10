@@ -17,15 +17,13 @@ import (
 	"database/sql"
 	_ "embed"
 
+	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/jackskj/carta"
 	"github.com/skip2/go-qrcode"
-	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/stroiman/go-automapper"
 
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
-
-	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
@@ -214,64 +212,65 @@ func (r registrationsMySQLRepo) MainCreateRegistration(
 		}
 	}()
 
-	var sessionWorkshopEventById *eventSharedDomain.EventWorkshopSession
-	sessionWorkshopEventById, err = r.eventsSharedRepository.GetSessionWorkshopEventById(ctx, tx, body.SessionId)
-	if err != nil {
-		return err
-	}
-
-	eventId := sessionWorkshopEventById.EventId
-	workshopId := sessionWorkshopEventById.WorkshopId
-	sessionId := sessionWorkshopEventById.SessionId
-
-	var eventTotals *eventSharedDomain.EventTotals
-	var workshopTotals *eventSharedDomain.WorkshopTotals
-	var sessionTotals *eventSharedDomain.SessionTotals
-	var updateEventTotals eventSharedDomain.UpdateEventTotals
-	var updateWorkshopTotals eventSharedDomain.UpdateWorkshopTotals
-	var updateSessionTotals eventSharedDomain.UpdateSessionTotals
-
-	eventTotals, err = r.eventsSharedRepository.GetEventTotals(ctx, tx, eventId)
-	if err != nil {
-		return err
-	}
-	updateEventTotals = eventSharedDomain.UpdateEventTotals{
-		TotalReg:  intToPtr(eventTotals.TotalReg + 1),
-		TotalPay:  intToPtr(eventTotals.TotalPay + 1),
-		TotalPres: intToPtr(eventTotals.TotalPres + 1),
-	}
-	err = r.eventsSharedRepository.UpdateEventTotals(ctx, tx, eventId, updateEventTotals)
-	if err != nil {
-		return err
-	}
-
-	workshopTotals, err = r.eventsSharedRepository.GetWorkshopTotals(ctx, tx, workshopId)
-	if err != nil {
-		return err
-	}
-	updateWorkshopTotals = eventSharedDomain.UpdateWorkshopTotals{
-		TotalReg:  intToPtr(workshopTotals.TotalReg + 1),
-		TotalPay:  intToPtr(workshopTotals.TotalPay + 1),
-		TotalPres: intToPtr(workshopTotals.TotalPres + 1),
-	}
-	err = r.eventsSharedRepository.UpdateWorkshopTotals(ctx, tx, workshopId, updateWorkshopTotals)
-	if err != nil {
-		return err
-	}
-
-	sessionTotals, err = r.eventsSharedRepository.GetSessionTotals(ctx, tx, sessionId)
-	if err != nil {
-		return err
-	}
-	updateSessionTotals = eventSharedDomain.UpdateSessionTotals{
-		TotalReg:  intToPtr(sessionTotals.TotalReg + 1),
-		TotalPay:  intToPtr(sessionTotals.TotalPay + 1),
-		TotalPres: intToPtr(sessionTotals.TotalPres + 1),
-	}
-	err = r.eventsSharedRepository.UpdateSessionTotals(ctx, tx, sessionId, updateSessionTotals)
-	if err != nil {
-		return err
-	}
+	//aqui no ira esto,s era en attendances
+	//var sessionWorkshopEventById *eventSharedDomain.EventWorkshopSession
+	//sessionWorkshopEventById, err = r.eventsSharedRepository.GetSessionWorkshopEventById(ctx, tx, body.SessionId)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//eventId := sessionWorkshopEventById.EventId
+	//workshopId := sessionWorkshopEventById.WorkshopId
+	//sessionId := sessionWorkshopEventById.SessionId
+	//
+	//var eventTotals *eventSharedDomain.EventTotals
+	//var workshopTotals *eventSharedDomain.WorkshopTotals
+	//var sessionTotals *eventSharedDomain.SessionTotals
+	//var updateEventTotals eventSharedDomain.UpdateEventTotals
+	//var updateWorkshopTotals eventSharedDomain.UpdateWorkshopTotals
+	//var updateSessionTotals eventSharedDomain.UpdateSessionTotals
+	//
+	//eventTotals, err = r.eventsSharedRepository.GetEventTotals(ctx, tx, eventId)
+	//if err != nil {
+	//	return err
+	//}
+	//updateEventTotals = eventSharedDomain.UpdateEventTotals{
+	//	TotalReg:  intToPtr(eventTotals.TotalReg + 1),
+	//	TotalPay:  intToPtr(eventTotals.TotalPay + 1),
+	//	TotalPres: intToPtr(eventTotals.TotalPres + 1),
+	//}
+	//err = r.eventsSharedRepository.UpdateEventTotals(ctx, tx, eventId, updateEventTotals)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//workshopTotals, err = r.eventsSharedRepository.GetWorkshopTotals(ctx, tx, workshopId)
+	//if err != nil {
+	//	return err
+	//}
+	//updateWorkshopTotals = eventSharedDomain.UpdateWorkshopTotals{
+	//	TotalReg:  intToPtr(workshopTotals.TotalReg + 1),
+	//	TotalPay:  intToPtr(workshopTotals.TotalPay + 1),
+	//	TotalPres: intToPtr(workshopTotals.TotalPres + 1),
+	//}
+	//err = r.eventsSharedRepository.UpdateWorkshopTotals(ctx, tx, workshopId, updateWorkshopTotals)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//sessionTotals, err = r.eventsSharedRepository.GetSessionTotals(ctx, tx, sessionId)
+	//if err != nil {
+	//	return err
+	//}
+	//updateSessionTotals = eventSharedDomain.UpdateSessionTotals{
+	//	TotalReg:  intToPtr(sessionTotals.TotalReg + 1),
+	//	TotalPay:  intToPtr(sessionTotals.TotalPay + 1),
+	//	TotalPres: intToPtr(sessionTotals.TotalPres + 1),
+	//}
+	//err = r.eventsSharedRepository.UpdateSessionTotals(ctx, tx, sessionId, updateSessionTotals)
+	//if err != nil {
+	//	return err
+	//}
 
 	err = r.CreateRegistration(ctx, tx, body)
 	if err != nil {
@@ -297,7 +296,7 @@ func (r registrationsMySQLRepo) CreateRegistration(
 		QueryCreateRegistration,
 		body.Id,
 		body.StatusId,
-		body.SessionId,
+		body.EventId,
 		body.BeneficiaryId,
 		body.CreatedBy,
 		now,

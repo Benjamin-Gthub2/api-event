@@ -17,10 +17,10 @@ import (
 	"net/http"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	httpResponse "github.com/Benjamin-Gthub2/api-shared/custom-http/interfaces/rest"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
 )
@@ -146,7 +146,7 @@ func (h registrationsHandler) CreateRegistration(c *gin.Context) {
 	}
 
 	var createBody = registrationsDomain.CreateRegistrationBody{
-		SessionId:     createBodyValidated.SessionId,
+		EventId:       createBodyValidated.EventId,
 		BeneficiaryId: createBodyValidated.BeneficiaryId,
 	}
 

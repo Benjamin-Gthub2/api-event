@@ -18,7 +18,7 @@ type Registration struct {
 	Id          string     `db:"registration_id"`
 	CreatedAt   *time.Time `db:"registration_created_at"`
 	Status      Status
-	Session     Session
+	Event       Event
 	Beneficiary Beneficiary
 	CreatedBy   CreatedBy
 }
@@ -32,17 +32,11 @@ type Status struct {
 	CreatedAt   *time.Time `db:"status_created_at"`
 }
 
-type Session struct {
-	Id        string     `db:"session_id"`
-	StartDate *time.Time `db:"session_start_date"`
-	EndDate   *time.Time `db:"session_end_date"`
-	CreatedAt *time.Time `db:"session_created_at"`
-	WorkShop  WorkShop
-}
-
-type WorkShop struct {
-	Id   string `db:"workshop_id"`
-	Name string `db:"workshop_name"`
+type Event struct {
+	Id          string     `db:"event_id"`
+	Name        string     `db:"event_name"`
+	Description string     `db:"event_description"`
+	CreatedAt   *time.Time `db:"event_created_at"`
 }
 
 type Beneficiary struct {

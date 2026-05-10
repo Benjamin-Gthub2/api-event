@@ -5,10 +5,11 @@ import (
 	"database/sql"
 	_ "embed"
 
-	"github.com/jackskj/carta"
+	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
 
 	attendancesDomain "github.com/Benjamin-Gthub2/api-event/attendances/domain"
@@ -28,6 +29,10 @@ var QueryCreateAttendance string
 
 //go:embed sql/delete_attendance.sql
 var QueryDeleteAttendance string
+
+func intToPtr(value int) *int {
+	return &value
+}
 
 func (r attendancesMySQLRepo) GetAttendanceById(
 	ctx context.Context,
@@ -140,21 +145,92 @@ func (r attendancesMySQLRepo) GetTotalAttendances(
 	return total, nil
 }
 
-func (r attendancesMySQLRepo) CreateAttendance(
+func (r attendancesMySQLRepo) MainCreateAttendance(
 	ctx context.Context,
 	body attendancesDomain.CreateAttendance,
 ) (
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	var tx *sql.Tx
+
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
-		return r.err.Clone().SetFunction("CreateAttendance").SetRaw(err)
+		return r.err.Clone().SetFunction("MainCreateAttendance").SetRaw(err)
 	}
-	_, err = client.ExecContext(ctx,
+	tx, err = client.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	var sessionWorkshopEventById *eventSharedDomain.EventWorkshopSession
+	sessionWorkshopEventById, err = r.eventsSharedRepository.GetSessionWorkshopEventByWorkshopId(ctx, tx, body.WorkshopId)
+	if err != nil {
+		return err
+	}
+
+	eventId := sessionWorkshopEventById.EventId
+	workshopId := sessionWorkshopEventById.WorkshopId
+
+	var eventTotals *eventSharedDomain.EventTotals
+	var workshopTotals *eventSharedDomain.WorkshopTotals
+	var updateEventTotals eventSharedDomain.UpdateEventTotals
+	var updateWorkshopTotals eventSharedDomain.UpdateWorkshopTotals
+
+	eventTotals, err = r.eventsSharedRepository.GetEventTotals(ctx, tx, eventId)
+	if err != nil {
+		return err
+	}
+	updateEventTotals = eventSharedDomain.UpdateEventTotals{
+		TotalPres: intToPtr(eventTotals.TotalPres + 1),
+	}
+	err = r.eventsSharedRepository.UpdateEventTotals(ctx, tx, eventId, updateEventTotals)
+	if err != nil {
+		return err
+	}
+
+	workshopTotals, err = r.eventsSharedRepository.GetWorkshopTotals(ctx, tx, workshopId)
+	if err != nil {
+		return err
+	}
+	updateWorkshopTotals = eventSharedDomain.UpdateWorkshopTotals{
+		TotalPres: intToPtr(workshopTotals.TotalPres + 1),
+	}
+	err = r.eventsSharedRepository.UpdateWorkshopTotals(ctx, tx, workshopId, updateWorkshopTotals)
+	if err != nil {
+		return err
+	}
+
+	err = r.CreateAttendance(ctx, tx, body)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+	return err
+}
+
+func (r attendancesMySQLRepo) CreateAttendance(
+	ctx context.Context,
+	tx *sql.Tx,
+	body attendancesDomain.CreateAttendance,
+) (
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	_, err = tx.ExecContext(ctx,
 		QueryCreateAttendance,
 		body.Id,
+		body.WorkshopId,
+		body.BeneficiaryId,
 		body.CreatedBy,
 		now,
 	)

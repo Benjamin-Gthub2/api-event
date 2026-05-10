@@ -6,12 +6,10 @@ SELECT registrations.id                                     AS registration_id,
        statuses.position                                    AS status_position,
        statuses.enable                                      AS status_enable,
        statuses.created_at                                  AS status_created_at,
-       sessions.id                                          AS session_id,
-       sessions.start_date                                  AS session_start_date,
-       sessions.end_date                                    AS session_end_date,
-       sessions.created_at                                  AS session_created_at,
-       workshops.id                                         AS workshop_id,
-       workshops.name                                       AS workshop_name,
+       events.id                                            AS event_id,
+       events.name                                          AS event_name,
+       events.description                                   AS event_description,
+       events.created_at                                    AS event_created_at,
        beneficiaries.id                                     AS beneficiary_id,
        beneficiaries.document                               AS beneficiary_document,
        beneficiaries.names                                  AS beneficiary_names,
@@ -45,8 +43,7 @@ SELECT registrations.id                                     AS registration_id,
 FROM registrations registrations
          INNER JOIN registration_statuses statuses
                     ON registrations.status_id = statuses.id
-         INNER JOIN sessions sessions ON registrations.session_id = sessions.id
-         INNER JOIN workshops workshops ON sessions.workshop_id = workshops.id
+         INNER JOIN events events ON registrations.event_id = events.id
          INNER JOIN people beneficiaries
                     ON registrations.beneficiary_id = beneficiaries.id
          LEFT JOIN users beneficiaries_users

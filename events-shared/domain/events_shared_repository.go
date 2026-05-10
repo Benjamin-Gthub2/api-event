@@ -24,5 +24,5 @@ type EventSharedRepository interface {
 	GetEventTotals(ctx context.Context, tx *sql.Tx, eventId string) (*EventTotals, error)
 	GetWorkshopTotals(ctx context.Context, tx *sql.Tx, workshopId string) (*WorkshopTotals, error)
 	GetSessionTotals(ctx context.Context, tx *sql.Tx, sessionId string) (*SessionTotals, error)
-	GetSessionWorkshopEventById(ctx context.Context, tx *sql.Tx, sessionId string) (*EventWorkshopSession, error)
+	GetSessionWorkshopEventByWorkshopId(ctx context.Context, tx *sql.Tx, workshopId string) (*EventWorkshopSession, error)
 }

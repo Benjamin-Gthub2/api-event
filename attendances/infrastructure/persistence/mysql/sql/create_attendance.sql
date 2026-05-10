@@ -1,4 +1,6 @@
 INSERT INTO attendances(id,
-                       created_by,
-                       created_at)
-VALUES (?, ?, ?);
+                        workshop_id,
+                        beneficiary_id,
+                        created_by,
+                        created_at)
+VALUES (?, ?, ?, ?, ?);

@@ -17,11 +17,11 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/google/uuid"
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
+	"github.com/google/uuid"
 
 	registrationSharedDomain "github.com/Benjamin-Gthub2/api-event/registrations-shared/domain"
 
@@ -161,20 +161,20 @@ func (u registrationsUseCase) CreateRegistration(
 	defer cancel()
 	var wg sync.WaitGroup
 	deleted := "deleted_at"
-	var errSession, errBeneficiary error
-	var existSession, existBeneficiary bool
+	var errEvent, errBeneficiary error
+	var existEvent, existBeneficiary bool
 
 	wg.Add(2)
 	go func() {
-		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errSession, &wg)
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errEvent, &wg)
 		recordExistsParams := validationsDomain.RecordExistsParams{
-			Table:            "sessions",
+			Table:            "events",
 			IdColumnName:     "id",
-			IdValue:          body.SessionId,
+			IdValue:          body.EventId,
 			StatusColumnName: &deleted,
 			StatusValue:      nil,
 		}
-		existSession, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+		existEvent, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
 		wg.Done()
 	}()
 	go func() {
@@ -191,8 +191,8 @@ func (u registrationsUseCase) CreateRegistration(
 	}()
 	wg.Wait()
 
-	if errSession != nil {
-		err = errSession
+	if errEvent != nil {
+		err = errEvent
 		return
 	}
 	if errBeneficiary != nil {
@@ -200,8 +200,8 @@ func (u registrationsUseCase) CreateRegistration(
 		return
 	}
 
-	if !existSession {
-		return nil, registrationsDomain.ErrSessionNotFound
+	if !existEvent {
+		return nil, registrationsDomain.ErrEventNotFound
 	}
 	if !existBeneficiary {
 		return nil, registrationsDomain.ErrPersonNotFound
@@ -217,7 +217,7 @@ func (u registrationsUseCase) CreateRegistration(
 	createRegistration := registrationsDomain.CreateRegistration{
 		Id:            registrationId,
 		StatusId:      status.Id,
-		SessionId:     body.SessionId,
+		EventId:       body.EventId,
 		BeneficiaryId: body.BeneficiaryId,
 		CreatedBy:     userId,
 	}

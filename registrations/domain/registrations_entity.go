@@ -20,7 +20,7 @@ type Registration struct {
 	//Description: The date of the creation of the registration.
 	CreatedAt   *time.Time  `json:"created_at" example:"2023-11-10 08:10:00"`
 	Status      Status      `json:"status" binding:"required"`
-	Session     Session     `json:"session" binding:"required"`
+	Event       Event       `json:"event" binding:"required"`
 	Beneficiary Beneficiary `json:"beneficiary" binding:"required"`
 	CreatedBy   CreatedBy   `json:"created_by" binding:"required"`
 }
@@ -34,23 +34,15 @@ type Status struct {
 	CreatedAt   *time.Time `json:"created_at" example:"2026-04-21 09:50:04"`
 }
 
-type Session struct {
-	//Description: the id of session.
+type Event struct {
+	//Description: the id of event.
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	//Description: the start date
-	StartDate *time.Time `json:"start_date" example:"2023-11-10 08:10:00"`
-	//Description: the end date
-	EndDate *time.Time `json:"end_date" example:"2023-11-10 08:10:00"`
+	//Description: the name of event
+	Name string `json:"name" binding:"required" example:"Registration"`
+	//Description: the description of event
+	Description string `json:"description" binding:"required" example:"Registration Attended"`
 	//Description: the date of creation
 	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
-	WorkShop  WorkShop   `json:"work_shop" binding:"required"`
-}
-
-type WorkShop struct {
-	//Description: the id of workshop.
-	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	//Description: the name of workshop.
-	Name string `json:"name" binding:"required" example:"FIRST WORKSHOP"`
 }
 
 type Beneficiary struct {
@@ -154,7 +146,7 @@ type GetRegistrationsParams struct {
 }
 
 type CreateRegistrationBody struct {
-	SessionId     string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	EventId       string `json:"event_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }
 
@@ -163,8 +155,8 @@ type CreateRegistration struct {
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the id of registration
 	StatusId string `json:"status_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	//Description: the id of session
-	SessionId string `json:"session_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	//Description: the id of event
+	EventId string `json:"event_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: the id of beneficiary
 	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: the id of creator

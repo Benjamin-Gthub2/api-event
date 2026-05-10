@@ -34,7 +34,6 @@ type SessionTotals struct {
 }
 
 type EventWorkshopSession struct {
-	SessionId  string `db:"session_id"`
 	WorkshopId string `db:"workshop_id"`
 	EventId    string `db:"event_id"`
 }

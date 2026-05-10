@@ -73,8 +73,6 @@ type SessionTotals struct {
 }
 
 type EventWorkshopSession struct {
-	//Description: the id of session
-	SessionId string `json:"session_id" binding:"required" example:"1"`
 	//Description: the id of workshop
 	WorkshopId string `json:"workshop_id" binding:"required" example:"1"`
 	//Description: the id of event

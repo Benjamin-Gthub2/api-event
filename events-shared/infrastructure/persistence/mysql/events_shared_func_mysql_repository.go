@@ -44,8 +44,8 @@ var QueryGetWorkshopTotals string
 //go:embed sql/get_session_totals.sql
 var QueryGetSessionTotals string
 
-//go:embed sql/get_event_workshop_session_by_registration_id.sql
-var QueryGetSessionWorkshopEventById string
+//go:embed sql/get_event_workshop_session_by_workshop_id.sql
+var QueryGetSessionWorkshopEventByWorkshopId string
 
 func (r eventSharedMySQLRepo) UpdateEventTotals(
 	ctx context.Context,
@@ -275,10 +275,10 @@ func (r eventSharedMySQLRepo) GetSessionTotals(
 	return &sessionTotalsAux[0], nil
 }
 
-func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
+func (r eventSharedMySQLRepo) GetSessionWorkshopEventByWorkshopId(
 	ctx context.Context,
 	tx *sql.Tx,
-	sessionId string,
+	workshopId string,
 ) (
 	eventWorkshopSession *eventSharedDomain.EventWorkshopSession,
 	err error,
@@ -288,23 +288,23 @@ func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 	if tx != nil {
 		results, err = tx.QueryContext(
 			ctx,
-			QueryGetSessionWorkshopEventById,
-			sessionId,
+			QueryGetSessionWorkshopEventByWorkshopId,
+			workshopId,
 		)
 	} else {
 		var client *sql.DB
 		client, _, err = db.ClientDB(ctx)
 		if err != nil {
-			return nil, r.err.Clone().SetFunction("GetSessionWorkshopEventById").SetRaw(err)
+			return nil, r.err.Clone().SetFunction("GetSessionWorkshopEventByWorkshopId").SetRaw(err)
 		}
 		results, err = client.QueryContext(
 			ctx,
-			QueryGetSessionWorkshopEventById,
-			sessionId,
+			QueryGetSessionWorkshopEventByWorkshopId,
+			workshopId,
 		)
 	}
 	if err != nil {
-		return nil, r.err.Clone().SetFunction("GetSessionWorkshopEventById").SetRaw(err)
+		return nil, r.err.Clone().SetFunction("GetSessionWorkshopEventByWorkshopId").SetRaw(err)
 	}
 
 	defer func(results *sql.Rows) {
@@ -320,7 +320,7 @@ func (r eventSharedMySQLRepo) GetSessionWorkshopEventById(
 	eventWorkshopSessionTmp := make([]EventWorkshopSession, 0)
 	err = carta.Map(results, &eventWorkshopSessionTmp)
 	if err != nil {
-		return eventWorkshopSession, r.err.Clone().SetFunction("GetSessionWorkshopEventById").SetRaw(err)
+		return eventWorkshopSession, r.err.Clone().SetFunction("GetSessionWorkshopEventByWorkshopId").SetRaw(err)
 	}
 
 	eventWorkshopSessionAux := make([]eventSharedDomain.EventWorkshopSession, 0)

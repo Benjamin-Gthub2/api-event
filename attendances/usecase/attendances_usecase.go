@@ -11,24 +11,27 @@ import (
 )
 
 type attendancesUseCase struct {
-	attendancesRepository attendancesDomain.AttendancesRepository
-	validationRepository  validationsDomain.ValidationRepository
-	authRepository        authDomain.AuthRepository
-	contextTimeout        time.Duration
-	err                   *errDomain.SmartError
+	attendancesRepository   attendancesDomain.AttendancesRepository
+	attendancesRTRepository attendancesDomain.AttendancesRTRepository
+	validationRepository    validationsDomain.ValidationRepository
+	authRepository          authDomain.AuthRepository
+	contextTimeout          time.Duration
+	err                     *errDomain.SmartError
 }
 
 func NewAttendancesUseCase(
 	ur attendancesDomain.AttendancesRepository,
+	attendancesRTRepository attendancesDomain.AttendancesRTRepository,
 	validation validationsDomain.ValidationRepository,
 	authRepository authDomain.AuthRepository,
 	timeout time.Duration,
 ) attendancesDomain.AttendancesUseCase {
 	return &attendancesUseCase{
-		attendancesRepository: ur,
-		validationRepository:  validation,
-		authRepository:        authRepository,
-		contextTimeout:        timeout,
-		err:                   errDomain.NewErr().SetLayer(errDomain.UseCase),
+		attendancesRepository:   ur,
+		attendancesRTRepository: attendancesRTRepository,
+		validationRepository:    validation,
+		authRepository:          authRepository,
+		contextTimeout:          timeout,
+		err:                     errDomain.NewErr().SetLayer(errDomain.UseCase),
 	}
 }
