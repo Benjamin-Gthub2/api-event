@@ -30,6 +30,9 @@ FROM attendances
          INNER JOIN people beneficiaries ON attendances.beneficiary_id = beneficiaries.id
          INNER JOIN document_types document_types ON beneficiaries.type_document_id = document_types.id
          INNER JOIN users creator_users ON attendances.created_by = creator_users.id
-WHERE IF(? IS NULL, TRUE, DATE(attendances.created_at) BETWEEN ? AND ?)
+WHERE IF(? IS NULL, TRUE, events.id = TRIM(?))
+  AND IF(? IS NULL, TRUE, workshops.id = TRIM(?))
+  AND IF(? IS NULL, TRUE, beneficiaries.id = TRIM(?))
+  AND IF(? IS NULL, TRUE, DATE(attendances.created_at) BETWEEN ? AND ?)
   AND attendances.deleted_at IS NULL
 LIMIT ? OFFSET ?;

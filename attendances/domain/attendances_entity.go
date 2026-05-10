@@ -69,8 +69,11 @@ type CreatedBy struct {
 
 type GetAttendancesParams struct {
 	paramsDomain.Params
-	StartDate *string `json:"start_date" example:"2026-01-01"`
-	EndDate   *string `json:"end_date" example:"2026-12-31"`
+	EventId       *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	WorkshopId    *string `json:"workshop_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	BeneficiaryId *string `json:"beneficiary_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	StartDate     *string `json:"start_date" example:"2026-01-01"`
+	EndDate       *string `json:"end_date" example:"2026-12-31"`
 }
 
 type CreateAttendanceBody struct {
