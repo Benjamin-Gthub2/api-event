@@ -168,6 +168,9 @@ func (r workshopsMySQLRepo) CreateWorkshop(
 		body.Shortname,
 		body.Code,
 		body.Capacity,
+		body.StartDate,
+		body.EndDate,
+		body.Place,
 		body.EventId,
 		body.CreatedBy,
 		now,
@@ -196,6 +199,9 @@ func (r workshopsMySQLRepo) UpdateWorkshop(
 		body.Shortname,
 		body.Code,
 		body.Capacity,
+		body.StartDate,
+		body.EndDate,
+		body.Place,
 		body.Id,
 	)
 	if err != nil {

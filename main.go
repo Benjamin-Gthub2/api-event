@@ -33,6 +33,7 @@ import (
 	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
 	sessionsSetup "github.com/Benjamin-Gthub2/api-event/sessions/setup"
 	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
+	workshopSpeakersSetup "github.com/Benjamin-Gthub2/api-event/workshop-speakers/setup"
 	workshopTypesSetup "github.com/Benjamin-Gthub2/api-event/workshop-types/setup"
 	workshopsSetup "github.com/Benjamin-Gthub2/api-event/workshops/setup"
 )
@@ -82,6 +83,7 @@ func main() {
 	registrationsSetup.LoadRegistrations(router)
 	peopleSetup.LoadPeople(router)
 	workshopsSetup.LoadWorkshops(router)
+	workshopSpeakersSetup.LoadWorkshopSpeakers(router)
 	sessionsSetup.LoadSessions(router)
 	workshopTypesSetup.LoadWorkshopTypes(router)
 	eventTypesSetup.LoadEventTypes(router)

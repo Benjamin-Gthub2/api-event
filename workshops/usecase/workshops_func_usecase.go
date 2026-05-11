@@ -4,10 +4,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/google/uuid"
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
+	"github.com/google/uuid"
 
 	workshopsDomain "github.com/Benjamin-Gthub2/api-event/workshops/domain"
 )
@@ -114,6 +114,9 @@ func (u workshopsUseCase) CreateWorkshop(
 		Shortname: body.Shortname,
 		Code:      body.Code,
 		Capacity:  body.Capacity,
+		StartDate: body.StartDate.Format("2006-01-02 15:04:05"),
+		EndDate:   body.EndDate.Format("2006-01-02 15:04:05"),
+		Place:     body.Place,
 		EventId:   body.EventId,
 		CreatedBy: userId,
 	}
@@ -160,6 +163,9 @@ func (u workshopsUseCase) UpdateWorkshop(
 		Shortname: body.Shortname,
 		Code:      body.Code,
 		Capacity:  body.Capacity,
+		StartDate: body.StartDate,
+		EndDate:   body.EndDate,
+		Place:     body.Place,
 	}
 	err = u.workshopsRepository.UpdateWorkshop(ctx, updateWorkshop)
 	if err != nil {

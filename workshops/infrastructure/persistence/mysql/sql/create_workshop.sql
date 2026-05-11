@@ -4,7 +4,11 @@ INSERT INTO workshops(id,
                       shortname,
                       code,
                       capacity,
+                      total_pres,
+                      start_date,
+                      end_date,
+                      place,
                       event_id,
                       created_by,
                       created_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?);

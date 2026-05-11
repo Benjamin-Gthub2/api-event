@@ -8,6 +8,9 @@ type Workshop struct {
 	Shortname    *string    `db:"workshop_shortname"`
 	Code         *string    `db:"workshop_code"`
 	Capacity     int        `db:"workshop_capacity"`
+	StartDate    *time.Time `db:"workshop_start_date"`
+	EndDate      *time.Time `db:"workshop_end_date"`
+	Place        string     `db:"workshop_place"`
 	CreatedAt    *time.Time `db:"workshop_created_at"`
 	WorkshopType WorkshopType
 	Event        Event

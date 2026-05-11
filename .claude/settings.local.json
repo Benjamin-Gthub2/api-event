@@ -6,7 +6,10 @@
       "Bash(xargs sed -i 's|github\\\\.com/smart0n3/api-shared|github.com/Benjamin-Gthub2/api-shared|g; s|github\\\\.com/smart0n3/carta|github.com/Benjamin-Gthub2/carta|g')",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Force)",
       "Bash(Select-Object Name, PSIsContainer)",
-      "Bash(Format-Table -AutoSize)"
+      "Bash(Format-Table -AutoSize)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Recurse -Force)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "PowerShell(head *)"
     ]
   }
 }

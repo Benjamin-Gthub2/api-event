@@ -3,6 +3,9 @@ SELECT workshops.id               AS workshop_id,
        workshops.shortname        AS workshop_shortname,
        workshops.code             AS workshop_code,
        workshops.capacity         AS workshop_capacity,
+       workshops.start_date       AS workshop_start_date,
+       workshops.end_date         AS workshop_end_date,
+       workshops.place            AS workshop_place,
        workshops.created_at       AS workshop_created_at,
        workshop_types.id          AS workshop_type_id,
        workshop_types.code        AS workshop_type_code,
@@ -19,4 +22,5 @@ FROM workshops workshops
 WHERE IF(? IS NULL, TRUE, workshops.event_id = TRIM(?))
   AND IF(? IS NULL, TRUE, workshops.type_id = TRIM(?))
   AND workshops.deleted_at IS NULL
+ORDER BY workshops.name
 LIMIT ? OFFSET ?;

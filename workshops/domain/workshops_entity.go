@@ -12,6 +12,9 @@ type Workshop struct {
 	Shortname    *string      `json:"shortname" example:"1ER BLOQUE"`
 	Code         *string      `json:"code" example:"0001"`
 	Capacity     int          `json:"capacity" example:"2"`
+	StartDate    *time.Time   `json:"start_date" example:"2026-05-10T18:39:07Z"`
+	EndDate      *time.Time   `json:"end_date" example:"2026-05-10T18:39:13Z"`
+	Place        string       `json:"place" example:"QORIKANCHA"`
 	CreatedAt    *time.Time   `json:"created_at" example:"2026-04-21 09:50:04"`
 	WorkshopType WorkshopType `json:"workshop_type" binding:"required"`
 	Event        Event        `json:"event" binding:"required"`
@@ -42,20 +45,26 @@ type GetWorkshopsParams struct {
 }
 
 type CreateWorkshopBody struct {
-	TypeId    string  `json:"type_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	Name      string  `json:"name" binding:"required" example:"TALLERES - 1ER BLOQUE"`
-	Shortname *string `json:"shortname" example:"1ER BLOQUE"`
-	Code      *string `json:"code" example:"0001"`
-	Capacity  int     `json:"capacity" example:"1"`
-	EventId   string  `json:"event_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	TypeId    string    `json:"type_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Name      string    `json:"name" binding:"required" example:"TALLERES - 1ER BLOQUE"`
+	Shortname *string   `json:"shortname" example:"1ER BLOQUE"`
+	Code      *string   `json:"code" example:"0001"`
+	Capacity  int       `json:"capacity" example:"1"`
+	StartDate time.Time `json:"start_date" binding:"required" example:"2026-05-10T18:39:07Z"`
+	EndDate   time.Time `json:"end_date" binding:"required" example:"2026-05-10T18:39:13Z"`
+	Place     string    `json:"place" binding:"required" example:"QORIKANCHA"`
+	EventId   string    `json:"event_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 }
 
 type UpdateWorkshopBody struct {
-	TypeId    string  `json:"type_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	Name      string  `json:"name" binding:"required" example:"TALLERES - 1ER BLOQUE"`
-	Shortname *string `json:"shortname" example:"1ER BLOQUE"`
-	Code      *string `json:"code" example:"0001"`
-	Capacity  int     `json:"capacity" example:"1"`
+	TypeId    string    `json:"type_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Name      string    `json:"name" binding:"required" example:"TALLERES - 1ER BLOQUE"`
+	Shortname *string   `json:"shortname" example:"1ER BLOQUE"`
+	Code      *string   `json:"code" example:"0001"`
+	Capacity  int       `json:"capacity" example:"1"`
+	StartDate time.Time `json:"start_date" binding:"required" example:"2026-05-10T18:39:07Z"`
+	EndDate   time.Time `json:"end_date" binding:"required" example:"2026-05-10T18:39:13Z"`
+	Place     string    `json:"place" binding:"required" example:"QORIKANCHA"`
 }
 
 type CreateWorkshop struct {
@@ -65,18 +74,24 @@ type CreateWorkshop struct {
 	Shortname *string `json:"shortname"`
 	Code      *string `json:"code"`
 	Capacity  int     `json:"capacity"`
+	StartDate string  `json:"start_date"`
+	EndDate   string  `json:"end_date"`
+	Place     string  `json:"place"`
 	EventId   string  `json:"event_id"`
 	CreatedBy string  `json:"created_by"`
 	CreatedAt string  `json:"created_at"`
 }
 
 type UpdateWorkshop struct {
-	Id        string  `json:"id"`
-	TypeId    string  `json:"type_id"`
-	Name      string  `json:"name"`
-	Shortname *string `json:"shortname"`
-	Code      *string `json:"code"`
-	Capacity  int     `json:"capacity"`
+	Id        string    `json:"id"`
+	TypeId    string    `json:"type_id"`
+	Name      string    `json:"name"`
+	Shortname *string   `json:"shortname"`
+	Code      *string   `json:"code"`
+	Capacity  int       `json:"capacity"`
+	StartDate time.Time `json:"start_date"`
+	EndDate   time.Time `json:"end_date"`
+	Place     string    `json:"place"`
 }
 
 type DeleteWorkshop struct {

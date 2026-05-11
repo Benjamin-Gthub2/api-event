@@ -26,6 +26,8 @@ DROP TABLE IF EXISTS `attendances`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `attendances` (
   `id` varchar(36) NOT NULL,
+  `workshop_id` varchar(36) NOT NULL,
+  `beneficiary_id` varchar(36) NOT NULL,
   `created_by` varchar(36) NOT NULL,
   `created_at` timestamp NOT NULL,
   `deleted_by` varchar(36) DEFAULT NULL,
@@ -33,8 +35,12 @@ CREATE TABLE `attendances` (
   PRIMARY KEY (`id`),
   KEY `attendances_users_id_fk` (`created_by`),
   KEY `attendances_users_id_fk_2` (`deleted_by`),
+  KEY `attendances_people_id_fk` (`beneficiary_id`),
+  KEY `attendances_workshops_id_fk` (`workshop_id`),
+  CONSTRAINT `attendances_people_id_fk` FOREIGN KEY (`beneficiary_id`) REFERENCES `people` (`id`),
   CONSTRAINT `attendances_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
-  CONSTRAINT `attendances_users_id_fk_2` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`)
+  CONSTRAINT `attendances_users_id_fk_2` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `attendances_workshops_id_fk` FOREIGN KEY (`workshop_id`) REFERENCES `workshops` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,6 +50,7 @@ CREATE TABLE `attendances` (
 
 LOCK TABLES `attendances` WRITE;
 /*!40000 ALTER TABLE `attendances` DISABLE KEYS */;
+INSERT INTO `attendances` VALUES ('0acd6404-32f5-417f-aa2c-d798a7d2b61a','4ccedb06-4737-11f1-8fa8-b601ee4fecb2','d92c99c7-b412-4863-8042-37d3a5e5fe85','2191771e-3e8f-11f1-8bb5-0242ac110002','2026-05-10 05:25:08',NULL,NULL),('196d418d-119c-45c7-b3d8-0948791f2d76','4ccedb06-4737-11f1-8fa8-b601ee4fecb2','d92c99c7-b412-4863-8042-37d3a5e5fe85','30e42728-fb67-11ee-a6a0-0242ac110013','2026-05-10 05:24:08',NULL,NULL),('f63446c1-7014-46b3-9a0e-860ccf090b40','0464efbd-3d91-11f1-bd7e-0242ac110002','d92c99c7-b412-4863-8042-37d3a5e5fe85','30e42728-fb67-11ee-a6a0-0242ac110013','2026-05-10 05:22:45',NULL,NULL);
 /*!40000 ALTER TABLE `attendances` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +281,7 @@ CREATE TABLE `people` (
 
 LOCK TABLES `people` WRITE;
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
-INSERT INTO `people` VALUES ('01307ba2-726c-4316-b3df-b2a14745d684','30e42728-fb67-11ee-a6a0-0242ac110013','00a58296-93b4-11ee-a040-0242ac11000e','00000000','SMART','ONE','','','','VARON',1,'2024-02-21 14:45:24',NULL),('038d1d8a-3ea1-11f1-8bb5-0242ac110002','2191771e-3e8f-11f1-8bb5-0242ac110002','00a58296-93b4-11ee-a040-0242ac11000e','11111111','PERSON 1','ONE',NULL,NULL,NULL,NULL,1,'2026-04-22 18:15:11',NULL),('12f60fdc-b82a-4674-a4f7-9586c9d9779d',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','76602966','Benjamin Alexander','Hualverde','Quispe','952473440','benjamin2alexander0h0q0@gmail.com','M',1,'2026-05-03 22:51:26',NULL),('37643eb0-4140-11f1-88aa-b2d3e152b33b',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','1231232112','P2','SASA','ASAAS',NULL,NULL,NULL,1,'2026-04-26 02:19:38',NULL),('60c9e833-ae6e-403e-ab02-0e96ab3fa13a',NULL,'00a58572-93b4-11ee-a040-0242ac11000e','Luis guerra','Vshs','Bsjs','Hsjs',NULL,NULL,'M',1,'2026-05-03 22:56:26',NULL),('8a499621-853e-42a2-a78e-0a9ba82171fe',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','76602966','Nuevo','Siu','Ju','95324583','saraybenjax100pre@gmail.com','M',1,'2026-05-03 22:54:26',NULL),('d92c99c7-b412-4863-8042-37d3a5e5fe85',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','7867868','66876','678678','68678',NULL,NULL,'M',1,'2026-05-03 23:13:26',NULL);
+INSERT INTO `people` VALUES ('01307ba2-726c-4316-b3df-b2a14745d684','30e42728-fb67-11ee-a6a0-0242ac110013','00a58296-93b4-11ee-a040-0242ac11000e','00000000','SMART','ONE','','','','VARON',1,'2024-02-21 14:45:24',NULL),('038d1d8a-3ea1-11f1-8bb5-0242ac110002','2191771e-3e8f-11f1-8bb5-0242ac110002','00a58296-93b4-11ee-a040-0242ac11000e','11111111','PERSON 1','ONE',NULL,NULL,NULL,NULL,1,'2026-04-22 18:15:11',NULL),('12f60fdc-b82a-4674-a4f7-9586c9d9779d',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','76602966','Benjamin Alexander','Hualverde','Quispe','952473440','benjamin2alexander0h0q0@gmail.com','M',1,'2026-05-03 22:51:26',NULL),('37643eb0-4140-11f1-88aa-b2d3e152b33b',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','1231232112','P2','SASA','ASAAS',NULL,NULL,NULL,1,'2026-04-26 02:19:38',NULL),('60c9e833-ae6e-403e-ab02-0e96ab3fa13a',NULL,'00a58572-93b4-11ee-a040-0242ac11000e','Luis guerra','Vshs','Bsjs','Hsjs',NULL,NULL,'M',1,'2026-05-03 22:56:26',NULL),('6780dd98-d0d4-47ee-bf4c-caa14247c3c9',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','7660254234','Juan','Apellido','Apellido','952473440',NULL,'M',1,'2026-05-08 02:56:26',NULL),('8a499621-853e-42a2-a78e-0a9ba82171fe',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','76602966','Nuevo','Siu','Ju','95324583','saraybenjax100pre@gmail.com','M',1,'2026-05-03 22:54:26',NULL),('b2fecac2-4581-49d0-aa3a-9f1e8f9b5a24',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','32432423','sddasda','asa','asas',NULL,NULL,NULL,1,'2026-05-10 05:27:26',NULL),('d92c99c7-b412-4863-8042-37d3a5e5fe85',NULL,'00a58296-93b4-11ee-a040-0242ac11000e','7867868','66876','678678','68678',NULL,NULL,'M',1,'2026-05-03 23:13:26',NULL);
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +359,7 @@ DROP TABLE IF EXISTS `registrations`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `registrations` (
   `id` varchar(36) NOT NULL,
-  `session_id` varchar(36) NOT NULL,
+  `event_id` varchar(36) NOT NULL,
   `beneficiary_id` varchar(36) NOT NULL,
   `status_id` varchar(36) NOT NULL,
   `created_at` timestamp NOT NULL,
@@ -360,14 +367,14 @@ CREATE TABLE `registrations` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `deleted_by` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `registrations_sessions_id_fk` (`session_id`),
   KEY `registrations_users_id_fk_2` (`created_by`),
   KEY `registrations_users_id_fk_3` (`deleted_by`),
   KEY `registrations_people_id_fk` (`beneficiary_id`),
   KEY `registrations_registration_statuses_id_fk` (`status_id`),
+  KEY `registrations_events_id_fk` (`event_id`),
+  CONSTRAINT `registrations_events_id_fk` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
   CONSTRAINT `registrations_people_id_fk` FOREIGN KEY (`beneficiary_id`) REFERENCES `people` (`id`),
   CONSTRAINT `registrations_registration_statuses_id_fk` FOREIGN KEY (`status_id`) REFERENCES `registration_statuses` (`id`),
-  CONSTRAINT `registrations_sessions_id_fk` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
   CONSTRAINT `registrations_users_id_fk` FOREIGN KEY (`deleted_by`) REFERENCES `users` (`id`),
   CONSTRAINT `registrations_users_id_fk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -379,7 +386,7 @@ CREATE TABLE `registrations` (
 
 LOCK TABLES `registrations` WRITE;
 /*!40000 ALTER TABLE `registrations` DISABLE KEYS */;
-INSERT INTO `registrations` VALUES ('0d9a68d6-3251-42ad-a598-de2858c54e13','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','01307ba2-726c-4316-b3df-b2a14745d684','eacde3b6-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 21:54:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('5077594f-cf91-490f-9c18-8297a9b8f0c8','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','60c9e833-ae6e-403e-ab02-0e96ab3fa13a','eacde3b6-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:56:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('54a20310-dd48-4e5c-9f4d-af6ae19354ea','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','038d1d8a-3ea1-11f1-8bb5-0242ac110002','eacde3b6-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:04:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('baaf40c2-cecc-44f1-b8b7-492edcd54326','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','8a499621-853e-42a2-a78e-0a9ba82171fe','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:54:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('c3f0bef9-a472-4abb-a522-51462011ca09','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','d92c99c7-b412-4863-8042-37d3a5e5fe85','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 23:13:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('d0c3ec00-3067-4121-9890-c6523d3d61ed','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','60c9e833-ae6e-403e-ab02-0e96ab3fa13a','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 23:09:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('d58df443-7afa-49bc-a390-7b96abc41001','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','12f60fdc-b82a-4674-a4f7-9586c9d9779d','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:51:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('e28f9e32-966f-4250-aed3-b66df0f7a03e','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','37643eb0-4140-11f1-88aa-b2d3e152b33b','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:51:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('f19715f9-5a59-4837-8c10-06c28055640a','d873bfd0-4737-11f1-8fa8-b601ee4fecb2','37643eb0-4140-11f1-88aa-b2d3e152b33b','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-03 22:01:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
+INSERT INTO `registrations` VALUES ('368b2a1e-16af-4866-adf6-3a9f8a991580','45e2176c-3d91-11f1-bd7e-0242ac110002','d92c99c7-b412-4863-8042-37d3a5e5fe85','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-10 05:20:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('4310517e-7f1d-44fc-acb5-6e78db9cadc2','45e2176c-3d91-11f1-bd7e-0242ac110002','8a499621-853e-42a2-a78e-0a9ba82171fe','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-10 05:21:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('7be19669-54f9-4f3a-8d97-05dffd3a944c','45e2176c-3d91-11f1-bd7e-0242ac110002','b2fecac2-4581-49d0-aa3a-9f1e8f9b5a24','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-10 05:27:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('ed303f7a-7518-4766-befa-11287deda17e','45e2176c-3d91-11f1-bd7e-0242ac110002','12f60fdc-b82a-4674-a4f7-9586c9d9779d','eacdb210-4708-11f1-8fa8-b601ee4fecb2','2026-05-10 05:20:26','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL);
 /*!40000 ALTER TABLE `registrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,6 +652,42 @@ INSERT INTO `views` VALUES ('121e1288-3e8d-11f1-8bb5-0242ac110002','Entrega Mate
 UNLOCK TABLES;
 
 --
+-- Table structure for table `workshop_speakers`
+--
+
+DROP TABLE IF EXISTS `workshop_speakers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `workshop_speakers` (
+  `id` varchar(36) NOT NULL,
+  `workshop_id` varchar(36) NOT NULL,
+  `speaker_id` varchar(36) NOT NULL,
+  `created_at` timestamp NOT NULL,
+  `created_by` varchar(36) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `deleted_by` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `workshop_speakers_people_id_fk` (`speaker_id`),
+  KEY `workshop_speakers_people_id_fk_2` (`created_by`),
+  KEY `workshop_speakers_people_id_fk_3` (`deleted_by`),
+  KEY `workshop_speakers_workshops_id_fk` (`workshop_id`),
+  CONSTRAINT `workshop_speakers_people_id_fk` FOREIGN KEY (`speaker_id`) REFERENCES `people` (`id`),
+  CONSTRAINT `workshop_speakers_people_id_fk_2` FOREIGN KEY (`created_by`) REFERENCES `people` (`id`),
+  CONSTRAINT `workshop_speakers_people_id_fk_3` FOREIGN KEY (`deleted_by`) REFERENCES `people` (`id`),
+  CONSTRAINT `workshop_speakers_workshops_id_fk` FOREIGN KEY (`workshop_id`) REFERENCES `workshops` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `workshop_speakers`
+--
+
+LOCK TABLES `workshop_speakers` WRITE;
+/*!40000 ALTER TABLE `workshop_speakers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `workshop_speakers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `workshop_types`
 --
 
@@ -692,9 +735,10 @@ CREATE TABLE `workshops` (
   `shortname` text,
   `code` varchar(15) DEFAULT NULL,
   `capacity` int NOT NULL,
-  `total_reg` int NOT NULL,
-  `total_pay` int NOT NULL,
   `total_pres` int NOT NULL,
+  `start_date` timestamp NOT NULL,
+  `end_date` timestamp NOT NULL,
+  `place` text NOT NULL,
   `event_id` varchar(36) NOT NULL,
   `created_at` timestamp NOT NULL,
   `created_by` varchar(36) NOT NULL,
@@ -718,7 +762,7 @@ CREATE TABLE `workshops` (
 
 LOCK TABLES `workshops` WRITE;
 /*!40000 ALTER TABLE `workshops` DISABLE KEYS */;
-INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001',500,9,9,9,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('195ed3bc-4737-11f1-8fa8-b601ee4fecb2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 3ER BLOQUE','3ER BLOQUE','0003',500,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('4ccedb06-4737-11f1-8fa8-b601ee4fecb2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 4TO BLOQUE','4TO BLOQUE','0004',500,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b3c5cde4-5a58-4841-a998-d2bd5d40cfa2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 2DO BLOQUE','2ER BLOQUE','0002',500,0,0,0,'45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,'30e42728-fb67-11ee-a6a0-0242ac110013');
+INSERT INTO `workshops` VALUES ('0464efbd-3d91-11f1-bd7e-0242ac110002','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 1ER BLOQUE','1ER BLOQUE','0001',500,0,'2026-05-10 18:39:07','2026-05-10 18:39:13','QORIKANCHA','45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-21 09:50:04','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('195ed3bc-4737-11f1-8fa8-b601ee4fecb2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 3ER BLOQUE','3ER BLOQUE','0003',500,0,'2026-05-10 18:39:10','2026-05-10 18:39:14','SAQSAYHUAMAN','45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('4ccedb06-4737-11f1-8fa8-b601ee4fecb2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 4TO BLOQUE','4TO BLOQUE','0004',500,0,'2026-05-10 18:39:11','2026-05-10 18:39:15','PISAC','45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,NULL),('b3c5cde4-5a58-4841-a998-d2bd5d40cfa2','a70f46f3-3d90-11f1-bd7e-0242ac110002','TALLERES - 2DO BLOQUE','2ER BLOQUE','0002',500,0,'2026-05-10 18:39:12','2026-05-10 18:39:15','OLLANTAYTAMBO','45e2176c-3d91-11f1-bd7e-0242ac110002','2026-04-23 15:48:25','30e42728-fb67-11ee-a6a0-0242ac110013',NULL,'30e42728-fb67-11ee-a6a0-0242ac110013');
 /*!40000 ALTER TABLE `workshops` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -731,4 +775,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-07  8:42:07
+-- Dump completed on 2026-05-10 18:46:54

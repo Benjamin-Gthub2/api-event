@@ -113,6 +113,9 @@ func (h workshopsHandler) CreateWorkshop(c *gin.Context) {
 		Shortname: createBodyValidated.Shortname,
 		Code:      createBodyValidated.Code,
 		Capacity:  createBodyValidated.Capacity,
+		StartDate: createBodyValidated.StartDate,
+		EndDate:   createBodyValidated.EndDate,
+		Place:     createBodyValidated.Place,
 		EventId:   createBodyValidated.EventId,
 	}
 
@@ -168,6 +171,9 @@ func (h workshopsHandler) UpdateWorkshop(c *gin.Context) {
 		Shortname: updateBodyValidated.Shortname,
 		Code:      updateBodyValidated.Code,
 		Capacity:  updateBodyValidated.Capacity,
+		StartDate: updateBodyValidated.StartDate,
+		EndDate:   updateBodyValidated.EndDate,
+		Place:     updateBodyValidated.Place,
 	}
 
 	err := h.workshopsUseCase.UpdateWorkshop(ctx, workshopId, updateBody)
