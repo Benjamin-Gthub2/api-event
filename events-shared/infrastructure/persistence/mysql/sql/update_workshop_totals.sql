@@ -1,5 +1,3 @@
 UPDATE workshops
-SET total_reg  = COALESCE(?, total_reg),
-    total_pay  = COALESCE(?, total_pay),
-    total_pres = COALESCE(?, total_pres)
+SET   total_pres = COALESCE(?, total_pres)
 WHERE id = ?;

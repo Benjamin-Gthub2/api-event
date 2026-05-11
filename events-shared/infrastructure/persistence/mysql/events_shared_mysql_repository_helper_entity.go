@@ -21,8 +21,6 @@ type EventTotals struct {
 
 type WorkshopTotals struct {
 	Id        string `db:"workshop_id"`
-	TotalReg  int    `db:"workshop_total_reg"`
-	TotalPay  int    `db:"workshop_total_pay"`
 	TotalPres int    `db:"workshop_total_pres"`
 }
 

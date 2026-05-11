@@ -22,10 +22,6 @@ type UpdateEventTotals struct {
 }
 
 type UpdateWorkshopTotals struct {
-	//Description: registrations total of workshop
-	TotalReg *int `json:"total_reg" example:"6"`
-	//Description: payments total of workshop
-	TotalPay *int `json:"total_pay" example:"2"`
 	//Description: presence total of workshop
 	TotalPres *int `json:"total_pres" example:"3"`
 }
@@ -53,10 +49,6 @@ type EventTotals struct {
 type WorkshopTotals struct {
 	//DescriptionL the id of workshop
 	Id string `json:"id" binding:"required" example:"219bbbc9-7e93-11ee-89fd-0242ac110016"`
-	//Description: registrations total of event
-	TotalReg int `json:"total_reg" binding:"required" example:"6"`
-	//Description: payments total of event
-	TotalPay int `json:"total_pay" binding:"required" example:"2"`
 	//Description: presence total of event
 	TotalPres int `json:"total_pres" binding:"required" example:"3"`
 }

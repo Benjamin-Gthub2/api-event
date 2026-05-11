@@ -82,9 +82,7 @@ func (r eventSharedMySQLRepo) UpdateWorkshopTotals(
 	_, err = tx.ExecContext(
 		ctx,
 		QueryUpdateWorkshopTotals,
-		body.TotalReg,
-		body.TotalPay,
-		body.TotalReg,
+		body.TotalPres,
 		eventId,
 	)
 	if err != nil {
