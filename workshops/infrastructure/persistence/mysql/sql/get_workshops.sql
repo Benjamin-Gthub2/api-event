@@ -22,5 +22,5 @@ FROM workshops workshops
 WHERE IF(? IS NULL, TRUE, workshops.event_id = TRIM(?))
   AND IF(? IS NULL, TRUE, workshops.type_id = TRIM(?))
   AND workshops.deleted_at IS NULL
-ORDER BY workshops.name
+ORDER BY workshops.code
 LIMIT ? OFFSET ?;
