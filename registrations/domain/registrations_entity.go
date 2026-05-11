@@ -17,6 +17,10 @@ var (
 type Registration struct {
 	//Description: The id of registration.
 	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: The flag to verify if qr was sending
+	SendQr bool `json:"send_qr" binding:"required" example:"true"`
+	//Description: The flag to verify if certificate was sending
+	SendCertificate bool `json:"send_certificate" binding:"required" example:"false"`
 	//Description: The date of the creation of the registration.
 	CreatedAt   *time.Time  `json:"created_at" example:"2023-11-10 08:10:00"`
 	Status      Status      `json:"status" binding:"required"`

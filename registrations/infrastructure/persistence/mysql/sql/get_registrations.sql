@@ -1,4 +1,6 @@
 SELECT registrations.id                                     AS registration_id,
+       registrations.send_qr                                AS registration_send_qr,
+       registrations.send_certificate                       AS registration_send_certificate,
        registrations.created_at                             AS registration_created_at,
        statuses.id                                          AS status_id,
        statuses.code                                        AS status_code,
