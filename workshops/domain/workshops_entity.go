@@ -104,6 +104,10 @@ type GetWorkshopSumsParams struct {
 	paramsDomain.Params
 	//Description: the id of workshop
 	WorkshopId *string `json:"workshop_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113421"`
+	//Description: the start date
+	StartDate *string `json:"start_date" example:"2026-04-21"`
+	//Description: the end date
+	EndDate *string `json:"end_date" example:"2026-04-21"`
 }
 
 type WorkshopSums struct {
@@ -111,15 +115,29 @@ type WorkshopSums struct {
 	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	//Description: the name of workshop
 	Name *string `json:"name" example:"Workshop 1"`
+	//Description: the name of workshop
+	StartDate *time.Time `json:"start_date" example:"2023-11-10 08:10:00"`
+	//Description: the name of workshop
+	EndDate *time.Time `json:"end_date" example:"2023-11-10 08:10:00"`
+	//Description: the place of workshop
+	Place *string `json:"place" example:"Qorikancha"`
 	//Description: the capacity of workshop
 	Capacity *int `json:"capacity" example:"1"`
-	//Description: the quantity of registrations
-	TotalRegistrations *int `json:"total_registrations" example:"1"`
-	//Description: the quantity of payments
-	TotalPayments *int `json:"total_payments" example:"1"`
 	//Description: the quantity of presences
-	TotalPresences *int          `json:"total_presences" example:"1"`
-	SessionSums    []SessionSums `json:"session_sums"`
+	TotalPresences *int `json:"total_presences" example:"1"`
+}
+
+type Speaker struct {
+	//Description: the degree abbreviation of speaker
+	DegreeAbbreviation *string `json:"degree_abbreviation" example:"Dr."`
+	//Description: the id of speaker
+	Id *string `json:"id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the name of speaker
+	Name *string `json:"name" example:"Pepe"`
+	//Description: the surname of speaker
+	Surname *string `json:"surname" example:"Quintana"`
+	//Description: the lastname of speaker
+	LastName *string `json:"last_name" example:"Garcia"`
 }
 
 type SessionSums struct {

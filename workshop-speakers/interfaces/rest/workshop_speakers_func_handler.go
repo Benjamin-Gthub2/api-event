@@ -108,8 +108,9 @@ func (h workshopSpeakersHandler) CreateWorkshopSpeaker(c *gin.Context) {
 	}
 
 	createBody := workshopSpeakersDomain.CreateWorkshopSpeakerBody{
-		WorkshopId: createBodyValidated.WorkshopId,
-		SpeakerId:  createBodyValidated.SpeakerId,
+		WorkshopId:         createBodyValidated.WorkshopId,
+		SpeakerId:          createBodyValidated.SpeakerId,
+		DegreeAbbreviation: createBodyValidated.DegreeAbbreviation,
 	}
 
 	id, err := h.workshopSpeakersUseCase.CreateWorkshopSpeaker(ctx, userId, createBody)

@@ -89,6 +89,7 @@ const docTemplateworkshopSpeakers = `{
             "required": ["created_by", "id", "speaker", "workshop"],
             "properties": {
                 "id": {"type": "string", "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"},
+                "degree_abbreviation": {"type": "string", "example": "Dr."},
                 "created_at": {"type": "string", "example": "2026-04-21 09:50:04"},
                 "workshop": {"$ref": "#/definitions/domain.Workshop"},
                 "speaker": {"$ref": "#/definitions/domain.Speaker"},
@@ -162,7 +163,8 @@ const docTemplateworkshopSpeakers = `{
             "required": ["speaker_id", "workshop_id"],
             "properties": {
                 "workshop_id": {"type": "string", "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"},
-                "speaker_id": {"type": "string", "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"}
+                "speaker_id": {"type": "string", "example": "739bbbc9-7e93-11ee-89fd-0242ac113422"},
+                "degree_abbreviation": {"type": "string", "example": "Dr."}
             }
         },
         "rest.workshopSpeakerByIdResult": {

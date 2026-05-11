@@ -35,13 +35,22 @@ type CreatedBy struct {
 }
 
 type WorkshopSums struct {
-	Id                 *string `db:"workshop_id"`
-	Name               *string `db:"workshop_name"`
-	Capacity           *int    `db:"workshop_capacity"`
-	TotalRegistrations *int    `db:"workshop_total_reg"`
-	TotalPayments      *int    `db:"workshop_total_pay"`
-	TotalPresences     *int    `db:"workshop_total_pres"`
-	SessionSums        []SessionSums
+	Id             *string    `db:"workshop_id"`
+	Name           *string    `db:"workshop_name"`
+	StartDate      *time.Time `db:"workshop_start_date"`
+	EndDate        *time.Time `db:"workshop_end_date"`
+	Place          *string    `db:"workshop_place"`
+	Capacity       *int       `db:"workshop_capacity"`
+	TotalPresences *int       `db:"workshop_total_pres"`
+	Speaker        []Speaker
+}
+
+type Speaker struct {
+	DegreeAbbreviation *string `db:"workshop_speaker_degree_abbreviation"`
+	Id                 *string `db:"speaker_id"`
+	Name               *string `db:"speaker_name"`
+	Surname            *string `db:"speaker_surname"`
+	LastName           *string `db:"speaker_last_name"`
 }
 
 type SessionSums struct {

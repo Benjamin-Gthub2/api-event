@@ -158,6 +158,7 @@ func (r workshopSpeakersMySQLRepo) CreateWorkshopSpeaker(
 		QueryCreateWorkshopSpeaker,
 		body.Id,
 		body.WorkshopId,
+		body.DegreeAbbreviation,
 		body.SpeakerId,
 		body.CreatedBy,
 		now,

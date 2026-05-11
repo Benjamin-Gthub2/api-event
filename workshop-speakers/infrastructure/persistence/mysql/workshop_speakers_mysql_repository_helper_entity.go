@@ -3,11 +3,12 @@ package mysql
 import "time"
 
 type WorkshopSpeaker struct {
-	Id        string     `db:"workshop_speaker_id"`
-	CreatedAt *time.Time `db:"workshop_speaker_created_at"`
-	Workshop  Workshop
-	Speaker   Speaker
-	CreatedBy CreatedBy
+	Id                 string     `db:"workshop_speaker_id"`
+	DegreeAbbreviation *string    `db:"workshop_speaker_degree_abbreviation"`
+	CreatedAt          *time.Time `db:"workshop_speaker_created_at"`
+	Workshop           Workshop
+	Speaker            Speaker
+	CreatedBy          CreatedBy
 }
 
 type Workshop struct {

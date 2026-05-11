@@ -1,5 +1,6 @@
-SELECT workshop_speakers.id         AS workshop_speaker_id,
-       workshop_speakers.created_at AS workshop_speaker_created_at,
+SELECT workshop_speakers.id                   AS workshop_speaker_id,
+       workshop_speakers.degree_abbreviation   AS workshop_speaker_degree_abbreviation,
+       workshop_speakers.created_at            AS workshop_speaker_created_at,
        workshops.id                 AS workshop_id,
        workshops.name               AS workshop_name,
        workshops.shortname          AS workshop_shortname,

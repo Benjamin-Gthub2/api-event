@@ -1,17 +1,19 @@
-SELECT workshops.id         AS workshop_id,
-       workshops.name       AS workshop_name,
-       workshops.capacity   AS workshop_capacity,
-       workshops.total_reg  AS workshop_total_reg,
-       workshops.total_pay  AS workshop_total_pay,
-       workshops.total_pres AS workshop_total_pres,
-       sessions.id          AS session_id,
-       sessions.start_date  AS session_start_date,
-       sessions.end_date    AS session_end_date,
-       sessions.total_reg   AS session_total_reg,
-       sessions.total_pay   AS session_total_pay,
-       sessions.total_pres  AS session_total_pres
+SELECT workshops.id                          AS workshop_id,
+       workshops.name                        AS workshop_name,
+       workshops.start_date                  AS workshop_start_date,
+       workshops.end_date                    AS workshop_end_date,
+       workshops.place                       AS workshop_place,
+       workshops.capacity                    AS workshop_capacity,
+       workshops.total_pres                  AS workshop_total_pres,
+       workshop_speakers.degree_abbreviation AS workshop_speaker_degree_abbreviation,
+       speakers.id                           AS speaker_id,
+       speakers.names                        AS speaker_name,
+       speakers.surname                      AS speaker_surname,
+       speakers.last_name                    AS speaker_last_name
 FROM workshops workshops
-         LEFT JOIN sessions sessions ON workshops.id = sessions.workshop_id
+         LEFT JOIN workshop_speakers workshop_speakers ON workshops.id = workshop_speakers.workshop_id
+         LEFT JOIN people speakers ON workshop_speakers.speaker_id = speakers.id
 WHERE IF(? IS NULL, TRUE, workshops.id = ?)
-  AND workshops.deleted_at IS NULL
-  AND sessions.deleted_at IS NULL;
+  AND IF(? IS NULL, TRUE, DATE(workshops.start_date) >= DATE(?))
+  AND IF(? IS NULL, TRUE, DATE(workshops.end_date) <= DATE(?))
+  AND workshops.deleted_at IS NULL;

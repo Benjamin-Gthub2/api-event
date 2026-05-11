@@ -4,11 +4,11 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
 	httpResponse "github.com/Benjamin-Gthub2/api-shared/custom-http/interfaces/rest"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	workshopsDomain "github.com/Benjamin-Gthub2/api-event/workshops/domain"
 )
@@ -225,6 +225,8 @@ func (h workshopsHandler) DeleteWorkshop(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param workshop_id query string false "the id of workshop"
+// @Param start_date query string false "Filter by start date (YYYY-MM-DD)"
+// @Param end_date query string false "Filter by end date (YYYY-MM-DD)"
 // @Success 200 {object} workshopsSummaryResult "Success Request"
 // @Failure 500 {object} errorDomain.SmartError "Bad Request"
 // @Router /api/v1/event/workshops/summary [get]

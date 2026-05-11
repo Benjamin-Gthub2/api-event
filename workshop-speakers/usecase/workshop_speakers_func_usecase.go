@@ -108,10 +108,11 @@ func (u workshopSpeakersUseCase) CreateWorkshopSpeaker(
 	workshopSpeakerId := uuid.New().String()
 
 	createWorkshopSpeaker := workshopSpeakersDomain.CreateWorkshopSpeaker{
-		Id:         workshopSpeakerId,
-		WorkshopId: body.WorkshopId,
-		SpeakerId:  body.SpeakerId,
-		CreatedBy:  userId,
+		Id:                 workshopSpeakerId,
+		WorkshopId:         body.WorkshopId,
+		DegreeAbbreviation: body.DegreeAbbreviation,
+		SpeakerId:          body.SpeakerId,
+		CreatedBy:          userId,
 	}
 	err = u.workshopSpeakersRepository.CreateWorkshopSpeaker(ctx, createWorkshopSpeaker)
 	if err != nil {

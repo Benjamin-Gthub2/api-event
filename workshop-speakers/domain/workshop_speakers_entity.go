@@ -7,11 +7,12 @@ import (
 )
 
 type WorkshopSpeaker struct {
-	Id        string    `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	CreatedAt *time.Time `json:"created_at" example:"2026-04-21 09:50:04"`
-	Workshop  Workshop  `json:"workshop" binding:"required"`
-	Speaker   Speaker   `json:"speaker" binding:"required"`
-	CreatedBy CreatedBy `json:"created_by" binding:"required"`
+	Id                 string     `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	DegreeAbbreviation *string    `json:"degree_abbreviation" example:"Dr."`
+	CreatedAt          *time.Time `json:"created_at" example:"2026-04-21 09:50:04"`
+	Workshop           Workshop   `json:"workshop" binding:"required"`
+	Speaker            Speaker    `json:"speaker" binding:"required"`
+	CreatedBy          CreatedBy  `json:"created_by" binding:"required"`
 }
 
 type Workshop struct {
@@ -40,16 +41,18 @@ type GetWorkshopSpeakersParams struct {
 }
 
 type CreateWorkshopSpeakerBody struct {
-	WorkshopId string `json:"workshop_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	SpeakerId  string `json:"speaker_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	WorkshopId         string  `json:"workshop_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	SpeakerId          string  `json:"speaker_id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	DegreeAbbreviation *string `json:"degree_abbreviation" example:"Dr."`
 }
 
 type CreateWorkshopSpeaker struct {
-	Id         string `json:"id"`
-	WorkshopId string `json:"workshop_id"`
-	SpeakerId  string `json:"speaker_id"`
-	CreatedBy  string `json:"created_by"`
-	CreatedAt  string `json:"created_at"`
+	Id                 string  `json:"id"`
+	WorkshopId         string  `json:"workshop_id"`
+	DegreeAbbreviation *string `json:"degree_abbreviation"`
+	SpeakerId          string  `json:"speaker_id"`
+	CreatedBy          string  `json:"created_by"`
+	CreatedAt          string  `json:"created_at"`
 }
 
 type DeleteWorkshopSpeaker struct {

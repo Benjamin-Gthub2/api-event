@@ -9,7 +9,9 @@
       "Bash(Format-Table -AutoSize)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Recurse -Force)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "PowerShell(head *)"
+      "PowerShell(head *)",
+      "Bash(Select-String -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\BDBackupCumbreNuevo.sql\" -Pattern \"workshop_speakers\" -Context 0,30)",
+      "Bash(Select-Object -First 1)"
     ]
   }
 }
