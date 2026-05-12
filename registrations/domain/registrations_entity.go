@@ -166,3 +166,8 @@ type CreateRegistration struct {
 	//Description: the id of creator
 	CreatedBy string `json:"created_by" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }
+
+type SendQrWhatsAppBody struct {
+	//Description: destination phone number with country code, no + sign (e.g. 51987654321)
+	PhoneNumber string `json:"phone_number" binding:"required" example:"51987654321"`
+}

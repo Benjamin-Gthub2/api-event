@@ -25,6 +25,54 @@ import (
 	restCore "github.com/Benjamin-Gthub2/api-shared/api-core/interfaces/rest"
 )
 
+// SendQrWhatsApp is a method to send the registration QR code via WhatsApp
+// @Summary Send QR via WhatsApp
+// @Description Uploads the registration QR image and sends it to the given phone number using a pre-approved Meta template
+// @Tags Registrations
+// @Accept json
+// @Produce json
+// @Param registrationId path string true "the id of the registration"
+// @Param sendQrWhatsAppBody body registrationsDomain.SendQrWhatsAppBody true "Phone number with country code (no +)"
+// @Success 200 {object} httpResponse.StatusResult "Success Request"
+// @Failure 400 {object} errorDomain.SmartError "Bad Request"
+// @Failure 500 {object} errorDomain.SmartError "Internal Server Error"
+// @Router /api/v1/event/registrations/{registrationId}/send_qr_whatsapp [post]
+// @Security BearerAuth
+func (h registrationsHandler) SendQrWhatsApp(c *gin.Context) {
+	ctx := c.Request.Context()
+	registrationId := c.Param("registrationId")
+
+	var bodyValidated sendQrWhatsAppValidated
+	if err := c.ShouldBindJSON(&bodyValidated); err != nil {
+		validationErrs, errFind := err.(validator.ValidationErrors)
+		if !errFind {
+			err = h.err.Clone().SetFunction("SendQrWhatsApp").SetRaw(errors.New("casting ValidationErrors"))
+			restCore.ErrJson(c, err)
+			return
+		}
+		messagesErr := make([]string, 0)
+		for _, validationErr := range validationErrs {
+			messagesErr = append(messagesErr, validationErr.Field()+" "+validationErr.Tag())
+		}
+		err = h.err.Clone().SetFunction("SendQrWhatsApp").SetMessages(messagesErr)
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	body := registrationsDomain.SendQrWhatsAppBody{
+		PhoneNumber: bodyValidated.PhoneNumber,
+	}
+
+	err := h.registrationsUseCase.SendQrWhatsApp(ctx, registrationId, body)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := httpResponse.StatusResult{Status: http.StatusOK}
+	restCore.Json(c, http.StatusOK, res)
+}
+
 // GetQrRegistrationById is a method to get qr registrations
 // @Summary Get qr registration by id
 // @Description Get qr registration by id

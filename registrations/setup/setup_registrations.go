@@ -28,6 +28,7 @@ import (
 	registrationSharedRepository "github.com/Benjamin-Gthub2/api-event/registrations-shared/infrastructure/persistence/mysql"
 	registrationsMqttRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/mqtt"
 	registrationsRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/persistence/mysql"
+	registrationsWhatsAppRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/whatsapp"
 	registrationsHttpDelivery "github.com/Benjamin-Gthub2/api-event/registrations/interfaces/rest"
 	registrationsUseCase "github.com/Benjamin-Gthub2/api-event/registrations/usecase"
 )
@@ -43,10 +44,12 @@ func LoadRegistrations(router *gin.Engine) {
 		clock, 60, eventSharedRepository)
 	authMiddleware := auth.LoadAuthMiddleware()
 	registrationMqttRepository := registrationsMqttRepository.NewRegistrationsRTRepository(mqtt.MqttClient)
+	registrationWhatsAppRepository := registrationsWhatsAppRepository.NewRegistrationsWhatsAppRepository()
 
 	registrationsUCase := registrationsUseCase.NewRegistrationsUseCase(
 		registrationRepository,
 		registrationMqttRepository,
+		registrationWhatsAppRepository,
 		registrationsSharedRepository,
 		validationRepository,
 		authJWTRepository,

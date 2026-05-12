@@ -795,7 +795,7 @@ func (r usersMySQLRepo) GetUserByUserNameAndPassword(
 	var users = make([]usersDomain.User, 0)
 	automapper.Map(usersTmp, &users)
 	if len(users) == 0 {
-		return nil, xTenantId, r.err.Clone().SetFunction("GetUserByUserNameAndPassword")
+		return nil, xTenantId, usersDomain.ErrInvalidCredentials
 	}
 	return &users[0], xTenantId, nil
 }

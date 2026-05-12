@@ -20,6 +20,7 @@ import (
 
 const (
 	ErrUserNotFoundCode                 = "ERR_USER_NOT_FOUND"
+	ErrInvalidCredentialsCode           = "ERR_INVALID_CREDENTIALS"
 	ErrUserUsernameAlreadyExistCode     = "ERR_USER_USERNAME_ALREADY_EXIST"
 	ErrUserIdHasBeenDeletedCode         = "ERR_USER_ID_HAS_BEEN_DELETED"
 	ErrPersonIdNotExistCode             = "ERR_PERSON_ID_NOT_EXIST"
@@ -33,6 +34,14 @@ const (
 )
 
 var (
+	ErrInvalidCredentials = errDomain.NewErr().
+				SetCode(ErrInvalidCredentialsCode).
+				SetDescription("INVALID USERNAME OR PASSWORD").
+				SetLevel(errDomain.LevelError).
+				SetHttpStatus(http.StatusUnauthorized).
+				SetLayer(errDomain.Infra).
+				SetFunction("GetUserByUserNameAndPassword")
+
 	ErrWrongPassword = errDomain.NewErr().
 				SetCode(ErrWrongPasswordCode).
 				SetDescription("WRONG PASSWORD").

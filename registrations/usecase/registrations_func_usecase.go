@@ -236,6 +236,66 @@ func (u registrationsUseCase) CreateRegistration(
 	return &registrationId, nil
 }
 
+func (u registrationsUseCase) SendQrWhatsApp(
+	ctx context.Context,
+	registrationId string,
+	body registrationsDomain.SendQrWhatsAppBody,
+) (err error) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var deleted = "deleted_at"
+	recordExistsParams := validationsDomain.RecordExistsParams{
+		Table:            "registrations",
+		IdColumnName:     "id",
+		IdValue:          registrationId,
+		StatusColumnName: &deleted,
+		StatusValue:      nil,
+	}
+	var exist bool
+	exist, err = u.validationRepository.RecordExists(ctx, recordExistsParams)
+	if err != nil {
+		return err
+	}
+	if !exist {
+		return registrationsDomain.ErrRegistrationsNotFound
+	}
+
+	registration, err := u.registrationsRepository.GetRegistrationById(ctx, registrationId)
+	if err != nil {
+		return err
+	}
+
+	qrCode, err := u.registrationsRepository.GetQrRegistrationById(ctx, registrationId)
+	if err != nil {
+		return err
+	}
+
+	mediaId, err := u.registrationsWhatsAppRepository.UploadMedia(ctx, qrCode)
+	if err != nil {
+		return err
+	}
+
+	templateName := "qr_registro_evento"
+	templateLang := "es"
+	fullName := registration.Beneficiary.Names + " " + registration.Beneficiary.Surname
+
+	err = u.registrationsWhatsAppRepository.SendTemplateMessage(ctx, registrationsDomain.SendWhatsAppTemplateParams{
+		To:           body.PhoneNumber,
+		TemplateName: templateName,
+		Language:     templateLang,
+		MediaId:      mediaId,
+		Names:        fullName,
+		EventName:    registration.Event.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (u registrationsUseCase) UpdateRegistrationStatus(
 	ctx context.Context,
 	registrationId string,

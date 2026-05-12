@@ -16,3 +16,7 @@ type createRegistrationValidated struct {
 	EventId       string `json:"event_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	BeneficiaryId string `json:"beneficiary_id" binding:"required" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 }
+
+type sendQrWhatsAppValidated struct {
+	PhoneNumber string `json:"phone_number" binding:"required" example:"51987654321"`
+}

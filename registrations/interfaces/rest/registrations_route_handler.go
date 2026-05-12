@@ -45,9 +45,8 @@ func NewRegistrationsHandler(
 	api.Use(handler.authMiddleware.Auth)
 	api.GET("/registrations", handler.GetRegistrations)
 	api.GET("/registrations/:registrationId", handler.GetRegistrationById)
-	api.GET("/registrations/:registrationId/qr", handler.GetQrRegistrationById) //mas adelante convertir en dos enpoints para get y post
+	api.GET("/registrations/:registrationId/qr", handler.GetQrRegistrationById)
 	api.POST("/registrations", handler.CreateRegistration)
 	api.PUT("/registrations/:registrationId/statuses/:statusCode", handler.UpdateRegistrationApprovalStatus)
-	//api.PUT("/registrations/:registrationId/send_qr", handler.UpdateRegistrationApprovalStatus)
-	//api.PUT("/registrations/:registrationId/send_certificate", handler.UpdateRegistrationApprovalStatus)
+	api.POST("/registrations/:registrationId/send_qr_whatsapp", handler.SendQrWhatsApp)
 }

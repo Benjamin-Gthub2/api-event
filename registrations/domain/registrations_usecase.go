@@ -25,4 +25,5 @@ type RegistrationsUseCase interface {
 	) ([]Registration, *paramsDomain.PaginationResults, error)
 	CreateRegistration(ctx context.Context, userId string, body CreateRegistrationBody) (*string, error)
 	UpdateRegistrationStatus(ctx context.Context, registrationId string, statusCode string) error
+	SendQrWhatsApp(ctx context.Context, registrationId string, body SendQrWhatsAppBody) error
 }

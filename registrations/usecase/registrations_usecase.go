@@ -25,30 +25,33 @@ import (
 )
 
 type registrationsUseCase struct {
-	registrationsRepository      registrationsDomain.RegistrationsRepository
-	registrationsRTRepository    registrationsDomain.RegistrationsRTRepository
-	registrationSharedRepository registrationSharedDomain.RegistrationSharedRepository
-	validationRepository         validationsDomain.ValidationRepository
-	authRepository               authDomain.AuthRepository
-	contextTimeout               time.Duration
-	err                          *errDomain.SmartError
+	registrationsRepository         registrationsDomain.RegistrationsRepository
+	registrationsRTRepository       registrationsDomain.RegistrationsRTRepository
+	registrationsWhatsAppRepository registrationsDomain.RegistrationsWhatsAppRepository
+	registrationSharedRepository    registrationSharedDomain.RegistrationSharedRepository
+	validationRepository            validationsDomain.ValidationRepository
+	authRepository                  authDomain.AuthRepository
+	contextTimeout                  time.Duration
+	err                             *errDomain.SmartError
 }
 
 func NewRegistrationsUseCase(
 	ur registrationsDomain.RegistrationsRepository,
 	registrationsRTRepository registrationsDomain.RegistrationsRTRepository,
+	registrationsWhatsAppRepository registrationsDomain.RegistrationsWhatsAppRepository,
 	registrationSharedRepository registrationSharedDomain.RegistrationSharedRepository,
 	validation validationsDomain.ValidationRepository,
 	authRepository authDomain.AuthRepository,
 	timeout time.Duration,
 ) registrationsDomain.RegistrationsUseCase {
 	return &registrationsUseCase{
-		registrationsRepository:      ur,
-		registrationsRTRepository:    registrationsRTRepository,
-		registrationSharedRepository: registrationSharedRepository,
-		validationRepository:         validation,
-		authRepository:               authRepository,
-		contextTimeout:               timeout,
-		err:                          errDomain.NewErr().SetLayer(errDomain.UseCase),
+		registrationsRepository:         ur,
+		registrationsRTRepository:       registrationsRTRepository,
+		registrationsWhatsAppRepository:  registrationsWhatsAppRepository,
+		registrationSharedRepository:    registrationSharedRepository,
+		validationRepository:            validation,
+		authRepository:                  authRepository,
+		contextTimeout:                  timeout,
+		err:                             errDomain.NewErr().SetLayer(errDomain.UseCase),
 	}
 }
