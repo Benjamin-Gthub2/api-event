@@ -20,7 +20,6 @@ import (
 )
 
 type RegistrationsRepository interface {
-	GetQrRegistrationById(ctx context.Context, registrationId string) ([]byte, error)
 	GetRegistrationById(ctx context.Context, registrationId string) (*Registration, error)
 	GetRegistrations(
 		ctx context.Context, pagination paramsDomain.PaginationParams, searchParams GetRegistrationsParams,

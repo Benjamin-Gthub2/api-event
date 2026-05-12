@@ -26,6 +26,7 @@ import (
 
 type registrationsUseCase struct {
 	registrationsRepository         registrationsDomain.RegistrationsRepository
+	registrationsStorageRepository  registrationsDomain.RegistrationsStorageRepository
 	registrationsRTRepository       registrationsDomain.RegistrationsRTRepository
 	registrationsWhatsAppRepository registrationsDomain.RegistrationsWhatsAppRepository
 	registrationSharedRepository    registrationSharedDomain.RegistrationSharedRepository
@@ -37,6 +38,7 @@ type registrationsUseCase struct {
 
 func NewRegistrationsUseCase(
 	ur registrationsDomain.RegistrationsRepository,
+	registrationsStorageRepository registrationsDomain.RegistrationsStorageRepository,
 	registrationsRTRepository registrationsDomain.RegistrationsRTRepository,
 	registrationsWhatsAppRepository registrationsDomain.RegistrationsWhatsAppRepository,
 	registrationSharedRepository registrationSharedDomain.RegistrationSharedRepository,
@@ -46,6 +48,7 @@ func NewRegistrationsUseCase(
 ) registrationsDomain.RegistrationsUseCase {
 	return &registrationsUseCase{
 		registrationsRepository:         ur,
+		registrationsStorageRepository:  registrationsStorageRepository,
 		registrationsRTRepository:       registrationsRTRepository,
 		registrationsWhatsAppRepository:  registrationsWhatsAppRepository,
 		registrationSharedRepository:    registrationSharedRepository,

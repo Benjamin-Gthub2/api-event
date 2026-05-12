@@ -19,7 +19,6 @@ import (
 
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/jackskj/carta"
-	"github.com/skip2/go-qrcode"
 	"github.com/stroiman/go-automapper"
 
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
@@ -48,25 +47,6 @@ var QueryUpdateRegistrationSendQr string
 
 func intToPtr(value int) *int {
 	return &value
-}
-
-func (r registrationsMySQLRepo) GetQrRegistrationById(
-	ctx context.Context,
-	registrationId string,
-) (
-	qrCode []byte,
-	err error,
-) {
-	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	var cancel context.CancelFunc
-	ctx, cancel = context.WithTimeout(ctx, r.timeout)
-	defer cancel()
-
-	qrCode, err = qrcode.Encode(registrationId, qrcode.Medium, 256)
-	if err != nil {
-		return nil, err
-	}
-	return qrCode, nil
 }
 
 func (r registrationsMySQLRepo) GetRegistrationById(

@@ -22,6 +22,7 @@ import (
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 	validationsDomain "github.com/Benjamin-Gthub2/api-shared/validations/domain"
 	"github.com/google/uuid"
+	"github.com/skip2/go-qrcode"
 
 	registrationSharedDomain "github.com/Benjamin-Gthub2/api-event/registrations-shared/domain"
 
@@ -57,7 +58,7 @@ func (u registrationsUseCase) GetQrRegistrationById(
 		return qrCode, registrationsDomain.ErrRegistrationsNotFound
 	}
 
-	qrCode, err = u.registrationsRepository.GetQrRegistrationById(ctx, registrationId)
+	qrCode, err = u.registrationsStorageRepository.GetQr(ctx, registrationId)
 	if err != nil {
 		return qrCode, err
 	}
@@ -226,6 +227,16 @@ func (u registrationsUseCase) CreateRegistration(
 		return nil, err
 	}
 
+	var qrBytes []byte
+	qrBytes, err = qrcode.Encode(registrationId, qrcode.Medium, 256)
+	if err != nil {
+		return nil, err
+	}
+	err = u.registrationsStorageRepository.UploadQr(ctx, registrationId, qrBytes)
+	if err != nil {
+		return nil, err
+	}
+
 	//emitir la señal
 	_, xTenantId, _ := db.ClientDB(ctx)
 	//linearJson, _ := u.transformToLinearJSON(notificationById)
@@ -268,7 +279,7 @@ func (u registrationsUseCase) SendQrWhatsApp(
 		return err
 	}
 
-	qrCode, err := u.registrationsRepository.GetQrRegistrationById(ctx, registrationId)
+	qrCode, err := u.registrationsStorageRepository.GetQr(ctx, registrationId)
 	if err != nil {
 		return err
 	}

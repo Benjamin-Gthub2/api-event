@@ -11,7 +11,20 @@
       "Bash(Select-Object -ExpandProperty FullName)",
       "PowerShell(head *)",
       "Bash(Select-String -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\BDBackupCumbreNuevo.sql\" -Pattern \"workshop_speakers\" -Context 0,30)",
-      "Bash(Select-Object -First 1)"
+      "Bash(Select-Object -First 1)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\api-event\" -Recurse -Force)",
+      "Bash(Select-Object -First 100)",
+      "Bash(Format-Table FullName)",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\" -type f -name \"*.ts\" -o -name \"*.js\" -o -name \"*.json\")",
+      "Bash(ls -la \"C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\")",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\\\\\\\\registrations\" -type f \\\\\\( -name \"*.go\" -o -name \"*.mod\" -o -name \"*.env*\" \\\\\\))",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\" -type f -name \"*.go\")",
+      "Bash(xargs grep -l \"qr\\\\|QR\\\\|qrcode\")",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\" -type f \\\\\\( -name \"*.env*\" -o -name \"go.mod\" -o -name \"go.sum\" \\\\\\))",
+      "Bash(find C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event *)",
+      "Bash(find C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\\\\\\\\registrations *)",
+      "Bash(go get *)",
+      "Bash(go mod *)"
     ]
   }
 }
