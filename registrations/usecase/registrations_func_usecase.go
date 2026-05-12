@@ -293,6 +293,12 @@ func (u registrationsUseCase) SendQrWhatsApp(
 	if err != nil {
 		return err
 	}
+
+	err = u.registrationsRepository.UpdateRegistrationSendQr(ctx, registrationId)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

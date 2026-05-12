@@ -16,8 +16,8 @@ import "time"
 
 type Registration struct {
 	Id              string     `db:"registration_id"`
-	SendQr          bool       `db:"send_qr"`
-	SendCertificate bool       `db:"send_certificate"`
+	SendQr          bool       `db:"registration_send_qr"`
+	SendCertificate bool       `db:"registration_send_certificate"`
 	CreatedAt       *time.Time `db:"registration_created_at"`
 	Status          Status
 	Event           Event

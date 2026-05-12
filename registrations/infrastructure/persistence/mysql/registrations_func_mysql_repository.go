@@ -43,6 +43,9 @@ var QueryCreateRegistration string
 //go:embed sql/update_registration_status.sql
 var QueryUpdateRegistrationStatus string
 
+//go:embed sql/update_registration_send_qr.sql
+var QueryUpdateRegistrationSendQr string
+
 func intToPtr(value int) *int {
 	return &value
 }
@@ -320,6 +323,22 @@ func (r registrationsMySQLRepo) UpdateRegistrationStatus(
 	_, err = client.ExecContext(ctx, QueryUpdateRegistrationStatus, statusCode, registrationId)
 	if err != nil {
 		return r.err.Clone().SetFunction("UpdateRegistrationStatus").SetRaw(err)
+	}
+	return
+}
+
+func (r registrationsMySQLRepo) UpdateRegistrationSendQr(
+	ctx context.Context,
+	registrationId string,
+) (err error) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return r.err.Clone().SetFunction("UpdateRegistrationSendQr").SetRaw(err)
+	}
+	_, err = client.ExecContext(ctx, QueryUpdateRegistrationSendQr, registrationId)
+	if err != nil {
+		return r.err.Clone().SetFunction("UpdateRegistrationSendQr").SetRaw(err)
 	}
 	return
 }
