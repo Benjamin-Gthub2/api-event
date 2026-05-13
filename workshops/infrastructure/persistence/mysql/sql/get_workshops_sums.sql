@@ -14,6 +14,6 @@ FROM workshops workshops
          LEFT JOIN workshop_speakers workshop_speakers ON workshops.id = workshop_speakers.workshop_id
          LEFT JOIN people speakers ON workshop_speakers.speaker_id = speakers.id
 WHERE IF(? IS NULL, TRUE, workshops.id = ?)
-  AND IF(? IS NULL, TRUE, DATE(workshops.start_date) >= DATE(?))
-  AND IF(? IS NULL, TRUE, DATE(workshops.end_date) <= DATE(?))
+  AND IF(? IS NULL, TRUE, workshops.start_date >= ?)
+  AND IF(? IS NULL, TRUE, workshops.end_date <= ?)
   AND workshops.deleted_at IS NULL;
