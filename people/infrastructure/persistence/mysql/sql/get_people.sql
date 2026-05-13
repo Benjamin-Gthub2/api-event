@@ -25,5 +25,5 @@ WHERE people.deleted_at IS NULL
                           people.last_name LIKE CONCAT('%', TRIM(?), '%'))
   AND IF(? IS NULL, TRUE, document_type.id LIKE CONCAT('%', TRIM(?), '%'))
   AND IF(? IS NULL, TRUE, people.document LIKE CONCAT(TRIM(?), '%'))
-ORDER BY people.created_at DESC
+ORDER BY people.names, people.surname, people.last_name
 LIMIT ? OFFSET ?;
