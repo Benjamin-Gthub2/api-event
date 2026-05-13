@@ -285,8 +285,13 @@ func (u registrationsUseCase) SendQrWhatsApp(
 	}
 
 	fullName := registration.Beneficiary.Names + " " + registration.Beneficiary.Surname
-	caption := fmt.Sprintf(
-		"Hola %s, tu código QR para el evento *%s* está listo. Preséntalo el día del evento para registrar tu asistencia.",
+	caption := fmt.Sprintf(`Hola %s 😊
+
+Tu inscripción para *%s* fue confirmada correctamente.
+
+Aquí te enviamos tu código QR, el cual te servirá para ingresar y registrar tu asistencia el día del evento.
+
+¡Te esperamos!`,
 		fullName,
 		registration.Event.Name,
 	)
