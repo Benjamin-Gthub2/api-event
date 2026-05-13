@@ -16,6 +16,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/jackskj/carta"
@@ -26,6 +27,8 @@ import (
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_registration_by_id.sql
 var QueryGetRegistrationById string
@@ -274,7 +277,7 @@ func (r registrationsMySQLRepo) CreateRegistration(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	_, err = tx.ExecContext(ctx,
 		QueryCreateRegistration,
 		body.Id,

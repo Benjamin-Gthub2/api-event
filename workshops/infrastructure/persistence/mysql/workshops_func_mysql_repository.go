@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
@@ -13,6 +14,8 @@ import (
 
 	workshopsDomain "github.com/Benjamin-Gthub2/api-event/workshops/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_workshop_by_id.sql
 var QueryGetWorkshopById string
@@ -155,7 +158,7 @@ func (r workshopsMySQLRepo) CreateWorkshop(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateWorkshop").SetRaw(err)
@@ -217,7 +220,7 @@ func (r workshopsMySQLRepo) DeleteWorkshop(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteWorkshop").SetRaw(err)

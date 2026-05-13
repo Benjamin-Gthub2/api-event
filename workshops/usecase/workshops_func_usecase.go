@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"sync"
+	"time"
 
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
@@ -11,6 +12,8 @@ import (
 
 	workshopsDomain "github.com/Benjamin-Gthub2/api-event/workshops/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 func (u workshopsUseCase) GetWorkshopById(
 	ctx context.Context,
@@ -114,8 +117,8 @@ func (u workshopsUseCase) CreateWorkshop(
 		Shortname: body.Shortname,
 		Code:      body.Code,
 		Capacity:  body.Capacity,
-		StartDate: body.StartDate.Format("2006-01-02 15:04:05"),
-		EndDate:   body.EndDate.Format("2006-01-02 15:04:05"),
+		StartDate: body.StartDate.In(limaLoc).Format("2006-01-02 15:04:05"),
+		EndDate:   body.EndDate.In(limaLoc).Format("2006-01-02 15:04:05"),
 		Place:     body.Place,
 		EventId:   body.EventId,
 		CreatedBy: userId,

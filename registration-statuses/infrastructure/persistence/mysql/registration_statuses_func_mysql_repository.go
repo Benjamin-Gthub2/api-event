@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -13,6 +14,8 @@ import (
 
 	registrationStatusesDomain "github.com/Benjamin-Gthub2/api-event/registration-statuses/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_registration_status_by_id.sql
 var QueryGetRegistrationStatusById string
@@ -144,7 +147,7 @@ func (r registrationStatusesMySQLRepo) CreateRegistrationStatus(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateRegistrationStatus").SetRaw(err)
@@ -196,7 +199,7 @@ func (r registrationStatusesMySQLRepo) DeleteRegistrationStatus(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteRegistrationStatus").SetRaw(err)

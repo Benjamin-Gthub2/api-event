@@ -17,6 +17,7 @@ import (
 	"database/sql"
 	_ "embed"
 	"strings"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
@@ -27,6 +28,8 @@ import (
 
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_user.sql
 var QueryGetUser string
@@ -373,7 +376,7 @@ func (r usersMySQLRepo) CreateUser(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 
 	if tx != nil {
 		_, err = tx.ExecContext(ctx,
@@ -501,7 +504,7 @@ func (r usersMySQLRepo) CreatePerson(
 	personId string,
 	body *usersDomain.Person) (lastId *string, err error) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	if tx != nil {
 		_, err = tx.ExecContext(ctx,
 			QueryCreatePerson,
@@ -717,7 +720,7 @@ func (r usersMySQLRepo) DeleteUser(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return false, r.err.Clone().SetFunction("DeleteUser").SetRaw(err)
