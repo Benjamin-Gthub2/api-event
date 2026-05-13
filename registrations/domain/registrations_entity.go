@@ -62,6 +62,8 @@ type Beneficiary struct {
 	Surname string `json:"surname" binding:"required" example:"Leon"`
 	//Description: the last names of beneficiary
 	LastName *string `json:"last_name" example:"Gthub2"`
+	//Description: the phone of beneficiary
+	Phone *string `json:"phone" example:"Gthub2"`
 }
 
 type TypeDocument struct {
