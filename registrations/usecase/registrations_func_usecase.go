@@ -284,22 +284,17 @@ func (u registrationsUseCase) SendQrWhatsApp(
 		return err
 	}
 
-	mediaId, err := u.registrationsWhatsAppRepository.UploadMedia(ctx, qrCode)
-	if err != nil {
-		return err
-	}
-
-	templateName := "qr_registro_evento"
-	templateLang := "es"
 	fullName := registration.Beneficiary.Names + " " + registration.Beneficiary.Surname
+	caption := fmt.Sprintf(
+		"Hola %s, tu código QR para el evento *%s* está listo. Preséntalo el día del evento para registrar tu asistencia.",
+		fullName,
+		registration.Event.Name,
+	)
 
-	err = u.registrationsWhatsAppRepository.SendTemplateMessage(ctx, registrationsDomain.SendWhatsAppTemplateParams{
-		To:           body.PhoneNumber,
-		TemplateName: templateName,
-		Language:     templateLang,
-		MediaId:      mediaId,
-		Names:        fullName,
-		EventName:    registration.Event.Name,
+	err = u.registrationsWhatsAppRepository.SendImageMessage(ctx, registrationsDomain.SendWhatsAppImageParams{
+		To:      body.PhoneNumber,
+		Caption: caption,
+		Image:   qrCode,
 	})
 	if err != nil {
 		return err
