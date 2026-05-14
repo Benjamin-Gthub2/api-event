@@ -19,6 +19,7 @@ FROM people people
          INNER JOIN document_types document_type ON document_type.id = people.type_document_id
 WHERE people.deleted_at IS NULL
   AND users.deleted_at IS NULL
+  AND people.user_id IS NULL
   AND document_type.deleted_at IS NULL
   AND IF(? IS NULL, TRUE, people.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
                           people.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
