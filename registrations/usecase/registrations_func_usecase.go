@@ -310,6 +310,13 @@ Aquí te enviamos tu código QR, el cual te servirá para ingresar y registrar t
 		return err
 	}
 
+	//emitir la señal
+	_, xTenantId, _ := db.ClientDB(ctx)
+	//linearJson, _ := u.transformToLinearJSON(notificationById)
+	linearJson := "señal enviada"
+	mqttTopicSendNotification := fmt.Sprintf("/event/registrations/updates/%s", *xTenantId) //changes or remove userId
+	_ = u.registrationsRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
+
 	return nil
 }
 
