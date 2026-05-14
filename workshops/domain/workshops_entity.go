@@ -105,6 +105,8 @@ type GetWorkshopSumsParams struct {
 	paramsDomain.Params
 	//Description: the id of workshop
 	WorkshopId *string `json:"workshop_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113421"`
+	//Description: the value of workshop
+	SearchValue *string `json:"search_value" example:"TALLER"`
 	//Description: the start date
 	StartDate *string `json:"start_date" example:"2026-04-21"`
 	//Description: the end date
