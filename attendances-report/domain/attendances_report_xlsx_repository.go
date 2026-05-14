@@ -8,5 +8,9 @@ import (
 )
 
 type AttendancesXlsxRepository interface {
-	GenerateAttendancesReportXlsx(ctx context.Context, attendances []attendancesDomain.Attendance) (*bytes.Buffer, error)
+	GenerateAttendancesReportXlsx(
+		ctx context.Context,
+		attendances []attendancesDomain.Attendance,
+		displayFilters AttendancesReportDisplayFilters,
+	) (*bytes.Buffer, error)
 }

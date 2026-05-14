@@ -28,7 +28,10 @@
       "Bash(node *)",
       "Bash(Select-Object FullName, PSIsContainer)",
       "Bash(ConvertTo-Json -Depth 100)",
-      "Bash(Out-String)"
+      "Bash(Out-String)",
+      "Bash(Get-ChildItem *)",
+      "Bash(npx tsc *)",
+      "PowerShell(& npx --prefix \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\" tsc --noEmit --project \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\\\\tsconfig.json\" 2>&1)"
     ]
   }
 }

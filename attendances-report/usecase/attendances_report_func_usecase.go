@@ -8,11 +8,13 @@ import (
 	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 
 	attendancesDomain "github.com/Benjamin-Gthub2/api-event/attendances/domain"
+	"github.com/Benjamin-Gthub2/api-event/attendances-report/domain"
 )
 
 func (u attendancesReportUseCase) GenerateAttendancesReportXlsx(
 	ctx context.Context,
 	searchParams attendancesDomain.GetAttendancesParams,
+	displayFilters domain.AttendancesReportDisplayFilters,
 ) (file *bytes.Buffer, err error) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
 	var cancel context.CancelFunc
@@ -29,7 +31,7 @@ func (u attendancesReportUseCase) GenerateAttendancesReportXlsx(
 		return nil, err
 	}
 
-	file, err = u.attendancesXlsxRepository.GenerateAttendancesReportXlsx(ctx, attendances)
+	file, err = u.attendancesXlsxRepository.GenerateAttendancesReportXlsx(ctx, attendances, displayFilters)
 	if err != nil {
 		return nil, err
 	}
