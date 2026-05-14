@@ -52,6 +52,7 @@ func NewUsersHandler(
 	api.GET("/users", handler.GetUsers)
 	api.GET("/users/:userId/menu", handler.GetMenuByUser)
 	api.GET("/users/menu", handler.GetMenuByUserToken)
+	api.GET("/users/views", handler.GetViewsByUserToken)
 	//Hasta aqui ya se actualizo de acuerdo a lo que sera, cambiando merchant y sotre por event y woerkshop(up)
 	api.GET("/users/me", handler.GetMeByUser)
 	api.POST("/users", handler.CreateUser)

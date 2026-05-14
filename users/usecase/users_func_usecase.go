@@ -661,3 +661,44 @@ func (u usersUseCase) GenerateQRCode(
 	}
 	return png, nil
 }
+
+func (u usersUseCase) GetViewsByUser(
+	ctx context.Context,
+	userId string,
+) (
+	result *usersDomain.ViewsByUserData,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var views []usersDomain.View
+	var userMe *usersDomain.UserMeInfo
+	var errViews, errMe error
+
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		views, errViews = u.usersRepository.GetViewsByUser(ctx, userId)
+	}()
+	go func() {
+		defer wg.Done()
+		userMe, errMe = u.usersRepository.GetMeByUser(ctx, userId)
+	}()
+	wg.Wait()
+
+	if errViews != nil {
+		return nil, errViews
+	}
+
+	result = &usersDomain.ViewsByUserData{
+		Views: views,
+	}
+	if errMe == nil && userMe != nil {
+		result.Person = userMe.Person
+	}
+	return result, nil
+}

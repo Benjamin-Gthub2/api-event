@@ -129,3 +129,14 @@ GET {{api_event_users}}/qr
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 X-Tenant-Id: {{x_tenant_id}}
+
+
+### Get Views By User
+< {%
+    request.variables.set("auth_token", client.global.get("auth_token"));
+    request.variables.set("x_tenant_id", client.global.get("x_tenant_id"));
+%}
+GET {{api_event_users}}/views
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+X-Tenant-Id: {{x_tenant_id}}

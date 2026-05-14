@@ -121,6 +121,9 @@ var QueryGetUserPermissionsByModule string
 //go:embed sql/get_user_by_person_id.sql
 var QueryGetUserByPersonId string
 
+//go:embed sql/get_view_by_user.sql
+var QueryGetViewByUser string
+
 func (r usersMySQLRepo) GetPasswordUser(
 	ctx context.Context,
 	tx *sql.Tx,
@@ -1305,4 +1308,37 @@ func (r usersMySQLRepo) GetUserByPersonId(
 		return nil, usersDomain.ErrUserNotFound
 	}
 	return &users[0], nil
+}
+
+func (r usersMySQLRepo) GetViewsByUser(
+	ctx context.Context,
+	userId string,
+) (
+	user []usersDomain.View,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	results, err := client.
+		QueryContext(ctx, QueryGetViewByUser, userId)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
+		}
+	}(results)
+	modulesTmp := make([]View, 0)
+	err = carta.Map(results, &modulesTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	var modules = make([]usersDomain.View, 0)
+	automapper.Map(modulesTmp, &modules)
+	return modules, nil
 }

@@ -37,4 +37,5 @@ type UserUseCase interface {
 	UpdatePasswordUser(ctx context.Context, body UpdatePasswordBody, userId string) error
 	UpdateUserTheme(ctx context.Context, body UpdateUserThemeBody, userId string) error
 	GenerateQRCode(ctx context.Context, content string) ([]byte, error)
+	GetViewsByUser(ctx context.Context, userId string) (*ViewsByUserData, error)
 }

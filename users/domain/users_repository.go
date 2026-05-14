@@ -56,4 +56,5 @@ type UserRepository interface {
 	UpdateUserTheme(ctx context.Context, body UpdateUserThemeBody, userId string) error
 	GetUserPermissionsByModule(ctx context.Context, codeModule string, permissionId string) ([]UserPermissions, error)
 	GetUserByPersonId(ctx context.Context, personId string) (*User, error)
+	GetViewsByUser(ctx context.Context, userId string) ([]View, error)
 }

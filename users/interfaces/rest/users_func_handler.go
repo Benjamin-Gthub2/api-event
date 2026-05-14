@@ -681,3 +681,30 @@ func (h usersHandler) GenerateQRCode(c *gin.Context) {
 
 	c.Data(http.StatusOK, "image/png", png)
 }
+
+// GetViewsByUserToken is a method to get  views by user
+// @Summary Get views by user using their token
+// @Description Get views by user using their token
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Success 200 {object} viewsByUserResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/users/views [get]
+// @Security BearerAuth
+func (h usersHandler) GetViewsByUserToken(c *gin.Context) {
+	ctx := c.Request.Context()
+	userId := c.GetString("userId")
+
+	menu, err := h.usersUseCase.GetViewsByUser(ctx, userId)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := viewsByUserResult{
+		Data:   menu,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}

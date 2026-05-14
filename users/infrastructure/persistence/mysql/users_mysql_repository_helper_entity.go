@@ -200,3 +200,13 @@ type UserPermissions struct {
 	UserName    string `db:"user_name"`
 	Permissions []Permissions
 }
+
+type View struct {
+	Id          string     `db:"view_id"`
+	Name        string     `db:"view_name"`
+	Description string     `db:"view_description"`
+	Position    *int       `db:"view_position"`
+	Url         string     `db:"view_url"`
+	Icon        string     `db:"view_icon"`
+	CreatedAt   *time.Time `db:"view_created_at"`
+}

@@ -79,3 +79,8 @@ type permissionsByRoleResult struct {
 	Data   []usersDomain.GetUserPermissionsByRole `json:"data" binding:"required"`
 	Status int                                    `json:"status" binding:"required"`
 }
+
+type viewsByUserResult struct {
+	Data   *usersDomain.ViewsByUserData `json:"data" binding:"required"`
+	Status int                          `json:"status" binding:"required"`
+}
