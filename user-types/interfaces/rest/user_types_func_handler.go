@@ -39,7 +39,9 @@ import (
 func (h userTypesHandler) GetUserTypes(c *gin.Context) {
 	ctx := c.Request.Context()
 	pagination := paramsDomain.NewPaginationParams(c.Request)
-	userTypes, paginationRes, err := h.userTypesUseCase.GetUserTypes(ctx, pagination)
+	searchParams := userTypesDomain.GetUserTypesParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
+	userTypes, paginationRes, err := h.userTypesUseCase.GetUserTypes(ctx, searchParams, pagination)
 	if err != nil {
 		restCore.ErrJson(c, err)
 		return

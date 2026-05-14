@@ -149,6 +149,8 @@ type GetRegistrationsParams struct {
 	EndDate *string `json:"end_date" example:"2023-11-10 08:10:00"`
 	//Description: the id of the user who created the expense
 	CreatedBy *string `json:"created_by" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
+	//Description: general text search (beneficiary names, surname, last_name, document, event name)
+	SearchValue *string `json:"searchvalue" example:"Alexander"`
 }
 
 type CreateRegistrationBody struct {

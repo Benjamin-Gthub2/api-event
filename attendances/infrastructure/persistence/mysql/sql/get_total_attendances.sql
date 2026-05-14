@@ -10,4 +10,8 @@ WHERE IF(? IS NULL, TRUE, events.id = TRIM(?))
   AND IF(? IS NULL, TRUE, workshops.id = TRIM(?))
   AND IF(? IS NULL, TRUE, beneficiaries.id = TRIM(?))
   AND IF(? IS NULL, TRUE, DATE(attendances.created_at) BETWEEN ? AND ?)
-  AND attendances.deleted_at IS NULL;
+  AND attendances.deleted_at IS NULL
+  AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'));

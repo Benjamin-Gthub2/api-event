@@ -92,6 +92,7 @@ func (r workshopTypesMySQLRepo) GetWorkshopTypes(
 	results, err := client.QueryContext(
 		ctx,
 		QueryGetWorkshopTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -132,6 +133,7 @@ func (r workshopTypesMySQLRepo) GetTotalWorkshopTypes(
 	err = client.QueryRowContext(
 		ctx,
 		QueryGetTotalWorkshopTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalWorkshopTypes").SetRaw(err)

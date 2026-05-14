@@ -99,6 +99,7 @@ func (r workshopsMySQLRepo) GetWorkshops(
 		searchParams.EventId,
 		searchParams.TypeId,
 		searchParams.TypeId,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -143,6 +144,7 @@ func (r workshopsMySQLRepo) GetTotalWorkshops(
 		searchParams.EventId,
 		searchParams.TypeId,
 		searchParams.TypeId,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalWorkshops").SetRaw(err)

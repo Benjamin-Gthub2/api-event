@@ -47,6 +47,7 @@ var QueryCreateUserType string
 
 func (r userTypesMySQLRepo) GetUserTypes(
 	ctx context.Context,
+	params userTypeDomain.GetUserTypesParams,
 	pagination paramsDomain.PaginationParams,
 ) (
 	userTypesRows []userTypeDomain.UserType,
@@ -59,7 +60,9 @@ func (r userTypesMySQLRepo) GetUserTypes(
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetUserTypes").SetRaw(err)
 	}
-	results, err := client.QueryContext(ctx, QueryGetUserTypes, sizePage, offset)
+	results, err := client.QueryContext(ctx, QueryGetUserTypes,
+		params.SearchValue, params.SearchValue, params.SearchValue,
+		sizePage, offset)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetUserTypes").SetRaw(err)
 	}
@@ -80,7 +83,7 @@ func (r userTypesMySQLRepo) GetUserTypes(
 
 func (r userTypesMySQLRepo) GetTotalUserTypes(
 	ctx context.Context,
-	pagination paramsDomain.PaginationParams,
+	params userTypeDomain.GetUserTypesParams,
 ) (
 	total *int,
 	err error,
@@ -95,6 +98,7 @@ func (r userTypesMySQLRepo) GetTotalUserTypes(
 		QueryRowContext(
 			ctx,
 			QueryGetTotalUserTypes,
+			params.SearchValue, params.SearchValue, params.SearchValue,
 		).
 		Scan(&totalTmp)
 	if err != nil {

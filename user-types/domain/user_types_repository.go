@@ -19,8 +19,8 @@ import (
 )
 
 type UserTypeRepository interface {
-	GetUserTypes(ctx context.Context, pagination paramsDomain.PaginationParams) ([]UserType, error)
-	GetTotalUserTypes(ctx context.Context, pagination paramsDomain.PaginationParams) (*int, error)
+	GetUserTypes(ctx context.Context, params GetUserTypesParams, pagination paramsDomain.PaginationParams) ([]UserType, error)
+	GetTotalUserTypes(ctx context.Context, params GetUserTypesParams) (*int, error)
 	CreateUserType(ctx context.Context, userTypeId string, body CreateUserTypeBody) (*string, error)
 	UpdateUserType(ctx context.Context, userTypeId string, body UpdateUserTypeBody) error
 	DeleteUserType(ctx context.Context, userTypeId string) (bool, error)

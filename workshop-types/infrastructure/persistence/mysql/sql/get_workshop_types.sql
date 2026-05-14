@@ -8,4 +8,6 @@ SELECT workshop_types.id          AS workshop_type_id,
 FROM workshop_types workshop_types
          INNER JOIN users creator_users ON workshop_types.created_by = creator_users.id
 WHERE workshop_types.deleted_at IS NULL
+  AND IF(? IS NULL, TRUE, workshop_types.description COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          workshop_types.code COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
 LIMIT ? OFFSET ?;

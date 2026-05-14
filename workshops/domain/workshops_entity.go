@@ -40,8 +40,9 @@ type CreatedBy struct {
 
 type GetWorkshopsParams struct {
 	paramsDomain.Params
-	EventId *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	TypeId  *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	EventId     *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	TypeId      *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	SearchValue *string `json:"searchvalue" example:"TALLER"`
 }
 
 type CreateWorkshopBody struct {

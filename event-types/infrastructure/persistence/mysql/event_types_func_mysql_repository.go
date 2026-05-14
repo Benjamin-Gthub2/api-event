@@ -92,6 +92,7 @@ func (r eventTypesMySQLRepo) GetEventTypes(
 	results, err := client.QueryContext(
 		ctx,
 		QueryGetEventTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -132,6 +133,7 @@ func (r eventTypesMySQLRepo) GetTotalEventTypes(
 	err = client.QueryRowContext(
 		ctx,
 		QueryGetTotalEventTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalEventTypes").SetRaw(err)

@@ -75,6 +75,7 @@ func (r peopleMySQLRepo) GetPeople(
 			searchParams.DocumentTypeId,
 			searchParams.Document,
 			searchParams.Document,
+			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 			sizePage,
 			offset,
 		)
@@ -127,6 +128,7 @@ func (r peopleMySQLRepo) GetTotalPeople(
 			searchParams.DocumentTypeId,
 			searchParams.Document,
 			searchParams.Document,
+			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		).
 		Scan(&totalTmp)
 	if err != nil {

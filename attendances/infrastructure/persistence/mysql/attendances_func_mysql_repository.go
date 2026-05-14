@@ -103,6 +103,7 @@ func (r attendancesMySQLRepo) GetAttendances(
 		searchParams.StartDate,
 		searchParams.StartDate,
 		searchParams.EndDate,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -152,6 +153,7 @@ func (r attendancesMySQLRepo) GetTotalAttendances(
 		searchParams.StartDate,
 		searchParams.StartDate,
 		searchParams.EndDate,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalAttendances").SetRaw(err)

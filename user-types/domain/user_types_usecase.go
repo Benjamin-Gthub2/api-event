@@ -19,7 +19,7 @@ import (
 )
 
 type UserTypeUseCase interface {
-	GetUserTypes(ctx context.Context, pagination paramsDomain.PaginationParams) ([]UserType,
+	GetUserTypes(ctx context.Context, params GetUserTypesParams, pagination paramsDomain.PaginationParams) ([]UserType,
 		*paramsDomain.PaginationResults, error)
 	CreateUserType(ctx context.Context, body CreateUserTypeBody) (*string, error)
 	UpdateUserType(ctx context.Context, userTypeId string, body UpdateUserTypeBody) error
