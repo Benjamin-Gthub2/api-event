@@ -66,5 +66,6 @@ FROM registrations registrations
 WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
   AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
   AND registrations.deleted_at IS NULL
+  AND beneficiaries.deleted_at IS NULL
 ORDER BY registrations.created_at DESC
 LIMIT ? OFFSET ?;
