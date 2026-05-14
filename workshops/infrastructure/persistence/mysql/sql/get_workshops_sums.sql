@@ -18,4 +18,5 @@ WHERE IF(? IS NULL, TRUE, workshops.id = ?)
                           workshops.place LIKE CONCAT('%', ?, '%'))
   AND IF(? IS NULL, TRUE, workshops.start_date >= ?)
   AND IF(? IS NULL, TRUE, workshops.end_date <= ?)
-  AND workshops.deleted_at IS NULL;
+  AND workshops.deleted_at IS NULL
+ORDER BY workshops.start_date, workshops.name;
