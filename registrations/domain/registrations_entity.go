@@ -175,3 +175,70 @@ type SendQrWhatsAppBody struct {
 	//Description: destination phone number with country code, no + sign (e.g. 51987654321)
 	PhoneNumber string `json:"phone_number" binding:"required" example:"51987654321"`
 }
+
+type GetRegistrationsByEventParams struct {
+	paramsDomain.Params
+	//Description: general text search (beneficiary names, surname, last_name, document)
+	SearchValue *string `json:"search_value" example:"Alexander"`
+}
+
+type RegistrationByEvent struct {
+	//Description: The id of registration.
+	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: The flag to verify if qr was sending
+	SendQr bool `json:"send_qr" binding:"required" example:"true"`
+	//Description: The flag to verify if certificate was sending
+	SendCertificate bool `json:"send_certificate" binding:"required" example:"false"`
+	//Description: The date of the creation of the registration.
+	CreatedAt   *time.Time         `json:"created_at" example:"2023-11-10 08:10:00"`
+	Status      StatusByEvent      `json:"status" binding:"required"`
+	Event       EventByEvent       `json:"event" binding:"required"`
+	Beneficiary BeneficiaryByEvent `json:"beneficiary" binding:"required"`
+}
+
+type StatusByEvent struct {
+	Id          string     `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	Code        string     `json:"code" binding:"required" example:"REGISTERED"`
+	Description string     `json:"description" binding:"required" example:"REGISTRADO"`
+	Position    int        `json:"position" example:"1"`
+	Enable      bool       `json:"enable" example:"true"`
+	CreatedAt   *time.Time `json:"created_at" example:"2026-04-21 09:50:04"`
+}
+
+type EventByEvent struct {
+	//Description: the id of event.
+	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	//Description: the name of event
+	Name string `json:"name" binding:"required" example:"Registration"`
+	//Description: the description of event
+	Description string `json:"description" binding:"required" example:"Registration Attended"`
+	//Description: the date of creation
+	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
+}
+
+type BeneficiaryByEvent struct {
+	//Description: the id of beneficiary
+	Id           string              `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	TypeDocument TypeDocumentByEvent `json:"type_document" binding:"required"`
+	//Description: the document of beneficiary
+	Document string `json:"document" binding:"required" example:"73213212"`
+	//Description: the names of beneficiary
+	Names string `json:"names" binding:"required" example:"Alexander"`
+	//Description: the names of beneficiary
+	Surname string `json:"surname" binding:"required" example:"Leon"`
+	//Description: the last names of beneficiary
+	LastName *string `json:"last_name" example:"Gthub2"`
+	//Description: the phone of beneficiary
+	Phone *string `json:"phone" example:"Gthub2"`
+}
+
+type TypeDocumentByEvent struct {
+	//Description: the id of type document
+	Id string `json:"id" binding:"required" example:"1"`
+	//Description: the description of type document
+	Description string `json:"description" binding:"required" example:"Register Document Identify"`
+	//Description: the abbreviated description
+	AbbreviatedDescription string `json:"abbreviated_description" binding:"required" example:"DNI"`
+	//Description: the enable of type document
+	Enable string `json:"enable" binding:"required" example:"true"`
+}

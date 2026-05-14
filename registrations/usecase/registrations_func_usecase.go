@@ -347,3 +347,36 @@ func (u registrationsUseCase) UpdateRegistrationStatus(
 
 	return
 }
+
+func (u registrationsUseCase) GetRegistrationsByEvent(
+	ctx context.Context,
+	eventId string,
+	searchParams registrationsDomain.GetRegistrationsByEventParams,
+) (
+	res []registrationsDomain.RegistrationByEvent,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var errGetRegistrationsByEvent error
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetRegistrationsByEvent, &wg)
+		res, errGetRegistrationsByEvent = u.registrationsRepository.GetRegistrationsByEvent(
+			ctx, eventId, searchParams)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errGetRegistrationsByEvent != nil {
+		err = errGetRegistrationsByEvent
+		return nil, errGetRegistrationsByEvent
+	}
+
+	return res, nil
+}

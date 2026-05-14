@@ -48,6 +48,9 @@ var QueryUpdateRegistrationStatus string
 //go:embed sql/update_registration_send_qr.sql
 var QueryUpdateRegistrationSendQr string
 
+//go:embed sql/get_registrations_by_event_id.sql
+var QueryGetRegistrationsByEvent string
+
 func intToPtr(value int) *int {
 	return &value
 }
@@ -326,4 +329,51 @@ func (r registrationsMySQLRepo) UpdateRegistrationSendQr(
 		return r.err.Clone().SetFunction("UpdateRegistrationSendQr").SetRaw(err)
 	}
 	return
+}
+
+func (r registrationsMySQLRepo) GetRegistrationsByEvent(
+	ctx context.Context,
+	eventId string,
+	searchParams registrationsDomain.GetRegistrationsByEventParams,
+) (
+	registrationsRows []registrationsDomain.RegistrationByEvent,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+
+	results, err := client.QueryContext(
+		ctx,
+		QueryGetRegistrationsByEvent,
+		eventId,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+	)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &err)
+		}
+	}(results)
+
+	registrationsTmp := make([]RegistrationByEvent, 0)
+	err = carta.Map(results, &registrationsTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+	var registrations = make([]registrationsDomain.RegistrationByEvent, 0)
+	automapper.Map(registrationsTmp, &registrations)
+
+	return registrations, nil
 }

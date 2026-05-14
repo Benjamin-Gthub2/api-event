@@ -125,6 +125,37 @@ func (h registrationsHandler) GetRegistrationById(c *gin.Context) {
 	restCore.Json(c, http.StatusOK, res)
 }
 
+// GetRegistrationsByEvent is a method to get registrations by event
+// @Summary Get registrations
+// @Description Get registrations
+// @Tags Registrations
+// @Accept json
+// @Produce json
+// @Param eventId path string true "the id of the event"
+// @Param search_value query string false "the creator of the registration"
+// @Success 200 {object} registrationsByEventResult "Success Request"
+// @Failure 500 {object} errorDomain.SmartError "Bad Request"
+// @Router /api/v1/event/registrations/by_event/{eventId} [get]
+// @Security BearerAuth
+func (h registrationsHandler) GetRegistrationsByEvent(c *gin.Context) {
+	ctx := c.Request.Context()
+	eventId := c.Param("eventId")
+
+	searchParams := registrationsDomain.GetRegistrationsByEventParams{}
+	searchParams.QueryParamsToStruct(c.Request, &searchParams)
+	registrations, err := h.registrationsUseCase.GetRegistrationsByEvent(ctx, eventId, searchParams)
+	if err != nil {
+		restCore.ErrJson(c, err)
+		return
+	}
+
+	res := registrationsByEventResult{
+		Data:   registrations,
+		Status: http.StatusOK,
+	}
+	restCore.Json(c, http.StatusOK, res)
+}
+
 // GetRegistrations is a method to get registrations
 // @Summary Get registrations
 // @Description Get registrations

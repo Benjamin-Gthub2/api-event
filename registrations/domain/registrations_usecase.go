@@ -26,4 +26,5 @@ type RegistrationsUseCase interface {
 	CreateRegistration(ctx context.Context, userId string, body CreateRegistrationBody) (*string, error)
 	UpdateRegistrationStatus(ctx context.Context, registrationId string, statusCode string) error
 	SendQrWhatsApp(ctx context.Context, registrationId string, body SendQrWhatsAppBody) error
+	GetRegistrationsByEvent(ctx context.Context, eventId string, searchParams GetRegistrationsByEventParams) ([]RegistrationByEvent, error)
 }

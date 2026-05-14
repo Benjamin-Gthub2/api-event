@@ -30,4 +30,7 @@ type RegistrationsRepository interface {
 	MainCreateRegistration(ctx context.Context, body CreateRegistration) (err error)
 	UpdateRegistrationStatus(ctx context.Context, registrationId string, statusCode string) error
 	UpdateRegistrationSendQr(ctx context.Context, registrationId string) error
+	GetRegistrationsByEvent(
+		ctx context.Context, eventId string, searchParams GetRegistrationsByEventParams,
+	) ([]RegistrationByEvent, error)
 }
