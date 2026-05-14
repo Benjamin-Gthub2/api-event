@@ -39,4 +39,6 @@ WHERE IF(? IS NULL, TRUE, events.id = TRIM(?))
                           beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
                           beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
                           beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
+
+ORDER BY attendances.created_at
 LIMIT ? OFFSET ?;

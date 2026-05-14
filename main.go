@@ -25,6 +25,7 @@ import (
 	"github.com/Benjamin-Gthub2/api-shared/mqtt"
 
 	attendancesSetup "github.com/Benjamin-Gthub2/api-event/attendances/setup"
+	attendancesReportSetup "github.com/Benjamin-Gthub2/api-event/attendances-report/setup"
 	eventTypesSetup "github.com/Benjamin-Gthub2/api-event/event-types/setup"
 	eventsSetup "github.com/Benjamin-Gthub2/api-event/events/setup"
 	materialsIssuedSetup "github.com/Benjamin-Gthub2/api-event/materials-issued/setup"
@@ -89,6 +90,7 @@ func main() {
 	eventTypesSetup.LoadEventTypes(router)
 	eventsSetup.LoadEvents(router)
 	attendancesSetup.LoadAttendances(router)
+	attendancesReportSetup.LoadAttendancesReport(router)
 	materialsIssuedSetup.LoadMaterialsIssued(router)
 	registrationStatusesSetup.LoadRegistrationStatuses(router)
 

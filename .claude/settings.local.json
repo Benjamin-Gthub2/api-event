@@ -25,7 +25,10 @@
       "Bash(find C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\\\\\\\\registrations *)",
       "Bash(go get *)",
       "Bash(go mod *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(ConvertTo-Json -Depth 100)",
+      "Bash(Out-String)"
     ]
   }
 }
