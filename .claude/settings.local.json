@@ -31,7 +31,10 @@
       "Bash(Out-String)",
       "Bash(Get-ChildItem *)",
       "Bash(npx tsc *)",
-      "PowerShell(& npx --prefix \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\" tsc --noEmit --project \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\\\\tsconfig.json\" 2>&1)"
+      "PowerShell(& npx --prefix \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\" tsc --noEmit --project \"C:\\\\Users\\\\Benjamin\\\\dev\\\\smartone\\\\otros\\\\app-event\\\\tsconfig.json\" 2>&1)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Recurse -Directory | Select-Object FullName | ForEach-Object { $_.FullName } | Sort-Object)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\attendances\" -Recurse | Where-Object { $_.Extension -eq '.go' -or $_.Extension -eq '.sql' } | Select-Object FullName | Format-List)",
+      "PowerShell(& cmd /c \"cd C:\\\\Users\\\\Benja-PC\\\\dev\\\\app-event && npx tsc --noEmit 2>&1\")"
     ]
   }
 }
