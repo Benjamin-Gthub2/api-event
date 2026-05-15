@@ -65,6 +65,11 @@ func (u workshopsUseCase) GetWorkshops(
 	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
 	defer cancel()
 
+	if searchParams.OnlyToday != nil && *searchParams.OnlyToday {
+		today := time.Now().In(limaLoc).Format("2006-01-02")
+		searchParams.StartDate = &today
+	}
+
 	var errGetWorkshops, errGetTotalWorkshops error
 	var total *int
 	var wg sync.WaitGroup

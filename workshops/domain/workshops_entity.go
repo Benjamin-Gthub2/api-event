@@ -43,6 +43,7 @@ type GetWorkshopsParams struct {
 	EventId     *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	TypeId      *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	StartDate   *string `json:"start_date" example:"2026-05-15"`
+	OnlyToday   *bool   `json:"only_today" example:"true"`
 	SearchValue *string `json:"searchvalue" example:"TALLER"`
 }
 
