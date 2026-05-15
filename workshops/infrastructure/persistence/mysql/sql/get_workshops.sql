@@ -25,6 +25,7 @@ WHERE IF(? IS NULL, TRUE, workshops.event_id = TRIM(?))
                           workshops.shortname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
                           workshops.code COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
                           workshops.place COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
+  AND IF(? IS NULL, TRUE, DATE(workshops.start_date) = DATE(?))
   AND workshops.deleted_at IS NULL
 ORDER BY workshops.code
 LIMIT ? OFFSET ?;

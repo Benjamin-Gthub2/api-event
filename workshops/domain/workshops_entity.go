@@ -42,6 +42,7 @@ type GetWorkshopsParams struct {
 	paramsDomain.Params
 	EventId     *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
 	TypeId      *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	StartDate   *string `json:"start_date" example:"2026-05-15"`
 	SearchValue *string `json:"searchvalue" example:"TALLER"`
 }
 
