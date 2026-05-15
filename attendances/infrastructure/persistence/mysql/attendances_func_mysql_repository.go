@@ -33,6 +33,12 @@ var QueryCreateAttendance string
 //go:embed sql/delete_attendance.sql
 var QueryDeleteAttendance string
 
+//go:embed sql/check_attendance_duplicate.sql
+var QueryCheckAttendanceDuplicate string
+
+//go:embed sql/check_attendance_schedule_conflict.sql
+var QueryCheckAttendanceScheduleConflict string
+
 func intToPtr(value int) *int {
 	return &value
 }
@@ -160,6 +166,46 @@ func (r attendancesMySQLRepo) GetTotalAttendances(
 	}
 	total = &totalTmp
 	return total, nil
+}
+
+func (r attendancesMySQLRepo) AttendanceExistsByWorkshopAndBeneficiary(
+	ctx context.Context,
+	workshopId, beneficiaryId string,
+) (
+	exists bool,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var count int
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByWorkshopAndBeneficiary").SetRaw(err)
+	}
+	err = client.QueryRowContext(ctx, QueryCheckAttendanceDuplicate, workshopId, beneficiaryId).Scan(&count)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByWorkshopAndBeneficiary").SetRaw(err)
+	}
+	return count > 0, nil
+}
+
+func (r attendancesMySQLRepo) AttendanceExistsByBeneficiaryAndStartDate(
+	ctx context.Context,
+	beneficiaryId, workshopId string,
+) (
+	exists bool,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var count int
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByBeneficiaryAndStartDate").SetRaw(err)
+	}
+	err = client.QueryRowContext(ctx, QueryCheckAttendanceScheduleConflict, beneficiaryId, workshopId, workshopId).Scan(&count)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByBeneficiaryAndStartDate").SetRaw(err)
+	}
+	return count > 0, nil
 }
 
 func (r attendancesMySQLRepo) MainCreateAttendance(
