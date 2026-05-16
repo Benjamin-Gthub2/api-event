@@ -16,6 +16,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -26,6 +27,8 @@ import (
 
 	"github.com/Benjamin-Gthub2/api-event/people/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_people.sql
 var QueryGetPeople string
@@ -72,6 +75,7 @@ func (r peopleMySQLRepo) GetPeople(
 			searchParams.DocumentTypeId,
 			searchParams.Document,
 			searchParams.Document,
+			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 			sizePage,
 			offset,
 		)
@@ -124,6 +128,7 @@ func (r peopleMySQLRepo) GetTotalPeople(
 			searchParams.DocumentTypeId,
 			searchParams.Document,
 			searchParams.Document,
+			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		).
 		Scan(&totalTmp)
 	if err != nil {
@@ -142,7 +147,7 @@ func (r peopleMySQLRepo) CreatePerson(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetAccounts").SetRaw(err)
@@ -209,7 +214,7 @@ func (r peopleMySQLRepo) DeletePerson(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return false, r.err.Clone().SetFunction("GetAccounts").SetRaw(err)

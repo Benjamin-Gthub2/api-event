@@ -16,3 +16,8 @@ type registrationsResult struct {
 	Pagination paginationDomain.PaginationResults `json:"pagination" binding:"required"`
 	Status     int                                `json:"status" binding:"required"`
 }
+
+type registrationsByEventResult struct {
+	Data   []registrationsDomain.RegistrationByEvent `json:"data"`
+	Status int                                       `json:"status" binding:"required"`
+}

@@ -5,9 +5,9 @@
  * License: MIT
  *
  * Purpose:
- * This file contains the WhatsApp repository for registrations.
+ * This file contains the WhatsApp repository for registrations (ApisPeru).
  *
- * Last Modified: 2026-05-11
+ * Last Modified: 2026-05-12
  */
 
 package whatsapp
@@ -22,21 +22,19 @@ import (
 )
 
 type registrationsWhatsAppRepository struct {
-	token         string
-	phoneNumberId string
-	apiVersion    string
-	baseURL       string
-	httpClient    *http.Client
-	err           *errDomain.SmartError
+	token      string
+	deviceId   string
+	baseURL    string
+	httpClient *http.Client
+	err        *errDomain.SmartError
 }
 
 func NewRegistrationsWhatsAppRepository() registrationsDomain.RegistrationsWhatsAppRepository {
 	return &registrationsWhatsAppRepository{
-		token:         os.Getenv("WHATSAPP_TOKEN"),
-		phoneNumberId: os.Getenv("WHATSAPP_PHONE_NUMBER_ID"),
-		apiVersion:    "v19.0",
-		baseURL:       "https://graph.facebook.com",
-		httpClient:    &http.Client{},
-		err:           errDomain.NewErr().SetLayer(errDomain.Interface),
+		token:      os.Getenv("APISPERU_WHATSAPP_TOKEN"),
+		deviceId:   os.Getenv("APISPERU_WHATSAPP_DEVICE_ID"),
+		baseURL:    "https://whatsapp.apisperu.com/api/v1",
+		httpClient: &http.Client{},
+		err:        errDomain.NewErr().SetLayer(errDomain.Interface),
 	}
 }

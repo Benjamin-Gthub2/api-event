@@ -69,6 +69,8 @@ type GetPeopleParams struct {
 	Document *string `json:"document" example:"77895428"`
 	//Description: the abbreviated description of the document type
 	DocumentTypeId string `json:"document_type_id" binding:"required" example:"00a58522-93b4-11ee-a040-0242ac11000e"`
+	//Description: general text search (names, surname, last_name, document)
+	SearchValue *string `json:"searchvalue" example:"LUCY"`
 }
 
 type CreatePersonBody struct {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -13,6 +14,8 @@ import (
 
 	workshopTypesDomain "github.com/Benjamin-Gthub2/api-event/workshop-types/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_workshop_type_by_id.sql
 var QueryGetWorkshopTypeById string
@@ -89,6 +92,7 @@ func (r workshopTypesMySQLRepo) GetWorkshopTypes(
 	results, err := client.QueryContext(
 		ctx,
 		QueryGetWorkshopTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -129,6 +133,7 @@ func (r workshopTypesMySQLRepo) GetTotalWorkshopTypes(
 	err = client.QueryRowContext(
 		ctx,
 		QueryGetTotalWorkshopTypes,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalWorkshopTypes").SetRaw(err)
@@ -144,7 +149,7 @@ func (r workshopTypesMySQLRepo) CreateWorkshopType(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateWorkshopType").SetRaw(err)
@@ -195,7 +200,7 @@ func (r workshopTypesMySQLRepo) DeleteWorkshopType(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteWorkshopType").SetRaw(err)

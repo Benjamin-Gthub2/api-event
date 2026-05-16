@@ -40,8 +40,11 @@ type CreatedBy struct {
 
 type GetWorkshopsParams struct {
 	paramsDomain.Params
-	EventId *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
-	TypeId  *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	EventId     *string `json:"event_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	TypeId      *string `json:"type_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113422"`
+	StartDate   *string `json:"start_date" example:"2026-05-15"`
+	OnlyToday   *bool   `json:"only_today" example:"true"`
+	SearchValue *string `json:"searchvalue" example:"TALLER"`
 }
 
 type CreateWorkshopBody struct {
@@ -104,6 +107,8 @@ type GetWorkshopSumsParams struct {
 	paramsDomain.Params
 	//Description: the id of workshop
 	WorkshopId *string `json:"workshop_id" example:"739bbbc9-7e93-11ee-89fd-0242ac113421"`
+	//Description: the value of workshop
+	SearchValue *string `json:"search_value" example:"TALLER"`
 	//Description: the start date
 	StartDate *string `json:"start_date" example:"2026-04-21"`
 	//Description: the end date

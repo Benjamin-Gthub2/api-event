@@ -49,4 +49,5 @@ func NewRegistrationsHandler(
 	api.POST("/registrations", handler.CreateRegistration)
 	api.PUT("/registrations/:registrationId/statuses/:statusCode", handler.UpdateRegistrationApprovalStatus)
 	api.POST("/registrations/:registrationId/send_qr_whatsapp", handler.SendQrWhatsApp)
+	api.GET("/registrations/by_event/:eventId", handler.GetRegistrationsByEvent)
 }

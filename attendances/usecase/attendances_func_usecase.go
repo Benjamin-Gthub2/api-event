@@ -155,6 +155,24 @@ func (u attendancesUseCase) CreateAttendance(
 		return nil, attendancesDomain.ErrPersonNotFound
 	}
 
+	var duplicateExists bool
+	duplicateExists, err = u.attendancesRepository.AttendanceExistsByWorkshopAndBeneficiary(ctx, body.WorkshopId, body.BeneficiaryId)
+	if err != nil {
+		return nil, err
+	}
+	if duplicateExists {
+		return nil, attendancesDomain.ErrAttendanceAlreadyExists
+	}
+
+	var scheduleConflict bool
+	scheduleConflict, err = u.attendancesRepository.AttendanceExistsByBeneficiaryAndStartDate(ctx, body.BeneficiaryId, body.WorkshopId)
+	if err != nil {
+		return nil, err
+	}
+	if scheduleConflict {
+		return nil, attendancesDomain.ErrAttendanceScheduleConflict
+	}
+
 	attendanceId := uuid.New().String()
 	createAttendance := attendancesDomain.CreateAttendance{
 		Id:            attendanceId,

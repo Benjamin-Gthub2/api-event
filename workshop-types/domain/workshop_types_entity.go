@@ -22,6 +22,7 @@ type CreatedBy struct {
 
 type GetWorkshopTypesParams struct {
 	paramsDomain.Params
+	SearchValue *string `json:"searchvalue" example:"TALLER"`
 }
 
 type CreateWorkshopTypeBody struct {

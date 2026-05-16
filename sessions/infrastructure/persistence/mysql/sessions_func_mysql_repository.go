@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -13,6 +14,8 @@ import (
 
 	sessionsDomain "github.com/Benjamin-Gthub2/api-event/sessions/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_session_by_id.sql
 var QueryGetSessionById string
@@ -159,7 +162,7 @@ func (r sessionsMySQLRepo) CreateSession(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateSession").SetRaw(err)
@@ -209,7 +212,7 @@ func (r sessionsMySQLRepo) DeleteSession(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteSession").SetRaw(err)

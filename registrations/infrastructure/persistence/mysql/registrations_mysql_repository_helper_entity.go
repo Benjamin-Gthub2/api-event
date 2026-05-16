@@ -49,6 +49,7 @@ type Beneficiary struct {
 	Names        string  `db:"beneficiary_names"`
 	Surname      string  `db:"beneficiary_surname"`
 	LastName     *string `db:"beneficiary_last_name"`
+	Phone        *string `db:"beneficiary_phone"`
 }
 
 type TypeDocument struct {
@@ -99,4 +100,47 @@ type TypeUserCreatedBy struct {
 	Description string     `db:"creator_user_type_description"`
 	Code        string     `db:"creator_user_type_code"`
 	CreatedAt   *time.Time `db:"creator_user_type_created_at"`
+}
+
+type RegistrationByEvent struct {
+	Id              string     `db:"registration_by_event_id"`
+	SendQr          bool       `db:"registration_by_event_send_qr"`
+	SendCertificate bool       `db:"registration_by_event_send_certificate"`
+	CreatedAt       *time.Time `db:"registration_by_event_created_at"`
+	Status          StatusByEvent
+	Event           EventByEvent
+	Beneficiary     BeneficiaryByEvent
+}
+
+type StatusByEvent struct {
+	Id          string     `db:"status_by_event_id"`
+	Code        string     `db:"status_by_event_code"`
+	Description string     `db:"status_by_event_description"`
+	Position    int        `db:"status_by_event_position"`
+	Enable      bool       `db:"status_by_event_enable"`
+	CreatedAt   *time.Time `db:"status_by_event_created_at"`
+}
+
+type EventByEvent struct {
+	Id          string     `db:"event_by_event_id"`
+	Name        string     `db:"event_by_event_name"`
+	Description string     `db:"event_by_event_description"`
+	CreatedAt   *time.Time `db:"event_by_event_created_at"`
+}
+
+type BeneficiaryByEvent struct {
+	Id           string `db:"beneficiary_by_event_id"`
+	TypeDocument TypeDocumentByEvent
+	Document     string  `db:"beneficiary_by_event_document"`
+	Names        string  `db:"beneficiary_by_event_names"`
+	Surname      string  `db:"beneficiary_by_event_surname"`
+	LastName     *string `db:"beneficiary_by_event_last_name"`
+	Phone        *string `db:"beneficiary_by_event_phone"`
+}
+
+type TypeDocumentByEvent struct {
+	Id                     string `db:"beneficiary_document_type_by_event_id"`
+	Description            string `db:"beneficiary_document_type_by_event_description"`
+	AbbreviatedDescription string `db:"beneficiary_document_type_abbreviated_by_event_description"`
+	Enable                 string `db:"beneficiary_document_type_by_event_enable"`
 }

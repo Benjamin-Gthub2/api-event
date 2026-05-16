@@ -27,6 +27,7 @@ import (
 
 func (u userTypesUseCase) GetUserTypes(
 	ctx context.Context,
+	params userTypesDomain.GetUserTypesParams,
 	pagination paramsDomain.PaginationParams,
 ) (
 	res []userTypesDomain.UserType,
@@ -44,11 +45,11 @@ func (u userTypesUseCase) GetUserTypes(
 	wg.Add(2)
 
 	go func() {
-		res, errGetUserTypes = u.userTypesRepository.GetUserTypes(ctx, pagination)
+		res, errGetUserTypes = u.userTypesRepository.GetUserTypes(ctx, params, pagination)
 		wg.Done()
 	}()
 	go func() {
-		total, errGetTotalUserTypes = u.userTypesRepository.GetTotalUserTypes(ctx, pagination)
+		total, errGetTotalUserTypes = u.userTypesRepository.GetTotalUserTypes(ctx, params)
 		wg.Done()
 	}()
 	wg.Wait()

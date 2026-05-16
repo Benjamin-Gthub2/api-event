@@ -17,6 +17,7 @@ SELECT registrations.id                                     AS registration_id,
        beneficiaries.names                                  AS beneficiary_names,
        beneficiaries.surname                                AS beneficiary_surname,
        beneficiaries.last_name                              AS beneficiary_last_name,
+       beneficiaries.phone                                  AS beneficiary_phone,
        beneficiaries_users.id                               AS beneficiary_user_id,
        beneficiaries_users.username                         AS beneficiary_username,
        beneficiaries_user_types.id                          AS beneficiary_user_type_id,
@@ -65,4 +66,11 @@ FROM registrations registrations
 WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
   AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
   AND registrations.deleted_at IS NULL
+  AND beneficiaries.deleted_at IS NULL
+  AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
+ORDER BY registrations.created_at DESC
 LIMIT ? OFFSET ?;

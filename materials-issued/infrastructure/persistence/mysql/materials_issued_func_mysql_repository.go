@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -13,6 +14,8 @@ import (
 
 	materialsIssuedDomain "github.com/Benjamin-Gthub2/api-event/materials-issued/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_material_issued_by_id.sql
 var QueryGetMaterialIssuedById string
@@ -150,7 +153,7 @@ func (r materialsIssuedMySQLRepo) CreateMaterialIssued(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("CreateMaterialIssued").SetRaw(err)
@@ -197,7 +200,7 @@ func (r materialsIssuedMySQLRepo) DeleteMaterialIssued(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteMaterialIssued").SetRaw(err)

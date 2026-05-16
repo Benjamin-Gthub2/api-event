@@ -7,7 +7,7 @@
  * Purpose:
  * This file contains the WhatsApp repository interface for registrations.
  *
- * Last Modified: 2026-05-11
+ * Last Modified: 2026-05-12
  */
 
 package domain
@@ -15,15 +15,13 @@ package domain
 import "context"
 
 type RegistrationsWhatsAppRepository interface {
-	UploadMedia(ctx context.Context, imageBytes []byte) (string, error)
-	SendTemplateMessage(ctx context.Context, params SendWhatsAppTemplateParams) error
+	SendImageMessage(ctx context.Context, params SendWhatsAppImageParams) error
 }
 
-type SendWhatsAppTemplateParams struct {
-	To           string
-	TemplateName string
-	Language     string
-	MediaId      string
-	Names        string
-	EventName    string
+type SendWhatsAppImageParams struct {
+	// To is the destination phone number with country code (e.g. 51987654321).
+	// The @s.whatsapp.net suffix is added automatically by the repository.
+	To      string
+	Caption string
+	Image   []byte
 }

@@ -16,6 +16,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
@@ -26,6 +27,8 @@ import (
 
 	userTypeDomain "github.com/Benjamin-Gthub2/api-event/user-types/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_user_types.sql
 var QueryGetUserTypes string
@@ -44,6 +47,7 @@ var QueryCreateUserType string
 
 func (r userTypesMySQLRepo) GetUserTypes(
 	ctx context.Context,
+	params userTypeDomain.GetUserTypesParams,
 	pagination paramsDomain.PaginationParams,
 ) (
 	userTypesRows []userTypeDomain.UserType,
@@ -56,7 +60,9 @@ func (r userTypesMySQLRepo) GetUserTypes(
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetUserTypes").SetRaw(err)
 	}
-	results, err := client.QueryContext(ctx, QueryGetUserTypes, sizePage, offset)
+	results, err := client.QueryContext(ctx, QueryGetUserTypes,
+		params.SearchValue, params.SearchValue, params.SearchValue,
+		sizePage, offset)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetUserTypes").SetRaw(err)
 	}
@@ -77,7 +83,7 @@ func (r userTypesMySQLRepo) GetUserTypes(
 
 func (r userTypesMySQLRepo) GetTotalUserTypes(
 	ctx context.Context,
-	pagination paramsDomain.PaginationParams,
+	params userTypeDomain.GetUserTypesParams,
 ) (
 	total *int,
 	err error,
@@ -92,6 +98,7 @@ func (r userTypesMySQLRepo) GetTotalUserTypes(
 		QueryRowContext(
 			ctx,
 			QueryGetTotalUserTypes,
+			params.SearchValue, params.SearchValue, params.SearchValue,
 		).
 		Scan(&totalTmp)
 	if err != nil {
@@ -110,7 +117,7 @@ func (r userTypesMySQLRepo) CreateUserType(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("CreateUserType").SetRaw(err)
@@ -163,7 +170,7 @@ func (r userTypesMySQLRepo) DeleteUserType(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return false, r.err.Clone().SetFunction("DeleteUserType").SetRaw(err)

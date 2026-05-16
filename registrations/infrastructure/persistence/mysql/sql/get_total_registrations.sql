@@ -19,4 +19,9 @@ FROM registrations registrations
                     ON creators.type_document_id = creators_document_types.id
 WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
   AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
-  AND registrations.deleted_at IS NULL;
+  AND registrations.deleted_at IS NULL
+  AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                          events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'));

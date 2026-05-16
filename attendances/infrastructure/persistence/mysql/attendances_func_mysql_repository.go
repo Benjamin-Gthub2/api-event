@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	eventSharedDomain "github.com/Benjamin-Gthub2/api-event/events-shared/domain"
 	"github.com/Benjamin-Gthub2/api-shared/db"
@@ -14,6 +15,8 @@ import (
 
 	attendancesDomain "github.com/Benjamin-Gthub2/api-event/attendances/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_attendance_by_id.sql
 var QueryGetAttendanceById string
@@ -29,6 +32,12 @@ var QueryCreateAttendance string
 
 //go:embed sql/delete_attendance.sql
 var QueryDeleteAttendance string
+
+//go:embed sql/check_attendance_duplicate.sql
+var QueryCheckAttendanceDuplicate string
+
+//go:embed sql/check_attendance_schedule_conflict.sql
+var QueryCheckAttendanceScheduleConflict string
 
 func intToPtr(value int) *int {
 	return &value
@@ -100,6 +109,7 @@ func (r attendancesMySQLRepo) GetAttendances(
 		searchParams.StartDate,
 		searchParams.StartDate,
 		searchParams.EndDate,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -149,12 +159,53 @@ func (r attendancesMySQLRepo) GetTotalAttendances(
 		searchParams.StartDate,
 		searchParams.StartDate,
 		searchParams.EndDate,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 	).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalAttendances").SetRaw(err)
 	}
 	total = &totalTmp
 	return total, nil
+}
+
+func (r attendancesMySQLRepo) AttendanceExistsByWorkshopAndBeneficiary(
+	ctx context.Context,
+	workshopId, beneficiaryId string,
+) (
+	exists bool,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var count int
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByWorkshopAndBeneficiary").SetRaw(err)
+	}
+	err = client.QueryRowContext(ctx, QueryCheckAttendanceDuplicate, workshopId, beneficiaryId).Scan(&count)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByWorkshopAndBeneficiary").SetRaw(err)
+	}
+	return count > 0, nil
+}
+
+func (r attendancesMySQLRepo) AttendanceExistsByBeneficiaryAndStartDate(
+	ctx context.Context,
+	beneficiaryId, workshopId string,
+) (
+	exists bool,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var count int
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByBeneficiaryAndStartDate").SetRaw(err)
+	}
+	err = client.QueryRowContext(ctx, QueryCheckAttendanceScheduleConflict, beneficiaryId, workshopId, workshopId).Scan(&count)
+	if err != nil {
+		return false, r.err.Clone().SetFunction("AttendanceExistsByBeneficiaryAndStartDate").SetRaw(err)
+	}
+	return count > 0, nil
 }
 
 func (r attendancesMySQLRepo) MainCreateAttendance(
@@ -237,7 +288,7 @@ func (r attendancesMySQLRepo) CreateAttendance(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	_, err = tx.ExecContext(ctx,
 		QueryCreateAttendance,
 		body.Id,
@@ -259,7 +310,7 @@ func (r attendancesMySQLRepo) DeleteAttendance(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return r.err.Clone().SetFunction("DeleteAttendance").SetRaw(err)

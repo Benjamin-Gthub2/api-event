@@ -14,6 +14,8 @@ package domain
 
 import (
 	"time"
+
+	paramsDomain "github.com/Benjamin-Gthub2/api-shared/params/domain"
 )
 
 type UserType struct {
@@ -27,6 +29,11 @@ type UserType struct {
 	Enable bool `json:"enable" binding:"required" example:"true"`
 	//Description: the date of created the user type
 	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
+}
+
+type GetUserTypesParams struct {
+	paramsDomain.Params
+	SearchValue *string `json:"searchvalue" example:"EXTERNO"`
 }
 
 type CreateUserTypeBody struct {

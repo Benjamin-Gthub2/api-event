@@ -22,6 +22,7 @@ type CreatedBy struct {
 
 type GetEventTypesParams struct {
 	paramsDomain.Params
+	SearchValue *string `json:"searchvalue" example:"EVENTO"`
 }
 
 type CreateEventTypeBody struct {

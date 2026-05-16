@@ -225,6 +225,7 @@ func (h workshopsHandler) DeleteWorkshop(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param workshop_id query string false "the id of workshop"
+// @Param search_value query string false "the search value of workshop"
 // @Param start_date query string false "Filter by start date (YYYY-MM-DD)"
 // @Param end_date query string false "Filter by end date (YYYY-MM-DD)"
 // @Success 200 {object} workshopsSummaryResult "Success Request"

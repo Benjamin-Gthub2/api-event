@@ -17,6 +17,7 @@ import (
 	"database/sql"
 	_ "embed"
 	"strings"
+	"time"
 
 	"github.com/jackskj/carta"
 	"github.com/stroiman/go-automapper"
@@ -27,6 +28,8 @@ import (
 
 	usersDomain "github.com/Benjamin-Gthub2/api-event/users/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_user.sql
 var QueryGetUser string
@@ -117,6 +120,9 @@ var QueryGetUserPermissionsByModule string
 
 //go:embed sql/get_user_by_person_id.sql
 var QueryGetUserByPersonId string
+
+//go:embed sql/get_view_by_user.sql
+var QueryGetViewByUser string
 
 func (r usersMySQLRepo) GetPasswordUser(
 	ctx context.Context,
@@ -373,7 +379,7 @@ func (r usersMySQLRepo) CreateUser(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 
 	if tx != nil {
 		_, err = tx.ExecContext(ctx,
@@ -501,7 +507,7 @@ func (r usersMySQLRepo) CreatePerson(
 	personId string,
 	body *usersDomain.Person) (lastId *string, err error) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	if tx != nil {
 		_, err = tx.ExecContext(ctx,
 			QueryCreatePerson,
@@ -717,7 +723,7 @@ func (r usersMySQLRepo) DeleteUser(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return false, r.err.Clone().SetFunction("DeleteUser").SetRaw(err)
@@ -1302,4 +1308,37 @@ func (r usersMySQLRepo) GetUserByPersonId(
 		return nil, usersDomain.ErrUserNotFound
 	}
 	return &users[0], nil
+}
+
+func (r usersMySQLRepo) GetViewsByUser(
+	ctx context.Context,
+	userId string,
+) (
+	user []usersDomain.View,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	results, err := client.
+		QueryContext(ctx, QueryGetViewByUser, userId)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &errClose)
+		}
+	}(results)
+	modulesTmp := make([]View, 0)
+	err = carta.Map(results, &modulesTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetViewsByUser").SetRaw(err)
+	}
+	var modules = make([]usersDomain.View, 0)
+	automapper.Map(modulesTmp, &modules)
+	return modules, nil
 }

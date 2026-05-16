@@ -284,22 +284,22 @@ func (u registrationsUseCase) SendQrWhatsApp(
 		return err
 	}
 
-	mediaId, err := u.registrationsWhatsAppRepository.UploadMedia(ctx, qrCode)
-	if err != nil {
-		return err
-	}
-
-	templateName := "qr_registro_evento"
-	templateLang := "es"
 	fullName := registration.Beneficiary.Names + " " + registration.Beneficiary.Surname
+	caption := fmt.Sprintf(`Hola %s 😊
 
-	err = u.registrationsWhatsAppRepository.SendTemplateMessage(ctx, registrationsDomain.SendWhatsAppTemplateParams{
-		To:           body.PhoneNumber,
-		TemplateName: templateName,
-		Language:     templateLang,
-		MediaId:      mediaId,
-		Names:        fullName,
-		EventName:    registration.Event.Name,
+Tu inscripción para *%s* fue confirmada correctamente.
+
+Aquí te enviamos tu código QR, el cual te servirá para ingresar y registrar tu asistencia el día del evento.
+
+¡Te esperamos!`,
+		fullName,
+		registration.Event.Name,
+	)
+
+	err = u.registrationsWhatsAppRepository.SendImageMessage(ctx, registrationsDomain.SendWhatsAppImageParams{
+		To:      body.PhoneNumber,
+		Caption: caption,
+		Image:   qrCode,
 	})
 	if err != nil {
 		return err
@@ -309,6 +309,13 @@ func (u registrationsUseCase) SendQrWhatsApp(
 	if err != nil {
 		return err
 	}
+
+	//emitir la señal
+	_, xTenantId, _ := db.ClientDB(ctx)
+	//linearJson, _ := u.transformToLinearJSON(notificationById)
+	linearJson := "señal enviada"
+	mqttTopicSendNotification := fmt.Sprintf("/event/registrations/updates/%s", *xTenantId) //changes or remove userId
+	_ = u.registrationsRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
 
 	return nil
 }
@@ -339,4 +346,37 @@ func (u registrationsUseCase) UpdateRegistrationStatus(
 	_ = u.registrationsRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
 
 	return
+}
+
+func (u registrationsUseCase) GetRegistrationsByEvent(
+	ctx context.Context,
+	eventId string,
+	searchParams registrationsDomain.GetRegistrationsByEventParams,
+) (
+	res []registrationsDomain.RegistrationByEvent,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var cancel context.CancelFunc
+	ctx, cancel = context.WithTimeout(ctx, u.contextTimeout)
+	defer cancel()
+
+	var errGetRegistrationsByEvent error
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	go func() {
+		defer logErrorCoreDomain.PanicThreadRecovery(&ctx, &errGetRegistrationsByEvent, &wg)
+		res, errGetRegistrationsByEvent = u.registrationsRepository.GetRegistrationsByEvent(
+			ctx, eventId, searchParams)
+		wg.Done()
+	}()
+	wg.Wait()
+
+	if errGetRegistrationsByEvent != nil {
+		err = errGetRegistrationsByEvent
+		return nil, errGetRegistrationsByEvent
+	}
+
+	return res, nil
 }

@@ -16,6 +16,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/Benjamin-Gthub2/api-shared/db"
 	"github.com/jackskj/carta"
@@ -26,6 +27,8 @@ import (
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_registration_by_id.sql
 var QueryGetRegistrationById string
@@ -44,6 +47,9 @@ var QueryUpdateRegistrationStatus string
 
 //go:embed sql/update_registration_send_qr.sql
 var QueryUpdateRegistrationSendQr string
+
+//go:embed sql/get_registrations_by_event_id.sql
+var QueryGetRegistrationsByEvent string
 
 func intToPtr(value int) *int {
 	return &value
@@ -117,6 +123,7 @@ func (r registrationsMySQLRepo) GetRegistrations(
 		searchParams.EndDate,
 		searchParams.CreatedBy,
 		searchParams.CreatedBy,
+		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		sizePage,
 		offset,
 	)
@@ -164,6 +171,7 @@ func (r registrationsMySQLRepo) GetTotalRegistrations(
 			searchParams.EndDate,
 			searchParams.CreatedBy,
 			searchParams.CreatedBy,
+			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
 		).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalRegistrations").SetRaw(err)
@@ -274,7 +282,7 @@ func (r registrationsMySQLRepo) CreateRegistration(
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
-	now := r.clock.Now().Format("2006-01-02 15:04:06")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	_, err = tx.ExecContext(ctx,
 		QueryCreateRegistration,
 		body.Id,
@@ -321,4 +329,51 @@ func (r registrationsMySQLRepo) UpdateRegistrationSendQr(
 		return r.err.Clone().SetFunction("UpdateRegistrationSendQr").SetRaw(err)
 	}
 	return
+}
+
+func (r registrationsMySQLRepo) GetRegistrationsByEvent(
+	ctx context.Context,
+	eventId string,
+	searchParams registrationsDomain.GetRegistrationsByEventParams,
+) (
+	registrationsRows []registrationsDomain.RegistrationByEvent,
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+
+	results, err := client.QueryContext(
+		ctx,
+		QueryGetRegistrationsByEvent,
+		eventId,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+		searchParams.SearchValue,
+	)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+
+	defer func(results *sql.Rows) {
+		errClose := results.Close()
+		if errClose != nil {
+			logErrorCoreDomain.PanicRecovery(&ctx, &err)
+		}
+	}(results)
+
+	registrationsTmp := make([]RegistrationByEvent, 0)
+	err = carta.Map(results, &registrationsTmp)
+	if err != nil {
+		return nil, r.err.Clone().SetFunction("GetRegistrationsByEvent").SetRaw(err)
+	}
+	var registrations = make([]registrationsDomain.RegistrationByEvent, 0)
+	automapper.Map(registrationsTmp, &registrations)
+
+	return registrations, nil
 }

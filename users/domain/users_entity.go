@@ -422,3 +422,27 @@ type UserPermissions struct {
 	UserName    string        `json:"user_name" binding:"required" example:"admin.smart"`
 	Permissions []Permissions `json:"permissions" binding:"required"`
 }
+
+type View struct {
+	//Description: the id of the views of user
+	Id string `json:"id" binding:"required" example:"739bbbc9-7e93-11ee-89fd-0242ac110000"`
+	//Description: the name of the views of user
+	Name string `json:"name" binding:"required" example:"Requerimientos"`
+	//Description: the description of the views of user
+	Description string `json:"description" binding:"required" example:"Vista de requerimientos"`
+	//Description: the position of the views of user
+	Position *int `json:"position" example:"1"`
+	//Description: the url of the views of user
+	Url string `json:"url" binding:"required" example:"/logistics/requirements"`
+	//Description: the icon in for the views of user
+	Icon string `json:"icon" binding:"required" example:"fa fa-chart"`
+	//Description: the date of created the views of user
+	CreatedAt *time.Time `json:"created_at" example:"2023-11-10 08:10:00"`
+}
+
+type ViewsByUserData struct {
+	//Description: person info linked to the authenticated user
+	Person *PersonByUser `json:"person"`
+	//Description: list of views the user has access to
+	Views []View `json:"views" binding:"required"`
+}

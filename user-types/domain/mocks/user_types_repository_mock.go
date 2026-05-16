@@ -67,25 +67,25 @@ func (_m *UserTypeRepository) DeleteUserType(ctx context.Context, userTypeId str
 	return r0, r1
 }
 
-// GetTotalUserTypes provides a mock function with given fields: ctx, pagination
-func (_m *UserTypeRepository) GetTotalUserTypes(ctx context.Context, pagination paramsdomain.PaginationParams) (*int, error) {
-	ret := _m.Called(ctx, pagination)
+// GetTotalUserTypes provides a mock function with given fields: ctx, params
+func (_m *UserTypeRepository) GetTotalUserTypes(ctx context.Context, params domain.GetUserTypesParams) (*int, error) {
+	ret := _m.Called(ctx, params)
 
 	var r0 *int
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, paramsdomain.PaginationParams) (*int, error)); ok {
-		return rf(ctx, pagination)
+	if rf, ok := ret.Get(0).(func(context.Context, domain.GetUserTypesParams) (*int, error)); ok {
+		return rf(ctx, params)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, paramsdomain.PaginationParams) *int); ok {
-		r0 = rf(ctx, pagination)
+	if rf, ok := ret.Get(0).(func(context.Context, domain.GetUserTypesParams) *int); ok {
+		r0 = rf(ctx, params)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*int)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, paramsdomain.PaginationParams) error); ok {
-		r1 = rf(ctx, pagination)
+	if rf, ok := ret.Get(1).(func(context.Context, domain.GetUserTypesParams) error); ok {
+		r1 = rf(ctx, params)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -93,25 +93,25 @@ func (_m *UserTypeRepository) GetTotalUserTypes(ctx context.Context, pagination 
 	return r0, r1
 }
 
-// GetUserTypes provides a mock function with given fields: ctx, pagination
-func (_m *UserTypeRepository) GetUserTypes(ctx context.Context, pagination paramsdomain.PaginationParams) ([]domain.UserType, error) {
-	ret := _m.Called(ctx, pagination)
+// GetUserTypes provides a mock function with given fields: ctx, params, pagination
+func (_m *UserTypeRepository) GetUserTypes(ctx context.Context, params domain.GetUserTypesParams, pagination paramsdomain.PaginationParams) ([]domain.UserType, error) {
+	ret := _m.Called(ctx, params, pagination)
 
 	var r0 []domain.UserType
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, paramsdomain.PaginationParams) ([]domain.UserType, error)); ok {
-		return rf(ctx, pagination)
+	if rf, ok := ret.Get(0).(func(context.Context, domain.GetUserTypesParams, paramsdomain.PaginationParams) ([]domain.UserType, error)); ok {
+		return rf(ctx, params, pagination)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, paramsdomain.PaginationParams) []domain.UserType); ok {
-		r0 = rf(ctx, pagination)
+	if rf, ok := ret.Get(0).(func(context.Context, domain.GetUserTypesParams, paramsdomain.PaginationParams) []domain.UserType); ok {
+		r0 = rf(ctx, params, pagination)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.UserType)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, paramsdomain.PaginationParams) error); ok {
-		r1 = rf(ctx, pagination)
+	if rf, ok := ret.Get(1).(func(context.Context, domain.GetUserTypesParams, paramsdomain.PaginationParams) error); ok {
+		r1 = rf(ctx, params, pagination)
 	} else {
 		r1 = ret.Error(1)
 	}

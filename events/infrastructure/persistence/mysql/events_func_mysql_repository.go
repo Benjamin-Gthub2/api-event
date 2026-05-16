@@ -16,6 +16,7 @@ import (
 	"context"
 	"database/sql"
 	_ "embed"
+	"time"
 
 	"github.com/Benjamin-Gthub2/carta"
 	"github.com/stroiman/go-automapper"
@@ -26,6 +27,8 @@ import (
 
 	eventDomain "github.com/Benjamin-Gthub2/api-event/events/domain"
 )
+
+var limaLoc = time.FixedZone("America/Lima", -5*60*60)
 
 //go:embed sql/get_total_events.sql
 var QueryGetTotalEvents string
@@ -155,7 +158,7 @@ func (r eventsMySQLRepo) CreateEvent(
 	}()
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
 
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 
 	_, err = tx.ExecContext(ctx,
 		QueryCreateEvent,
@@ -270,7 +273,7 @@ func (r eventsMySQLRepo) DeleteEvent(
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
 
-	now := r.clock.Now().Format("2006-01-02 15:04:05")
+	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
 	client, _, err := db.ClientDB(ctx)
 	if err != nil {
 		return false, r.err.Clone().SetFunction("DeleteEvent").SetRaw(err)
