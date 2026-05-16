@@ -228,9 +228,17 @@ func (u attendancesUseCase) DeleteAttendance(
 		Id:        attendanceId,
 		DeletedBy: userId,
 	}
-	err = u.attendancesRepository.DeleteAttendance(ctx, deleteAttendance)
+	err = u.attendancesRepository.MainDeleteAttendance(ctx, deleteAttendance)
 	if err != nil {
 		return err
 	}
+
+	//emitir la señal
+	_, xTenantId, _ := db.ClientDB(ctx)
+	//linearJson, _ := u.transformToLinearJSON(notificationById)
+	linearJson := "señal enviada"
+	mqttTopicSendNotification := fmt.Sprintf("/event/attendances/updates/%s", *xTenantId) //changes or remove userId
+	_ = u.attendancesRTRepository.SendNotification(ctx, mqttTopicSendNotification, linearJson)
+
 	return nil
 }

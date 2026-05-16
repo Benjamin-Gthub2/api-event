@@ -15,5 +15,6 @@ type AttendancesRepository interface {
 	AttendanceExistsByBeneficiaryAndStartDate(ctx context.Context, beneficiaryId, workshopId string) (bool, error)
 	CreateAttendance(ctx context.Context, tx *sql.Tx, body CreateAttendance) error
 	MainCreateAttendance(ctx context.Context, body CreateAttendance) (err error)
-	DeleteAttendance(ctx context.Context, body DeleteAttendance) error
+	DeleteAttendance(ctx context.Context, tx *sql.Tx, body DeleteAttendance) error
+	MainDeleteAttendance(ctx context.Context, body DeleteAttendance) (err error)
 }
