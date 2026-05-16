@@ -1,4 +1,4 @@
-@page {
+﻿@page {
     size: A4 landscape;
     margin: 0;
 }
@@ -6,69 +6,101 @@
 * {
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
+html {
+    width: 1122.05px; /* 297mm -> 1122.05px */
+    height: 793.70px; /* 210mm -> 793.70px */
+}
+
 body {
-    width: 297mm;
-    height: 210mm;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    width: 1122.05px; /* 297mm */
+    height: 793.70px; /* 210mm */
+    font-family: 'Poppins', 'Arial', sans-serif;
     background: #ffffff;
     overflow: hidden;
 }
 
+p{
+    font-size: 14pt;
+}
 .certificate {
-    width: 297mm;
-    height: 210mm;
+    width: 1122.05px; /* 297mm */
+    height: 793.70px; /* 210mm */
     position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 10mm 14mm 8mm 14mm;
-    background: #ffffff;
-    border: 6px solid #c8922a;
-    outline: 2px solid #c8922a;
-    outline-offset: -10px;
+    -webkit-box-pack: distribute;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    /*padding: 3.78px 3.78px 3.78px 3.78px;*/ /* 1mm -> 3.779528px */
+    /*background: #ffffff;*/
+    /*border: 6px solid #c8922a;*/
+    /*outline: 2px solid #c8922a;*/
+    /*outline-offset: -10px;*/
 }
 
+/* ── Header ── */
 .header {
     width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
-    justify-content: space-between;
+    -webkit-box-pack: distribute;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
 }
 
 .logo {
-    height: 22mm;
+    height: 83.15px; /* 22mm -> 83.15px */
     object-fit: contain;
 }
 
 .logo-main {
-    height: 26mm;
+    height: 310px; /* 82mm -> 309.91px */
     object-fit: contain;
 }
 
 .adorno {
-    height: 18mm;
+    height: 68.03px; /* 18mm -> 68.03px */
     object-fit: contain;
 }
 
+/* ── Body ── */
 .body {
     width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
-    text-align: center;
-    gap: 4mm;
-    flex: 1;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
+    text-align: center;
 }
 
 .title {
-    font-size: 22pt;
+    font-size: 18pt;
     font-weight: bold;
-    letter-spacing: 4px;
     color: #1a1a2e;
     text-transform: uppercase;
 }
@@ -76,65 +108,82 @@ body {
 .subtitle {
     font-size: 11pt;
     color: #555555;
-    font-style: italic;
+    /*font-style: italic;*/
+    margin-bottom: 3px; /* 2mm -> 7.56px */
 }
 
 .name {
-    font-size: 26pt;
+    font-size: 16pt;
     font-weight: bold;
-    color: #c8922a;
+    color: #555555;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 2px solid #c8922a;
-    padding-bottom: 2mm;
-    margin: 2mm 0;
+    border-bottom: 2px solid #555555;
+    padding-bottom: 5px; /* 2mm -> 7.56px */
+    margin-top: 15px; /* 2mm */
+    margin-bottom: 11.34px; /* 3mm -> 11.34px */
 }
 
 .event-label {
     font-size: 10pt;
     color: #555555;
+    margin-bottom: 3.78px; /* 1mm -> 3.78px */
 }
 
 .event-name {
     font-size: 16pt;
     font-weight: bold;
     color: #1a1a2e;
+    margin-bottom: 3.78px; /* 1mm -> 3.78px */
 }
 
 .event-description {
     font-size: 10pt;
     color: #666666;
     font-style: italic;
-    max-width: 200mm;
+    max-width: 755.91px; /* 200mm -> 755.91px */
 }
 
+/* ── Footer ── */
 .footer {
     width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
     align-items: flex-end;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
 }
 
 .signature-block {
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
-    gap: 1mm;
 }
 
 .firma {
-    height: 14mm;
+    height: 52.91px; /* 14mm -> 52.91px */
     object-fit: contain;
+    margin-bottom: 3.78px; /* 1mm -> 3.78px */
 }
 
 .firma-line {
-    width: 50mm;
+    width: 188.98px; /* 50mm -> 188.98px */
     border-top: 1px solid #333333;
-    margin-top: 1mm;
+    margin-bottom: 3.78px; /* 1mm -> 3.78px */
 }
 
 .firma-label {
-    font-size: 8pt;
-    color: #555555;
+    font-size: 14pt;
+    color: black;
     text-align: center;
 }

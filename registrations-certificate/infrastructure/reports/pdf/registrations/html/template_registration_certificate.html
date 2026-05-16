@@ -2,34 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ .PathStyle }}">
+    <style>
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 400;
+    src: url('data:font/truetype;base64,{{ .FontPoppinsRegularB64 }}') format('truetype');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 700;
+    src: url('data:font/truetype;base64,{{ .FontPoppinsBoldB64 }}') format('truetype');
+}
+{{ .StyleCSS }}
+    </style>
 </head>
 <body>
 <div class="certificate">
 
     <div class="header">
-        <img src="{{ .PathImgLogo }}" alt="Logo" class="logo">
-        <img src="{{ .PathImgAdorno }}" alt="" class="adorno">
-        <img src="{{ .PathImgMain }}" alt="Tejiendo Corazones" class="logo-main">
+<!--        <img src="data:image/png;base64,{{ .ImgLogoB64 }}" alt="Logo" class="logo">-->
+<!--        <img src="data:image/png;base64,{{ .ImgAdornoB64 }}" alt="" class="adorno">-->
+        <img src="data:image/png;base64,{{ .ImgMainB64 }}" alt="Tejiendo Corazones" class="logo-main">
     </div>
 
     <div class="body">
-        <h1 class="title">Certificado de Participación</h1>
-        <p class="subtitle">Se otorga el presente certificado a:</p>
+        <p class="title"><b> CERTIFICADO</b></p>
+        <p >POR EL PRESENTE SE DEJA CONSTANCIA QUE</p>
         <h2 class="name">{{ .NamePerson }}</h2>
-        <p class="event-label">Por su destacada participación en:</p>
-        <h3 class="event-name">{{ .RegistrationConfiguration.Event.Name }}</h3>
-        {{ if .RegistrationConfiguration.Event.Description }}
-        <p class="event-description">{{ .RegistrationConfiguration.Event.Description }}</p>
-        {{ end }}
+        <p >HA PARTICIPADO EN
+            <b>LA CUMBRE PERÚ POR LOS NIÑOS 2026: TEJIENDO CORAZONES</b>
+        </p>
+        <p>DESARROLLADO EL 14 AL 16 DE MAYO DEL 2026 </p>
+        <p>CON UNA DURACIÓN DE 20 HORAS EN CUSCO, PERÚ</p>
+        <p style="font-size: 12pt">CUSCO, 16 DE MAYO DE 2026</p>
     </div>
 
     <div class="footer">
         <div class="signature-block">
-            <img src="{{ .PathImgFirma }}" alt="Firma" class="firma">
-            <div class="firma-line"></div>
-            <p class="firma-label">Organizador</p>
+            <img src="data:image/png;base64,{{ .ImgFirmaB64 }}" alt="Firma" class="firma">
+            <h3 class="firma-label">JOSHUA WILKE</h3>
+            <p style="font-size: 11pt">PRESIDENTE  •  PERÚ POR LOS NIÑOS</p>
         </div>
+
+        <img src="data:image/png;base64,{{ .ImgAdornoB64 }}" alt="" class="adorno">
     </div>
 
 </div>

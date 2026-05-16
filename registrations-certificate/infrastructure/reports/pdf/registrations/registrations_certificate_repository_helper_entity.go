@@ -17,11 +17,13 @@ import (
 )
 
 type dataRegistrationReport struct {
-	PathStyle                 string                           `json:"path_style"`
-	PathImgMain               string                           `json:"path_img_main"`
-	PathImgLogo               string                           `json:"path_img_logo"`
-	PathImgFirma              string                           `json:"path_img_firma"`
-	PathImgAdorno             string                           `json:"path_img_adorno"`
+	StyleCSS                  string                           `json:"style_css"`
+	ImgMainB64                string                           `json:"img_main_b64"`
+	ImgLogoB64                string                           `json:"img_logo_b64"`
+	ImgFirmaB64               string                           `json:"img_firma_b64"`
+	ImgAdornoB64              string                           `json:"img_adorno_b64"`
+	FontPoppinsRegularB64     string                           `json:"font_poppins_regular_b64"`
+	FontPoppinsBoldB64        string                           `json:"font_poppins_bold_b64"`
 	RegistrationConfiguration registrationsDomain.Registration `json:"registration_configuration"`
 	NamePerson                string                           `json:"name_person"`
 }

@@ -18,12 +18,13 @@ import (
 	"bytes"
 	"context"
 	_ "embed"
+	"encoding/base64"
 	"fmt"
-	"html/template"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"text/template"
 	"time"
 
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
@@ -49,6 +50,12 @@ var TemplateImgFirma []byte
 //go:embed html/adorno.png
 var TemplateImgAdorno []byte
 
+//go:embed html/Poppins-Regular.ttf
+var FontPoppinsRegular []byte
+
+//go:embed html/Poppins-Bold.ttf
+var FontPoppinsBold []byte
+
 func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePdf(
 	ctx context.Context,
 	registration *registrationsDomain.Registration,
@@ -69,25 +76,8 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 	}
 	defer os.RemoveAll(tmpDir)
 
-	imgMainPath := filepath.Join(tmpDir, "main.png")
-	imgLogoPath := filepath.Join(tmpDir, "logo.png")
-	imgFirmaPath := filepath.Join(tmpDir, "firma.png")
-	imgAdornoPath := filepath.Join(tmpDir, "adorno.png")
-	stylePath := filepath.Join(tmpDir, "styles.css")
 	htmlPath := filepath.Join(tmpDir, "certificate.html")
 	pdfPath := filepath.Join(tmpDir, "certificate.pdf")
-
-	for path, data := range map[string][]byte{
-		imgMainPath:   TemplateImgMain,
-		imgLogoPath:   TemplateImgLogo,
-		imgFirmaPath:  TemplateImgFirma,
-		imgAdornoPath: TemplateImgAdorno,
-		stylePath:     []byte(TemplateStyles),
-	} {
-		if err = os.WriteFile(path, data, 0644); err != nil {
-			return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
-		}
-	}
 
 	tmpl, err := template.New("certificate").Parse(TemplateRegistrationCertificate)
 	if err != nil {
@@ -95,11 +85,13 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 	}
 
 	data := dataRegistrationReport{
-		PathStyle:                 stylePath,
-		PathImgMain:               imgMainPath,
-		PathImgLogo:               imgLogoPath,
-		PathImgFirma:              imgFirmaPath,
-		PathImgAdorno:             imgAdornoPath,
+		StyleCSS:                  TemplateStyles,
+		ImgMainB64:                base64.StdEncoding.EncodeToString(TemplateImgMain),
+		ImgLogoB64:                base64.StdEncoding.EncodeToString(TemplateImgLogo),
+		ImgFirmaB64:               base64.StdEncoding.EncodeToString(TemplateImgFirma),
+		ImgAdornoB64:              base64.StdEncoding.EncodeToString(TemplateImgAdorno),
+		FontPoppinsRegularB64:     base64.StdEncoding.EncodeToString(FontPoppinsRegular),
+		FontPoppinsBoldB64:        base64.StdEncoding.EncodeToString(FontPoppinsBold),
 		RegistrationConfiguration: *registration,
 		NamePerson:                fullName,
 	}
@@ -123,6 +115,11 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 	cmd := exec.CommandContext(cmdCtx, wkhtmltopdfBin,
 		"--orientation", "Landscape",
 		"--page-size", "A4",
+		"--margin-top", "0",
+		"--margin-right", "0",
+		"--margin-bottom", "0",
+		"--margin-left", "0",
+		"--disable-smart-shrinking",
 		"--print-media-type",
 		"--quiet",
 		"--no-stop-slow-scripts",
