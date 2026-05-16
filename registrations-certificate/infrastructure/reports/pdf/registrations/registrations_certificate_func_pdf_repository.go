@@ -56,6 +56,9 @@ var FontPoppinsRegular []byte
 //go:embed html/Poppins-Bold.ttf
 var FontPoppinsBold []byte
 
+//go:embed html/frma-adorno-y-logo.png
+var TemplateImgFirmaAdornoLogo []byte
+
 func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePdf(
 	ctx context.Context,
 	registration *registrationsDomain.Registration,
@@ -90,6 +93,7 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 		ImgLogoB64:                base64.StdEncoding.EncodeToString(TemplateImgLogo),
 		ImgFirmaB64:               base64.StdEncoding.EncodeToString(TemplateImgFirma),
 		ImgAdornoB64:              base64.StdEncoding.EncodeToString(TemplateImgAdorno),
+		ImgFirmaAdornoLogoB64:     base64.StdEncoding.EncodeToString(TemplateImgFirmaAdornoLogo),
 		FontPoppinsRegularB64:     base64.StdEncoding.EncodeToString(FontPoppinsRegular),
 		FontPoppinsBoldB64:        base64.StdEncoding.EncodeToString(FontPoppinsBold),
 		RegistrationConfiguration: *registration,
