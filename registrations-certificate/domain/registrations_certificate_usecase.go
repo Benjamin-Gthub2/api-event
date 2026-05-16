@@ -5,9 +5,9 @@
  * License: MIT
  *
  * Purpose:
- * This file content the use case.
+ * This file content the use case interface for the registrations certificate.
  *
- * Last Modified: 2026-05-12
+ * Last Modified: 2026-05-16
  */
 
 package domain
@@ -17,5 +17,5 @@ import (
 )
 
 type RegistrationsCertificateUseCase interface {
-	GenerateRegistrationsCertificatePdf(ctx context.Context, registrationId string) ([]byte, error)
+	GenerateRegistrationsCertificatePdf(ctx context.Context, registrationId string) (pdfBytes []byte, fileName string, err error)
 }

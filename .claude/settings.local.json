@@ -24,7 +24,10 @@
       "Bash(find C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event *)",
       "Bash(find C:\\\\\\\\Users\\\\\\\\Benjamin\\\\\\\\dev\\\\\\\\smartone\\\\\\\\otros\\\\\\\\api-event\\\\\\\\registrations *)",
       "Bash(go get *)",
-      "Bash(go mod *)"
+      "Bash(go mod *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Force | Select-Object Name, @{Name='Type'; Expression={if \\($_.PSIsContainer\\) { 'DIR' } else { 'FILE' }}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\registrations-certificate\" -Recurse -Force | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\\", \"\"\\) })",
+      "Bash(npx tsc *)"
     ]
   }
 }

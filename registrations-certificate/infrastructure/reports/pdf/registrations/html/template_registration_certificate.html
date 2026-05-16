@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ .PathStyle }}">
+</head>
+<body>
+<div class="certificate">
+
+    <div class="header">
+        <img src="{{ .PathImgLogo }}" alt="Logo" class="logo">
+        <img src="{{ .PathImgAdorno }}" alt="" class="adorno">
+        <img src="{{ .PathImgMain }}" alt="Tejiendo Corazones" class="logo-main">
+    </div>
+
+    <div class="body">
+        <h1 class="title">Certificado de Participación</h1>
+        <p class="subtitle">Se otorga el presente certificado a:</p>
+        <h2 class="name">{{ .NamePerson }}</h2>
+        <p class="event-label">Por su destacada participación en:</p>
+        <h3 class="event-name">{{ .RegistrationConfiguration.Event.Name }}</h3>
+        {{ if .RegistrationConfiguration.Event.Description }}
+        <p class="event-description">{{ .RegistrationConfiguration.Event.Description }}</p>
+        {{ end }}
+    </div>
+
+    <div class="footer">
+        <div class="signature-block">
+            <img src="{{ .PathImgFirma }}" alt="Firma" class="firma">
+            <div class="firma-line"></div>
+            <p class="firma-label">Organizador</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

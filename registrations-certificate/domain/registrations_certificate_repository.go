@@ -5,9 +5,9 @@
  * License: MIT
  *
  * Purpose:
- * This is the entry point for the application.
+ * This file content the repository interface for the registrations certificate.
  *
- * Last Modified: 2026-05-12
+ * Last Modified: 2026-05-16
  */
 
 package domain
@@ -15,13 +15,9 @@ package domain
 import (
 	"context"
 
-	merchantSharedDomain "github.com/smart0n3/api-shared/merchant-shared/domain"
-
-	requirementsDomain "github.com/smart0n3/api-logistics/requirements/domain"
+	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
 
 type RegistrationCertificateRepository interface {
-	GenerateRegistrationCertificatePdf(ctx context.Context, requirement *requirementsDomain.RequirementById,
-		requirementDetails []requirementsDomain.ApprovalPerson, onlyApprovers []requirementsDomain.ApprovalPerson,
-		LogoMerchantFile *merchantSharedDomain.MerchantLogo) ([]byte, error)
+	GenerateRegistrationCertificatePdf(ctx context.Context, registration *registrationsDomain.Registration) ([]byte, error)
 }

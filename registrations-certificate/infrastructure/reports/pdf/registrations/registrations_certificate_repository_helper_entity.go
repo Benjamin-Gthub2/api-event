@@ -5,9 +5,9 @@
  * License: MIT
  *
  * Purpose:
- * This file content the helper entity for the registrations report.
+ * This file content the helper entity for the registrations certificate report.
  *
- * Last Modified: 2026-05-12
+ * Last Modified: 2026-05-16
  */
 
 package registrations
@@ -18,7 +18,10 @@ import (
 
 type dataRegistrationReport struct {
 	PathStyle                 string                           `json:"path_style"`
-	PathImg                   string                           `json:"path_img"`
+	PathImgMain               string                           `json:"path_img_main"`
+	PathImgLogo               string                           `json:"path_img_logo"`
+	PathImgFirma              string                           `json:"path_img_firma"`
+	PathImgAdorno             string                           `json:"path_img_adorno"`
 	RegistrationConfiguration registrationsDomain.Registration `json:"registration_configuration"`
 	NamePerson                string                           `json:"name_person"`
 }

@@ -5,9 +5,9 @@
  * License: MIT
  *
  * Purpose:
- * This file content the repository for registrations certificate.
+ * This file content the repository constructor for registrations certificate PDF generation.
  *
- * Last Modified: 2026-05-12
+ * Last Modified: 2026-05-16
  */
 
 package registrations
@@ -16,9 +16,9 @@ import (
 	"time"
 
 	smartClock "github.com/Benjamin-Gthub2/api-shared/clock"
+	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 
 	registrationCertificateDomain "github.com/Benjamin-Gthub2/api-event/registrations-certificate/domain"
-	errDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
 )
 
 type registrationCertificatesReportPdfRepo struct {
@@ -27,14 +27,13 @@ type registrationCertificatesReportPdfRepo struct {
 	err     *errDomain.SmartError
 }
 
-func NewRequirementsRepository(
+func NewRegistrationCertificatePdfRepository(
 	clock smartClock.Clock,
-	mongoTimeout int,
+	timeout int,
 ) registrationCertificateDomain.RegistrationCertificateRepository {
-	rep := &registrationCertificatesReportPdfRepo{
+	return &registrationCertificatesReportPdfRepo{
 		clock:   clock,
-		timeout: time.Duration(mongoTimeout) * time.Second,
+		timeout: time.Duration(timeout) * time.Second,
 		err:     errDomain.NewErr().SetLayer(errDomain.Infra),
 	}
-	return rep
 }

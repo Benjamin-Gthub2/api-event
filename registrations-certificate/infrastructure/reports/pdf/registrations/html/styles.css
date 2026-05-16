@@ -1,0 +1,140 @@
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 297mm;
+    height: 210mm;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.certificate {
+    width: 297mm;
+    height: 210mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10mm 14mm 8mm 14mm;
+    background: #ffffff;
+    border: 6px solid #c8922a;
+    outline: 2px solid #c8922a;
+    outline-offset: -10px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 22mm;
+    object-fit: contain;
+}
+
+.logo-main {
+    height: 26mm;
+    object-fit: contain;
+}
+
+.adorno {
+    height: 18mm;
+    object-fit: contain;
+}
+
+.body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4mm;
+    flex: 1;
+    justify-content: center;
+}
+
+.title {
+    font-size: 22pt;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #1a1a2e;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 11pt;
+    color: #555555;
+    font-style: italic;
+}
+
+.name {
+    font-size: 26pt;
+    font-weight: bold;
+    color: #c8922a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #c8922a;
+    padding-bottom: 2mm;
+    margin: 2mm 0;
+}
+
+.event-label {
+    font-size: 10pt;
+    color: #555555;
+}
+
+.event-name {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #1a1a2e;
+}
+
+.event-description {
+    font-size: 10pt;
+    color: #666666;
+    font-style: italic;
+    max-width: 200mm;
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.signature-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1mm;
+}
+
+.firma {
+    height: 14mm;
+    object-fit: contain;
+}
+
+.firma-line {
+    width: 50mm;
+    border-top: 1px solid #333333;
+    margin-top: 1mm;
+}
+
+.firma-label {
+    font-size: 8pt;
+    color: #555555;
+    text-align: center;
+}

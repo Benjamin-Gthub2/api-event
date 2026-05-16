@@ -5,22 +5,28 @@
  * License: MIT
  *
  * Purpose:
- * This file content the repository for generate the report.
+ * This file generates the certificate PDF using wkhtmltopdf.
+ * Uses html/template to render the HTML and calls wkhtmltopdf via os/exec.
+ * All temp files are cleaned up in a deferred call to avoid disk leaks on Railway.
  *
- * Last Modified: 2026-05-12
+ * Last Modified: 2026-05-16
  */
 
 package registrations
 
 import (
+	"bytes"
 	"context"
 	_ "embed"
 	"fmt"
+	"html/template"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
+	"time"
 
 	logErrorCoreDomain "github.com/Benjamin-Gthub2/api-shared/error-core/domain"
-	"github.com/Benjamin-Gthub2/api-shared/utils-report"
 
 	registrationsDomain "github.com/Benjamin-Gthub2/api-event/registrations/domain"
 )
@@ -32,81 +38,100 @@ var TemplateRegistrationCertificate string
 var TemplateStyles string
 
 //go:embed html/tejiendocorazones.png
-var TemplateImg string
+var TemplateImgMain []byte
 
-func (c registrationCertificatesReportPdfRepo) GenerateRegistrationReportPdf(
+//go:embed html/logo.png
+var TemplateImgLogo []byte
+
+//go:embed html/firma.png
+var TemplateImgFirma []byte
+
+//go:embed html/adorno.png
+var TemplateImgAdorno []byte
+
+func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePdf(
 	ctx context.Context,
 	registration *registrationsDomain.Registration,
 ) (fileBin []byte, err error) {
-	var errPdf error
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
 
-	defer logErrorCoreDomain.PanicRecovery(&ctx, &errPdf)
-	report, err := utils_report.CreateUtilReport(nil)
-	if err != nil {
-		return nil, err
+	names := registration.Beneficiary.Names
+	surname := registration.Beneficiary.Surname
+	nameParts := []string{names, surname}
+	if registration.Beneficiary.LastName != nil {
+		nameParts = append(nameParts, *registration.Beneficiary.LastName)
 	}
-	defer report.Clear()
-	namePerson := registration.CreatedBy.Person.Names
-	lastName := registration.CreatedBy.Person.LastName
-	surnameName := registration.CreatedBy.Person.Surname
-	arrayName := []*string{namePerson, lastName, surnameName}
-	var nameCreatedBy string
-	nameCreatedBy, err = report.ConcatStr(arrayName)
+	fullName := strings.Join(nameParts, " ")
+
+	tmpDir, err := os.MkdirTemp("", "cert-*")
 	if err != nil {
-		return nil, err
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 	}
+	defer os.RemoveAll(tmpDir)
 
-	var pathTmpStyle *string
-	var pathTmpImg string
-	var pathTmpImgAux *string
+	imgMainPath := filepath.Join(tmpDir, "main.png")
+	imgLogoPath := filepath.Join(tmpDir, "logo.png")
+	imgFirmaPath := filepath.Join(tmpDir, "firma.png")
+	imgAdornoPath := filepath.Join(tmpDir, "adorno.png")
+	stylePath := filepath.Join(tmpDir, "styles.css")
+	htmlPath := filepath.Join(tmpDir, "certificate.html")
+	pdfPath := filepath.Join(tmpDir, "certificate.pdf")
 
-	fmt.Println(report)
-	if LogoMerchantFile == nil {
-		pathTmpImgAux, err = report.LoadTextFile(TemplateImg, ".png")
-		if err != nil {
-			return nil, err
-		}
-		pathTmpImg = *pathTmpImgAux
-	} else {
-		storagePath := os.Getenv("STORAGE_PATH")
-		url := *LogoMerchantFile.Url
-		pathTmpImg = filepath.Join(storagePath, url)
-		if _, errFindFile := os.Stat(pathTmpImg); os.IsNotExist(errFindFile) {
-			pathTmpImgAux, err = report.LoadTextFile(TemplateImg, ".png")
-			if err != nil {
-				return nil, err
-			}
-			pathTmpImg = *pathTmpImgAux
+	for path, data := range map[string][]byte{
+		imgMainPath:   TemplateImgMain,
+		imgLogoPath:   TemplateImgLogo,
+		imgFirmaPath:  TemplateImgFirma,
+		imgAdornoPath: TemplateImgAdorno,
+		stylePath:     []byte(TemplateStyles),
+	} {
+		if err = os.WriteFile(path, data, 0644); err != nil {
+			return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 		}
 	}
 
-	pathTmpStyle, err = report.LoadTextFile(TemplateStyles, ".css")
+	tmpl, err := template.New("certificate").Parse(TemplateRegistrationCertificate)
+	if err != nil {
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
+	}
 
-	dataReport := dataRegistrationReport{
-		PathStyle:                 *pathTmpStyle,
-		PathImg:                   pathTmpImg,
+	data := dataRegistrationReport{
+		PathStyle:                 stylePath,
+		PathImgMain:               imgMainPath,
+		PathImgLogo:               imgLogoPath,
+		PathImgFirma:              imgFirmaPath,
+		PathImgAdorno:             imgAdornoPath,
 		RegistrationConfiguration: *registration,
-		NamePerson:                nameCreatedBy,
+		NamePerson:                fullName,
 	}
 
-	var srcTemplateAux *string
-	srcTemplateAux, errPdf = report.RenderFileToReport(TemplateRegistration, dataReport)
-	if errPdf != nil {
-		return nil, errPdf
+	var htmlBuf bytes.Buffer
+	if err = tmpl.Execute(&htmlBuf, data); err != nil {
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 	}
-	processingTemplates := utils_report.ProcessingPdfEntity{
-		PathTmpTemplate: srcTemplateAux,
-	}
-
-	var pathTmpTemplatePDF *string
-	pathTmpTemplatePDF, errPdf = report.GenerateReportPdf(processingTemplates)
-	if errPdf != nil {
-		return nil, errPdf
+	if err = os.WriteFile(htmlPath, htmlBuf.Bytes(), 0644); err != nil {
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 	}
 
-	fileBin, err = os.ReadFile(*pathTmpTemplatePDF)
+	cmdCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(cmdCtx, "wkhtmltopdf",
+		"--orientation", "Landscape",
+		"--page-size", "A4",
+		"--print-media-type",
+		"--quiet",
+		"--no-stop-slow-scripts",
+		htmlPath,
+		pdfPath,
+	)
+	if output, errExec := cmd.CombinedOutput(); errExec != nil {
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").
+			SetRaw(fmt.Errorf("wkhtmltopdf: %w, output: %s", errExec, output))
+	}
+
+	fileBin, err = os.ReadFile(pdfPath)
 	if err != nil {
-		return nil, err
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 	}
 
 	return fileBin, nil
