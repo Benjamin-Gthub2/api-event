@@ -39,6 +39,9 @@ var QueryCheckAttendanceDuplicate string
 //go:embed sql/check_attendance_schedule_conflict.sql
 var QueryCheckAttendanceScheduleConflict string
 
+//go:embed sql/get_workshop_id_by_attendance.sql
+var QueryGetWorkshopIdByAttendance string
+
 func intToPtr(value int) *int {
 	return &value
 }
@@ -305,17 +308,14 @@ func (r attendancesMySQLRepo) CreateAttendance(
 
 func (r attendancesMySQLRepo) DeleteAttendance(
 	ctx context.Context,
+	tx *sql.Tx,
 	body attendancesDomain.DeleteAttendance,
 ) (
 	err error,
 ) {
 	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
 	now := r.clock.Now().In(limaLoc).Format("2006-01-02 15:04:05")
-	client, _, err := db.ClientDB(ctx)
-	if err != nil {
-		return r.err.Clone().SetFunction("DeleteAttendance").SetRaw(err)
-	}
-	_, err = client.ExecContext(ctx,
+	_, err = tx.ExecContext(ctx,
 		QueryDeleteAttendance,
 		now,
 		body.DeletedBy,
@@ -325,4 +325,81 @@ func (r attendancesMySQLRepo) DeleteAttendance(
 		return r.err.Clone().SetFunction("DeleteAttendance").SetRaw(err)
 	}
 	return
+}
+
+func (r attendancesMySQLRepo) MainDeleteAttendance(
+	ctx context.Context,
+	body attendancesDomain.DeleteAttendance,
+) (
+	err error,
+) {
+	defer logErrorCoreDomain.PanicRecovery(&ctx, &err)
+	var tx *sql.Tx
+
+	client, _, err := db.ClientDB(ctx)
+	if err != nil {
+		return r.err.Clone().SetFunction("MainDeleteAttendance").SetRaw(err)
+	}
+	tx, err = client.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	var workshopId string
+	err = tx.QueryRowContext(ctx, QueryGetWorkshopIdByAttendance, body.Id).Scan(&workshopId)
+	if err != nil {
+		return r.err.Clone().SetFunction("MainDeleteAttendance").SetRaw(err)
+	}
+
+	var sessionWorkshopEventById *eventSharedDomain.EventWorkshopSession
+	sessionWorkshopEventById, err = r.eventsSharedRepository.GetSessionWorkshopEventByWorkshopId(ctx, tx, workshopId)
+	if err != nil {
+		return err
+	}
+
+	eventId := sessionWorkshopEventById.EventId
+
+	var eventTotals *eventSharedDomain.EventTotals
+	var workshopTotals *eventSharedDomain.WorkshopTotals
+	var updateEventTotals eventSharedDomain.UpdateEventTotals
+	var updateWorkshopTotals eventSharedDomain.UpdateWorkshopTotals
+
+	eventTotals, err = r.eventsSharedRepository.GetEventTotals(ctx, tx, eventId)
+	if err != nil {
+		return err
+	}
+	updateEventTotals = eventSharedDomain.UpdateEventTotals{
+		TotalPres: intToPtr(eventTotals.TotalPres - 1),
+	}
+	err = r.eventsSharedRepository.UpdateEventTotals(ctx, tx, eventId, updateEventTotals)
+	if err != nil {
+		return err
+	}
+
+	workshopTotals, err = r.eventsSharedRepository.GetWorkshopTotals(ctx, tx, workshopId)
+	if err != nil {
+		return err
+	}
+	updateWorkshopTotals = eventSharedDomain.UpdateWorkshopTotals{
+		TotalPres: intToPtr(workshopTotals.TotalPres - 1),
+	}
+	err = r.eventsSharedRepository.UpdateWorkshopTotals(ctx, tx, workshopId, updateWorkshopTotals)
+	if err != nil {
+		return err
+	}
+
+	err = r.DeleteAttendance(ctx, tx, body)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+	return err
 }
