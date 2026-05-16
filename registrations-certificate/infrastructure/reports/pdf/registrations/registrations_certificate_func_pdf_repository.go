@@ -115,7 +115,12 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 	cmdCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
-	cmd := exec.CommandContext(cmdCtx, "wkhtmltopdf",
+	wkhtmltopdfBin := "wkhtmltopdf"
+	if customPath := os.Getenv("WKHTMLTOPDF_PATH"); customPath != "" {
+		wkhtmltopdfBin = filepath.Join(customPath, "wkhtmltopdf")
+	}
+
+	cmd := exec.CommandContext(cmdCtx, wkhtmltopdfBin,
 		"--orientation", "Landscape",
 		"--page-size", "A4",
 		"--print-media-type",
