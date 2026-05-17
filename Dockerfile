@@ -13,8 +13,19 @@ FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     tzdata \
-    wkhtmltopdf \
-    && rm -rf /var/lib/apt/lists/*
+    wget \
+    libfontconfig1 \
+    libfreetype6 \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    xfonts-75dpi \
+    xfonts-base \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget -q -O /tmp/wkhtmltopdf.deb \
+       https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb \
+    && dpkg -i /tmp/wkhtmltopdf.deb \
+    && rm /tmp/wkhtmltopdf.deb
 
 WORKDIR /app
 
