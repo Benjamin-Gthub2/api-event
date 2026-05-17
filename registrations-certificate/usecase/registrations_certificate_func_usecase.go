@@ -15,7 +15,19 @@ package usecase
 import (
 	"context"
 	"strings"
+	"unicode"
+
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
+
+func sanitizeFileName(s string) string {
+	t := transform.Chain(norm.NFD, transform.RemoveFunc(func(r rune) bool {
+		return unicode.Is(unicode.Mn, r)
+	}), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
+}
 
 func (u registrationsCertificateUseCase) GenerateRegistrationsCertificatePdf(
 	ctx context.Context,
@@ -32,8 +44,8 @@ func (u registrationsCertificateUseCase) GenerateRegistrationsCertificatePdf(
 	if registration.Beneficiary.LastName != nil {
 		nameParts = append(nameParts, *registration.Beneficiary.LastName)
 	}
-	fullName := strings.Join(nameParts, "_")
-	fileName = strings.ReplaceAll(fullName, " ", "_") + "_certificado.pdf"
+	fullName := strings.Join(nameParts, " ")
+	fileName = strings.ReplaceAll(sanitizeFileName(strings.ToUpper(fullName)), " ", "_") + "_certificado.pdf"
 
 	// Verificar caché R2 primero para evitar regenerar un PDF ya generado.
 	cached, err := u.registrationCertificateStorageRepository.GetCertificate(ctx, registrationId)

@@ -75,7 +75,7 @@ func main() {
 		AllowOrigins:     []string{corsOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Tenant-Id"},
-		ExposeHeaders:    []string{"X-Tenant-Id"},
+		ExposeHeaders:    []string{"X-Tenant-Id", "Content-Disposition"},
 		AllowCredentials: corsOrigin != "*",
 	}))
 
