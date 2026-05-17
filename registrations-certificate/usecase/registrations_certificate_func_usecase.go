@@ -35,10 +35,24 @@ func (u registrationsCertificateUseCase) GenerateRegistrationsCertificatePdf(
 	fullName := strings.Join(nameParts, "_")
 	fileName = strings.ReplaceAll(fullName, " ", "_") + "_certificado.pdf"
 
+	// Verificar caché R2 primero para evitar regenerar un PDF ya generado.
+	cached, err := u.registrationCertificateStorageRepository.GetCertificate(ctx, registrationId)
+	if err != nil {
+		return nil, "", u.err.Clone().SetFunction("GenerateRegistrationsCertificatePdf").SetRaw(err)
+	}
+	if cached != nil {
+		return cached, fileName, nil
+	}
+
 	pdfBytes, err = u.registrationCertificateRepository.GenerateRegistrationCertificatePdf(ctx, registration)
 	if err != nil {
 		return nil, "", u.err.Clone().SetFunction("GenerateRegistrationsCertificatePdf").SetRaw(err)
 	}
+
+	// Upload asynchronously so the caller is not blocked by R2 latency.
+	go func() {
+		_ = u.registrationCertificateStorageRepository.UploadCertificate(context.Background(), registrationId, pdfBytes)
+	}()
 
 	return pdfBytes, fileName, nil
 }

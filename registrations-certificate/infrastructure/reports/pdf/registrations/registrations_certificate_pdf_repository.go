@@ -21,6 +21,9 @@ import (
 	registrationCertificateDomain "github.com/Benjamin-Gthub2/api-event/registrations-certificate/domain"
 )
 
+// pdfSemaphore limits concurrent wkhtmltopdf processes to 1 to avoid OOM on low-memory hosts.
+var pdfSemaphore = make(chan struct{}, 1)
+
 type registrationCertificatesReportPdfRepo struct {
 	clock   smartClock.Clock
 	timeout time.Duration

@@ -108,7 +108,15 @@ func (c registrationCertificatesReportPdfRepo) GenerateRegistrationCertificatePd
 		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(err)
 	}
 
-	cmdCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	// Acquire semaphore — only 1 wkhtmltopdf process at a time to protect memory.
+	select {
+	case pdfSemaphore <- struct{}{}:
+		defer func() { <-pdfSemaphore }()
+	case <-ctx.Done():
+		return nil, c.err.Clone().SetFunction("GenerateRegistrationCertificatePdf").SetRaw(ctx.Err())
+	}
+
+	cmdCtx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 
 	wkhtmltopdfBin := "wkhtmltopdf"

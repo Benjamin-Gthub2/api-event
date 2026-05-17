@@ -24,6 +24,7 @@ import (
 
 	eventsSharedRepository "github.com/Benjamin-Gthub2/api-event/events-shared/infrastructure/persistence/mysql"
 	registrationCertificatePdfRepository "github.com/Benjamin-Gthub2/api-event/registrations-certificate/infrastructure/reports/pdf/registrations"
+	registrationCertificateR2Repository "github.com/Benjamin-Gthub2/api-event/registrations-certificate/infrastructure/r2"
 	registrationCertificateHttpDelivery "github.com/Benjamin-Gthub2/api-event/registrations-certificate/interfaces/rest"
 	registrationCertificateUseCase "github.com/Benjamin-Gthub2/api-event/registrations-certificate/usecase"
 	registrationsRepository "github.com/Benjamin-Gthub2/api-event/registrations/infrastructure/persistence/mysql"
@@ -38,10 +39,12 @@ func LoadRegistrationsCertificate(router *gin.Engine) {
 	eventSharedRepository := eventsSharedRepository.NewEventSharedRepository(clock, 60)
 	registrationRepo := registrationsRepository.NewRegistrationsRepository(clock, 60, eventSharedRepository)
 	certificatePdfRepo := registrationCertificatePdfRepository.NewRegistrationCertificatePdfRepository(clock, 60)
+	certificateStorageRepo := registrationCertificateR2Repository.NewRegistrationCertificateStorageRepository()
 
 	certificateUCase := registrationCertificateUseCase.NewRegistrationsCertificateUseCase(
 		registrationRepo,
 		certificatePdfRepo,
+		certificateStorageRepo,
 		timeoutContext,
 	)
 
