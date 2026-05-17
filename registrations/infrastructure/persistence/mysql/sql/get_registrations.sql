@@ -4,11 +4,14 @@ SELECT registrations.id                                     AS registration_id,
        registrations.created_at                             AS registration_created_at,
        (
            SELECT COUNT(DISTINCT w.start_date)
-           FROM attendances a
-                    INNER JOIN workshops w ON w.id = a.workshop_id
-           WHERE a.beneficiary_id = registrations.beneficiary_id
-             AND a.deleted_at IS NULL
-             AND w.deleted_at IS NULL
+           FROM (
+               SELECT DISTINCT a.workshop_id
+               FROM attendances a
+               WHERE a.beneficiary_id = registrations.beneficiary_id
+                 AND a.deleted_at IS NULL
+           ) unique_workshops
+                    INNER JOIN workshops w ON w.id = unique_workshops.workshop_id
+           WHERE w.deleted_at IS NULL
              AND (w.code IS NULL OR w.code != 'T000')
        )                                                    AS workshops_attended,
        statuses.id                                          AS status_id,
