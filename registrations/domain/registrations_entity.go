@@ -153,6 +153,8 @@ type GetRegistrationsParams struct {
 	CreatedBy *string `json:"created_by" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: general text search (beneficiary names, surname, last_name, document, event name)
 	SearchValue *string `json:"searchvalue" example:"Alexander"`
+	//Description: minimum number of workshops attended (e.g. 4 to filter only those eligible for certificate)
+	MinWorkshops *int `json:"min_workshops" example:"4"`
 }
 
 type CreateRegistrationBody struct {

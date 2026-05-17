@@ -1,88 +1,92 @@
-SELECT registrations.id                                     AS registration_id,
-       registrations.send_qr                                AS registration_send_qr,
-       registrations.send_certificate                       AS registration_send_certificate,
-       registrations.created_at                             AS registration_created_at,
-       (
-           SELECT COUNT(DISTINCT w.start_date)
-           FROM (
-               SELECT DISTINCT a.workshop_id
-               FROM attendances a
-               WHERE a.beneficiary_id = registrations.beneficiary_id
-                 AND a.deleted_at IS NULL
-           ) unique_workshops
-                    INNER JOIN workshops w ON w.id = unique_workshops.workshop_id
-           WHERE w.deleted_at IS NULL
-             AND (w.code IS NULL OR w.code != 'T000')
-       )                                                    AS workshops_attended,
-       statuses.id                                          AS status_id,
-       statuses.code                                        AS status_code,
-       statuses.description                                 AS status_description,
-       statuses.position                                    AS status_position,
-       statuses.enable                                      AS status_enable,
-       statuses.created_at                                  AS status_created_at,
-       events.id                                            AS event_id,
-       events.name                                          AS event_name,
-       events.description                                   AS event_description,
-       events.created_at                                    AS event_created_at,
-       beneficiaries.id                                     AS beneficiary_id,
-       beneficiaries.document                               AS beneficiary_document,
-       beneficiaries.names                                  AS beneficiary_names,
-       beneficiaries.surname                                AS beneficiary_surname,
-       beneficiaries.last_name                              AS beneficiary_last_name,
-       beneficiaries.phone                                  AS beneficiary_phone,
-       beneficiaries_users.id                               AS beneficiary_user_id,
-       beneficiaries_users.username                         AS beneficiary_username,
-       beneficiaries_user_types.id                          AS beneficiary_user_type_id,
-       beneficiaries_user_types.description                 AS beneficiary_user_type_description,
-       beneficiaries_user_types.code                        AS beneficiary_user_type_code,
-       beneficiaries_user_types.created_at                  AS beneficiary_user_type_created_at,
-       beneficiaries_document_types.id                      AS beneficiary_document_type_id,
-       beneficiaries_document_types.description             AS beneficiary_document_type_description,
-       beneficiaries_document_types.abbreviated_description AS beneficiary_document_type_abbreviated_description,
-       beneficiaries_document_types.enable                  AS beneficiary_document_type_enable,
-       creators.id                                          AS creator_id,
-       creators.document                                    AS creator_document,
-       creators.names                                       AS creator_names,
-       creators.surname                                     AS creator_surname,
-       creators.last_name                                   AS creator_last_name,
-       creator_users.id                                     AS creator_user_id,
-       creator_users.username                               AS creator_username,
-       creator_user_types.id                                AS creator_user_type_id,
-       creator_user_types.description                       AS creator_user_type_description,
-       creator_user_types.code                              AS creator_user_type_code,
-       creator_user_types.created_at                        AS creator_user_type_created_at,
-       creators_document_types.id                           AS creator_document_type_id,
-       creators_document_types.description                  AS creator_document_type_description,
-       creators_document_types.abbreviated_description      AS creator_document_type_abbreviated_description,
-       creators_document_types.enable                       AS creator_document_type_enable
-FROM registrations registrations
-         INNER JOIN registration_statuses statuses
-                    ON registrations.status_id = statuses.id
-         INNER JOIN events events ON registrations.event_id = events.id
-         INNER JOIN people beneficiaries
-                    ON registrations.beneficiary_id = beneficiaries.id
-         LEFT JOIN users beneficiaries_users
-                   ON beneficiaries.user_id = beneficiaries_users.id
-         LEFT JOIN user_types beneficiaries_user_types
-                   ON beneficiaries_user_types.id = beneficiaries_users.type_id
-         INNER JOIN document_types beneficiaries_document_types
-                    ON beneficiaries.type_document_id = beneficiaries_document_types.id
-         INNER JOIN users creator_users
-                    ON registrations.created_by = creator_users.id
-         INNER JOIN user_types creator_user_types
-                    ON creator_user_types.id = creator_users.type_id
-         INNER JOIN people creators
-                    ON creators.user_id = creator_users.id
-         INNER JOIN document_types creators_document_types
-                    ON creators.type_document_id = creators_document_types.id
-WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
-  AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
-  AND registrations.deleted_at IS NULL
-  AND beneficiaries.deleted_at IS NULL
-  AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
-ORDER BY registrations.created_at DESC
+SELECT base.*
+FROM (
+    SELECT registrations.id                                     AS registration_id,
+           registrations.send_qr                                AS registration_send_qr,
+           registrations.send_certificate                       AS registration_send_certificate,
+           registrations.created_at                             AS registration_created_at,
+           (
+               SELECT COUNT(DISTINCT w.start_date)
+               FROM (
+                   SELECT DISTINCT a.workshop_id
+                   FROM attendances a
+                   WHERE a.beneficiary_id = registrations.beneficiary_id
+                     AND a.deleted_at IS NULL
+               ) unique_workshops
+                        INNER JOIN workshops w ON w.id = unique_workshops.workshop_id
+               WHERE w.deleted_at IS NULL
+                 AND (w.code IS NULL OR w.code != 'T000')
+           )                                                    AS workshops_attended,
+           statuses.id                                          AS status_id,
+           statuses.code                                        AS status_code,
+           statuses.description                                 AS status_description,
+           statuses.position                                    AS status_position,
+           statuses.enable                                      AS status_enable,
+           statuses.created_at                                  AS status_created_at,
+           events.id                                            AS event_id,
+           events.name                                          AS event_name,
+           events.description                                   AS event_description,
+           events.created_at                                    AS event_created_at,
+           beneficiaries.id                                     AS beneficiary_id,
+           beneficiaries.document                               AS beneficiary_document,
+           beneficiaries.names                                  AS beneficiary_names,
+           beneficiaries.surname                                AS beneficiary_surname,
+           beneficiaries.last_name                              AS beneficiary_last_name,
+           beneficiaries.phone                                  AS beneficiary_phone,
+           beneficiaries_users.id                               AS beneficiary_user_id,
+           beneficiaries_users.username                         AS beneficiary_username,
+           beneficiaries_user_types.id                          AS beneficiary_user_type_id,
+           beneficiaries_user_types.description                 AS beneficiary_user_type_description,
+           beneficiaries_user_types.code                        AS beneficiary_user_type_code,
+           beneficiaries_user_types.created_at                  AS beneficiary_user_type_created_at,
+           beneficiaries_document_types.id                      AS beneficiary_document_type_id,
+           beneficiaries_document_types.description             AS beneficiary_document_type_description,
+           beneficiaries_document_types.abbreviated_description AS beneficiary_document_type_abbreviated_description,
+           beneficiaries_document_types.enable                  AS beneficiary_document_type_enable,
+           creators.id                                          AS creator_id,
+           creators.document                                    AS creator_document,
+           creators.names                                       AS creator_names,
+           creators.surname                                     AS creator_surname,
+           creators.last_name                                   AS creator_last_name,
+           creator_users.id                                     AS creator_user_id,
+           creator_users.username                               AS creator_username,
+           creator_user_types.id                                AS creator_user_type_id,
+           creator_user_types.description                       AS creator_user_type_description,
+           creator_user_types.code                              AS creator_user_type_code,
+           creator_user_types.created_at                        AS creator_user_type_created_at,
+           creators_document_types.id                           AS creator_document_type_id,
+           creators_document_types.description                  AS creator_document_type_description,
+           creators_document_types.abbreviated_description      AS creator_document_type_abbreviated_description,
+           creators_document_types.enable                       AS creator_document_type_enable
+    FROM registrations registrations
+             INNER JOIN registration_statuses statuses
+                        ON registrations.status_id = statuses.id
+             INNER JOIN events events ON registrations.event_id = events.id
+             INNER JOIN people beneficiaries
+                        ON registrations.beneficiary_id = beneficiaries.id
+             LEFT JOIN users beneficiaries_users
+                       ON beneficiaries.user_id = beneficiaries_users.id
+             LEFT JOIN user_types beneficiaries_user_types
+                       ON beneficiaries_user_types.id = beneficiaries_users.type_id
+             INNER JOIN document_types beneficiaries_document_types
+                        ON beneficiaries.type_document_id = beneficiaries_document_types.id
+             INNER JOIN users creator_users
+                        ON registrations.created_by = creator_users.id
+             INNER JOIN user_types creator_user_types
+                        ON creator_user_types.id = creator_users.type_id
+             INNER JOIN people creators
+                        ON creators.user_id = creator_users.id
+             INNER JOIN document_types creators_document_types
+                        ON creators.type_document_id = creators_document_types.id
+    WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
+      AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
+      AND registrations.deleted_at IS NULL
+      AND beneficiaries.deleted_at IS NULL
+      AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
+) AS base
+WHERE IF(? IS NULL, TRUE, base.workshops_attended >= ?)
+ORDER BY base.registration_created_at DESC
 LIMIT ? OFFSET ?;
