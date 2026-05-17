@@ -14,8 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     tzdata \
     wget \
+    fontconfig \
     libfontconfig1 \
     libfreetype6 \
+    libjpeg62-turbo \
     libx11-6 \
     libxext6 \
     libxrender1 \
