@@ -40,6 +40,7 @@ type Beneficiary struct {
 	Names        string  `db:"beneficiary_names"`
 	Surname      string  `db:"beneficiary_surname"`
 	LastName     *string `db:"beneficiary_last_name"`
+	Phone        *string `db:"beneficiary_phone"`
 }
 
 type TypeDocument struct {

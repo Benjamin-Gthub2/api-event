@@ -1,0 +1,195 @@
+﻿@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 1122.05px;
+    height: 793.70px;
+}
+
+body {
+    width: 1122.05px;
+    height: 793.70px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', 'Arial', sans-serif;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.certificate {
+    width: 1122.05px;
+    height: 793.70px;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: distribute;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    line-height: 0;
+}
+
+.logo-main {
+    width: 100%;
+    height: 310px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+/* Body */
+.body {
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #1a1a2e;
+    line-height: 1.2;
+    padding-top: 20px;
+    margin-bottom: 2px;
+}
+
+.body-text {
+    font-size: 14pt;
+    color: #1a1a2e;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+}
+
+.body-text--small {
+    font-size: 11pt;
+}
+
+.name {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+
+.name-line {
+    width: 600px;
+    height: 2px;
+    background: #555555;
+    margin: 0 auto 6px;
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+}
+
+.signature-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.firma {
+    height: 79px;
+    object-fit: contain;
+}
+
+.firma-label {
+    font-size: 13pt;
+    font-weight: bold;
+    color: #1a1a2e;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+}
+
+.presidente-text {
+    font-size: 11pt;
+    color: #555555;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.adorno {
+    height: 44px;
+    object-fit: contain;
+    margin-top: 3px;
+}
+
+.firma-adorno-logo {
+    width: 100%;
+    height: 310px;
+    object-fit: contain;
+    margin-top: 3px;
+}
+
+.logo {
+    height: 67px;
+    object-fit: contain;
+    margin-left: 268px;
+}
+
+.firma-line {
+    width: 188.98px;
+    border-top: 1px solid #333333;
+}
+
+.event-label {
+    font-size: 9pt;
+    color: #555555;
+}
+
+.subtitle {
+    font-size: 10pt;
+    color: #555555;
+}
+/* Footer spacer — empuja firma hacia el centro-derecha */
+.footer-spacer {
+    width: 40%;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+}

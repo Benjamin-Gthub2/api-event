@@ -21,6 +21,8 @@ type Registration struct {
 	SendQr bool `json:"send_qr" binding:"required" example:"true"`
 	//Description: The flag to verify if certificate was sending
 	SendCertificate bool `json:"send_certificate" binding:"required" example:"false"`
+	//Description: Number of distinct workshop time slots attended (excludes T000, duplicates, concurrent slots).
+	WorkshopsAttended int `json:"workshops_attended" example:"3"`
 	//Description: The date of the creation of the registration.
 	CreatedAt   *time.Time  `json:"created_at" example:"2023-11-10 08:10:00"`
 	Status      Status      `json:"status" binding:"required"`
@@ -151,6 +153,8 @@ type GetRegistrationsParams struct {
 	CreatedBy *string `json:"created_by" example:"200bbbc9-7e93-11ee-89fd-0242ac110016"`
 	//Description: general text search (beneficiary names, surname, last_name, document, event name)
 	SearchValue *string `json:"searchvalue" example:"Alexander"`
+	//Description: minimum number of workshops attended (e.g. 4 to filter only those eligible for certificate)
+	MinWorkshops *int `json:"min_workshops" example:"4"`
 }
 
 type CreateRegistrationBody struct {

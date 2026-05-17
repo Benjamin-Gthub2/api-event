@@ -124,6 +124,8 @@ func (r registrationsMySQLRepo) GetRegistrations(
 		searchParams.CreatedBy,
 		searchParams.CreatedBy,
 		searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
+		searchParams.MinWorkshops,
+		searchParams.MinWorkshops,
 		sizePage,
 		offset,
 	)
@@ -172,6 +174,8 @@ func (r registrationsMySQLRepo) GetTotalRegistrations(
 			searchParams.CreatedBy,
 			searchParams.CreatedBy,
 			searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue, searchParams.SearchValue,
+			searchParams.MinWorkshops,
+			searchParams.MinWorkshops,
 		).Scan(&totalTmp)
 	if err != nil {
 		return nil, r.err.Clone().SetFunction("GetTotalRegistrations").SetRaw(err)

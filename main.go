@@ -31,6 +31,7 @@ import (
 	materialsIssuedSetup "github.com/Benjamin-Gthub2/api-event/materials-issued/setup"
 	peopleSetup "github.com/Benjamin-Gthub2/api-event/people/setup"
 	registrationStatusesSetup "github.com/Benjamin-Gthub2/api-event/registration-statuses/setup"
+	registrationsCertificateSetup "github.com/Benjamin-Gthub2/api-event/registrations-certificate/setup"
 	registrationsSetup "github.com/Benjamin-Gthub2/api-event/registrations/setup"
 	sessionsSetup "github.com/Benjamin-Gthub2/api-event/sessions/setup"
 	usersSetup "github.com/Benjamin-Gthub2/api-event/users/setup"
@@ -74,7 +75,7 @@ func main() {
 		AllowOrigins:     []string{corsOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Tenant-Id"},
-		ExposeHeaders:    []string{"X-Tenant-Id"},
+		ExposeHeaders:    []string{"X-Tenant-Id", "Content-Disposition"},
 		AllowCredentials: corsOrigin != "*",
 	}))
 
@@ -93,6 +94,7 @@ func main() {
 	attendancesReportSetup.LoadAttendancesReport(router)
 	materialsIssuedSetup.LoadMaterialsIssued(router)
 	registrationStatusesSetup.LoadRegistrationStatuses(router)
+	registrationsCertificateSetup.LoadRegistrationsCertificate(router)
 
 	port := os.Getenv("SERVER_PORT")
 	if port == "" {

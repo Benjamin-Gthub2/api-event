@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 400;
+    src: url('data:font/truetype;base64,{{ .FontPoppinsRegularB64 }}') format('truetype');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 700;
+    src: url('data:font/truetype;base64,{{ .FontPoppinsBoldB64 }}') format('truetype');
+}
+{{ .StyleCSS }}
+    </style>
+</head>
+<body>
+<div class="certificate">
+
+    <div class="header">
+        <img src="data:image/png;base64,{{ .ImgMainB64 }}" alt="Tejiendo Corazones" class="logo-main">
+    </div>
+
+    <div class="body">
+        <p class="title">CERTIFICADO</p>
+        <p class="body-text" style="padding-bottom: 33px">POR EL PRESENTE SE DEJA CONSTANCIA QUE</p>
+        <h2 class="name">{{ .NamePerson }}</h2>
+        <div class="name-line"></div>
+        <p class="body-text" style="padding-top: 12px">HA PARTICIPADO EN <b>LA CUMBRE PERÚ POR LOS NIÑOS 2026: TEJIENDO CORAZONES</b></p>
+        <p class="body-text" style="padding-top: 4px">DESARROLLADO EL 14 AL 16 DE MAYO DEL 2026</p>
+        <p class="body-text" style="padding-top: 4px">CON UNA DURACIÓN DE 20 HORAS EN CUSCO, PERÚ</p>
+        <p class="body-text body-text--small" style="padding-top: 25px; padding-bottom: 5px">CUSCO, 16 DE MAYO DE 2026</p>
+    </div>
+
+    <div class="footer">
+        <div class="footer-spacer"></div>
+        <div class="signature-block">
+            <img src="data:image/png;base64,{{ .ImgFirmaB64 }}" alt="Firma" class="firma">
+            <h3 class="firma-label">JOSHUA WILKE</h3>
+            <p class="presidente-text">PRESIDENTE  •  PERÚ POR LOS NIÑOS</p>
+            <img src="data:image/png;base64,{{ .ImgAdornoB64 }}" alt="" class="adorno">
+        </div>
+        <img src="data:image/png;base64,{{ .ImgLogoB64 }}" alt="Logo" class="logo">
+    </div>
+
+</div>
+</body>
+</html>

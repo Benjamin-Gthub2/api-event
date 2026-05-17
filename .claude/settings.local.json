@@ -36,6 +36,10 @@
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\attendances\" -Recurse | Where-Object { $_.Extension -eq '.go' -or $_.Extension -eq '.sql' } | Select-Object FullName | Format-List)",
       "PowerShell(& cmd /c \"cd C:\\\\Users\\\\Benja-PC\\\\dev\\\\app-event && npx tsc --noEmit 2>&1\")",
       "PowerShell(& cmd /c \"cd C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event && go build ./workshops/... 2>&1\")"
+      "Bash(go mod *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\" -Force | Select-Object Name, @{Name='Type'; Expression={if \\($_.PSIsContainer\\) { 'DIR' } else { 'FILE' }}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\registrations-certificate\" -Recurse -Force | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\Benja-PC\\\\dev\\\\api-event\\\\\", \"\"\\) })",
+      "Bash(npx tsc *)"
     ]
   }
 }

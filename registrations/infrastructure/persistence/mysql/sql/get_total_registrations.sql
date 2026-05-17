@@ -1,27 +1,42 @@
-SELECT COUNT(DISTINCT registrations.id) AS total
-FROM registrations registrations
-         INNER JOIN events events ON registrations.event_id = events.id
-         INNER JOIN people beneficiaries
-                    ON registrations.beneficiary_id = beneficiaries.id
-         LEFT JOIN users beneficiaries_users
-                   ON beneficiaries.user_id = beneficiaries_users.id
-         LEFT JOIN user_types beneficiaries_user_types
-                   ON beneficiaries_user_types.id = beneficiaries_users.type_id
-         INNER JOIN document_types beneficiaries_document_types
-                    ON beneficiaries.type_document_id = beneficiaries_document_types.id
-         INNER JOIN users creator_users
-                    ON registrations.created_by = creator_users.id
-         INNER JOIN user_types creator_user_types
-                    ON creator_user_types.id = creator_users.type_id
-         INNER JOIN people creators
-                    ON creators.user_id = creator_users.id
-         INNER JOIN document_types creators_document_types
-                    ON creators.type_document_id = creators_document_types.id
-WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
-  AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
-  AND registrations.deleted_at IS NULL
-  AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
-                          events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'));
+SELECT COUNT(*) AS total
+FROM (
+    SELECT (
+               SELECT COUNT(DISTINCT w.start_date)
+               FROM (
+                   SELECT DISTINCT a.workshop_id
+                   FROM attendances a
+                   WHERE a.beneficiary_id = registrations.beneficiary_id
+                     AND a.deleted_at IS NULL
+               ) unique_workshops
+                        INNER JOIN workshops w ON w.id = unique_workshops.workshop_id
+               WHERE w.deleted_at IS NULL
+                 AND (w.code IS NULL OR w.code != 'T000')
+           ) AS workshops_attended
+    FROM registrations registrations
+             INNER JOIN events events ON registrations.event_id = events.id
+             INNER JOIN people beneficiaries
+                        ON registrations.beneficiary_id = beneficiaries.id
+             LEFT JOIN users beneficiaries_users
+                       ON beneficiaries.user_id = beneficiaries_users.id
+             LEFT JOIN user_types beneficiaries_user_types
+                       ON beneficiaries_user_types.id = beneficiaries_users.type_id
+             INNER JOIN document_types beneficiaries_document_types
+                        ON beneficiaries.type_document_id = beneficiaries_document_types.id
+             INNER JOIN users creator_users
+                        ON registrations.created_by = creator_users.id
+             INNER JOIN user_types creator_user_types
+                        ON creator_user_types.id = creator_users.type_id
+             INNER JOIN people creators
+                        ON creators.user_id = creator_users.id
+             INNER JOIN document_types creators_document_types
+                        ON creators.type_document_id = creators_document_types.id
+    WHERE IF(? IS NULL, TRUE, DATE(registrations.created_at) BETWEEN ? AND ?)
+      AND IF(? IS NULL, TRUE, registrations.created_by = TRIM(?))
+      AND registrations.deleted_at IS NULL
+      AND IF(? IS NULL, TRUE, beneficiaries.names COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.surname COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.last_name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              beneficiaries.document COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%') OR
+                              events.name COLLATE utf8mb4_general_ci LIKE CONCAT('%', TRIM(?), '%'))
+) AS base
+WHERE IF(? IS NULL, TRUE, base.workshops_attended >= ?);
