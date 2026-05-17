@@ -19,6 +19,7 @@ type attendanceRow struct {
 	Event               string
 	Workshop            string
 	BeneficiaryFullName string
+	BeneficiaryPhone    string
 	TypeDocument        string
 	Document            string
 	RegisteredBy        string
@@ -51,25 +52,25 @@ func (r attendancesReportXlsxRepo) GenerateAttendancesReportXlsx(
 		return nil, err
 	}
 
-	// Row 1: titulo principal (A1:H1)
-	if err = newFile.MergeCell(sheetName, "A1", "H1"); err != nil {
+	// Row 1: titulo principal (A1:I1)
+	if err = newFile.MergeCell(sheetName, "A1", "I1"); err != nil {
 		return nil, err
 	}
 	if err = newFile.SetCellValue(sheetName, "A1", "REPORTE DE ASISTENCIAS"); err != nil {
 		return nil, err
 	}
-	if err = newFile.SetCellStyle(sheetName, "A1", "H1", styles.Colours.GreenBold); err != nil {
+	if err = newFile.SetCellStyle(sheetName, "A1", "I1", styles.Colours.GreenBold); err != nil {
 		return nil, err
 	}
 
-	// Row 2: filtros aplicados (A2:H2)
-	if err = newFile.MergeCell(sheetName, "A2", "H2"); err != nil {
+	// Row 2: filtros aplicados (A2:I2)
+	if err = newFile.MergeCell(sheetName, "A2", "I2"); err != nil {
 		return nil, err
 	}
 	if err = newFile.SetCellValue(sheetName, "A2", buildSubtitle(displayFilters)); err != nil {
 		return nil, err
 	}
-	if err = newFile.SetCellStyle(sheetName, "A2", "H2", styles.Colours.BlueBold); err != nil {
+	if err = newFile.SetCellStyle(sheetName, "A2", "I2", styles.Colours.BlueBold); err != nil {
 		return nil, err
 	}
 
@@ -79,13 +80,14 @@ func (r attendancesReportXlsxRepo) GenerateAttendancesReportXlsx(
 		{Name: "EVENTO", Width: 40},
 		{Name: "TALLER", Width: 40},
 		{Name: "BENEFICIARIO", Width: 40},
+		{Name: "TELEFONO", Width: 20},
 		{Name: "TIPO DOCUMENTO", Width: 20},
 		{Name: "DOCUMENTO", Width: 20},
 		{Name: "FECHA ASISTENCIA", Width: 22},
 		{Name: "REGISTRADO POR", Width: 25},
 	}
 	xlsxStyles.SetRowHeaders(rowHeaders, newFile, 3, sheetName)
-	if err = newFile.SetCellStyle(sheetName, "A3", "H3", styles.Colours.BlueBold); err != nil {
+	if err = newFile.SetCellStyle(sheetName, "A3", "I3", styles.Colours.BlueBold); err != nil {
 		return nil, err
 	}
 
@@ -95,6 +97,7 @@ func (r attendancesReportXlsxRepo) GenerateAttendancesReportXlsx(
 		"Event",
 		"Workshop",
 		"BeneficiaryFullName",
+		"BeneficiaryPhone",
 		"TypeDocument",
 		"Document",
 		"CreatedAt",
@@ -128,11 +131,17 @@ func buildRows(attendances []attendancesDomain.Attendance) []attendanceRow {
 			createdAt = a.CreatedAt.Format("02/01/2006 15:04")
 		}
 
+		phone := ""
+		if a.Beneficiary.Phone != nil {
+			phone = *a.Beneficiary.Phone
+		}
+
 		rows = append(rows, attendanceRow{
 			Number:              i + 1,
 			Event:               a.Workshop.Event.Name,
 			Workshop:            a.Workshop.Name,
 			BeneficiaryFullName: fullName,
+			BeneficiaryPhone:    phone,
 			TypeDocument:        a.Beneficiary.TypeDocument.AbbreviatedDescription,
 			Document:            a.Beneficiary.Document,
 			RegisteredBy:        a.CreatedBy.Username,
