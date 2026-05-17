@@ -15,14 +15,15 @@ package mysql
 import "time"
 
 type Registration struct {
-	Id              string     `db:"registration_id"`
-	SendQr          bool       `db:"registration_send_qr"`
-	SendCertificate bool       `db:"registration_send_certificate"`
-	CreatedAt       *time.Time `db:"registration_created_at"`
-	Status          Status
-	Event           Event
-	Beneficiary     Beneficiary
-	CreatedBy       CreatedBy
+	Id                 string     `db:"registration_id"`
+	SendQr             bool       `db:"registration_send_qr"`
+	SendCertificate    bool       `db:"registration_send_certificate"`
+	CreatedAt          *time.Time `db:"registration_created_at"`
+	WorkshopsAttended  int        `db:"workshops_attended"`
+	Status             Status
+	Event              Event
+	Beneficiary        Beneficiary
+	CreatedBy          CreatedBy
 }
 
 type Status struct {

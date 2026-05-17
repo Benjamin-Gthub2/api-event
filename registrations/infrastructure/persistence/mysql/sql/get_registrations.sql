@@ -2,6 +2,15 @@ SELECT registrations.id                                     AS registration_id,
        registrations.send_qr                                AS registration_send_qr,
        registrations.send_certificate                       AS registration_send_certificate,
        registrations.created_at                             AS registration_created_at,
+       (
+           SELECT COUNT(DISTINCT w.start_date)
+           FROM attendances a
+                    INNER JOIN workshops w ON w.id = a.workshop_id
+           WHERE a.beneficiary_id = registrations.beneficiary_id
+             AND a.deleted_at IS NULL
+             AND w.deleted_at IS NULL
+             AND (w.code IS NULL OR w.code != 'T000')
+       )                                                    AS workshops_attended,
        statuses.id                                          AS status_id,
        statuses.code                                        AS status_code,
        statuses.description                                 AS status_description,
